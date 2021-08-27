@@ -15,13 +15,13 @@
 [[blogroll]]
   name = "荷戟独彷徨"
   url = "https://guanqr.com"
-  avatar = "https://guanqr.com/icons/apple-touch-icon.png"
+  avatar = "/images/guanqr.png"
   description = "爱光学，爱生活，爱创造"
   weight = 3
 
 [[blogroll]]
   name = "reuixiy"
   url = "https://io-oi.me/"
-  avatar = "https://io-oi.me/icons/apple-touch-icon.png"
+  avatar = "/images/reuixiy.png"
   description = "Viva La Vida"
   weight = 4
