@@ -1,0 +1,27 @@
+[[blogroll]]
+  name = "石楠烟斗的雾"
+  url = "http://114.115.155.37"
+  avatar = "/images/lsj.png"
+  description = "我们可以遗忘 原谅 但必须知道真相"
+  weight = 1
+
+[[blogroll]]
+  name = "马天"
+  url = "http://42.192.52.69/blog/"
+  avatar = "/images/mt.png"
+  description = "热爱编程，喜欢探索.."
+  weight = 2
+
+[[blogroll]]
+  name = "荷戟独彷徨"
+  url = "https://guanqr.com"
+  avatar = "https://guanqr.com/icons/apple-touch-icon.png"
+  description = "爱光学，爱生活，爱创造"
+  weight = 3
+
+[[blogroll]]
+  name = "reuixiy"
+  url = "https://io-oi.me/"
+  avatar = "https://io-oi.me/icons/apple-touch-icon.png"
+  description = "Viva La Vida"
+  weight = 4
