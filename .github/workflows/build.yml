@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - name: 'Building...'
-      uses: nixnah/hugo-deploy
+      uses: nixnah/hugo-deploy@v1
       env:
         DEPLOY_REPO: nixnah/nixnah.github.io
         DEPLOY_BRANCH: build
