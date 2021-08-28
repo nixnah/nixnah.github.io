@@ -1,5 +1,6 @@
 ---
 title: "关于"
+dropCap: true
 ---
 <!--video src="/video/new-boy.mp4" controls ></video-->
 <image src="/images/background.jpg"></image>
