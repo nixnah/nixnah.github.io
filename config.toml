@@ -81,6 +81,7 @@ uglyURLs = false
     [markup.highlight]
         codeFences = true
         guessSyntax = false
+	Style = "dracula"
         lineNos = true
         lineNumbersInTable = true
         noClasses = false
