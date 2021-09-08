@@ -11,17 +11,17 @@ tags:
 ---
 
 环境:
-- 操作系统：Fedora31（CentOS7通用）
-- 数据库版本：MySQL8.0.18
+- 操作系统：Fedora 31（CentOS7通用）
+- 数据库版本：MySQL 8.0.18
 - x86_64
 ---
 ##### 准备工作
 
-1. [MySQL官网](https://downloads.mysql.com/archives/community/)下载通用二进制包
+1. [MySQL官网](https://downloads.mysql.com/archives/community/)下载安装包
 ![](/images/mysql-dl.png)
 >此版本为解压即用免编译版本。
 
-2. 卸载mariadb或者之前通过yum安装的mysql包
+2. 卸载mariadb和mysql的rpm包
 ```bash
 yum list installed | egrep "(mariadb|mysql)" | xargs yum remove -y
 ```
@@ -70,6 +70,7 @@ mysqld --initialize-insecure --user=mysql --basedir=/usr/local/mysql --datadir=/
 ```
 
 配置文件
+
 ```bash
 cat > /etc/my.cnf <<EOF
 [mysqld]
@@ -80,15 +81,16 @@ log_bin=/data/mysql/binlog/mysql-bin
 max_binlog_size=100M
 port=3306
 server_id=1
-pid-file=/var/run/mysqld.pid
+pid-file=/var/run/mysqld/mysqld.pid
 log-error=/var/log/mysqld.log
 socket=/tmp/mysql.sock
 EOF
 ```
 准备启动脚本
+
 ```bash
 cd /usr/local/mysql/support-files
-cp mysql.server /etc/init.d/mysqld
+cp mysql.server mysqld
 cat > /lib/systemd/system/mysqld.service <<EOF
 [Unit]
 Description=MySQL Server
@@ -104,21 +106,25 @@ WantedBy=multi-user.target
 Type=forking
 User=mysql
 Group=mysql
-ExecStart=sh -c '/etc/init.d/mysqld start'
-ExecReload=sh -c '/etc/init.d/mysqld reload'
-ExecStop=sh -c '/etc/init.d/mysqld stop'
+ExecStart=sh -c '/usr/local/mysql/support-files/mysqld start'
+ExecReload=sh -c '/usr/local/mysql/support-files/mysqld reload'
+ExecStop=sh -c '/usr/local/mysql/support-files/mysqld stop'
 Restart=on-failure
 RestartSec=15s
 EOF
 ```
+>参考: [Systemd 入门教程：命令篇](https://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html)、[Systemd 入门教程：实战篇](https://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-part-two.html)
+
 启动服务
 ```bash
 systemctl daemon-reload
-systemctl start mysqld
+systemctl start mysqld  --now
 ```
-由于初始化时未设置密码默认空密码登录
+初始化时使用initialize-insecure 参数并不会生成随机root密码
+```sql
 mysql -uroot -p 
 Enter password:  # 直接回车
+```
 设置root本地密码
 ```sql
 alter user user() identified by 'password';
