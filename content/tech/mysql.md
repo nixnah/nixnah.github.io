@@ -1,6 +1,6 @@
 ---
 title: "MySQL8安装与配置"
-date: 2021-09-07T10:13:13+08:00
+date: 2021-08-07T10:13:13+08:00
 draft: false
 slug: mysql
 categories:
@@ -8,6 +8,7 @@ categories:
 tags:
 - mysql
 - tech
+- 软件安装
 ---
 
 环境:
@@ -89,6 +90,11 @@ EOF
 准备启动脚本
 
 ```bash
+# CentOS 执行
+cp /usr/local/mysql/support-files/mysql.service /etc/init.d/mysqld
+chkconfig --add mysqld
+
+# Fedora 执行
 cd /usr/local/mysql/support-files
 cp mysql.server mysqld
 cat > /lib/systemd/system/mysqld.service <<EOF
@@ -117,8 +123,12 @@ EOF
 
 启动服务
 ```bash
+# Fedora
 systemctl daemon-reload
 systemctl start mysqld  --now
+# CentOS
+chkconfig mysqld on
+systemtl start mysqld
 ```
 初始化时使用initialize-insecure 参数并不会生成随机root密码
 ```sql
