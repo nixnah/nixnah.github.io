@@ -7,8 +7,7 @@ categories:
 - 技术分享
 tags:
 - mysql
-- tech
-- 软件安装
+- 笔记
 ---
 
 环境:
@@ -16,7 +15,7 @@ tags:
 - 数据库版本：MySQL 8.0.18
 - x86_64
 ---
-##### 准备工作
+##### 一、准备工作
 
 1. [MySQL官网](https://downloads.mysql.com/archives/community/)下载安装包
 ![](/images/mysql-dl.png)
@@ -34,7 +33,7 @@ yum install libaio -y
 # 有的还需要安装 ncurses-compat-libs libxcrypt-compat
 ```
 ---
-##### 目录结构
+##### 二、目录结构
 
 |Directory| Contents of Directory|
 |----|----|
@@ -46,7 +45,7 @@ yum install libaio -y
 |share|Error messages,dictionary,and SQL for database installation|
 |support-files|Miscellaneous support files|
 ---
-##### 配置软件
+##### 三、配置软件
 
 创建用户、组及目录
 ```bash
@@ -81,7 +80,7 @@ datadir=/data/mysql/data
 log_bin=/data/mysql/binlog/mysql-bin
 max_binlog_size=100M
 port=3306
-server_id=1
+server-id=1
 pid-file=/var/run/mysqld/mysqld.pid
 log-error=/var/log/mysqld.log
 socket=/tmp/mysql.sock
@@ -125,7 +124,7 @@ EOF
 ```bash
 # Fedora
 systemctl daemon-reload
-systemctl start mysqld  --now
+systemctl enable mysqld  --now
 # CentOS
 chkconfig mysqld on
 systemtl start mysqld
@@ -142,6 +141,8 @@ alter user user() identified by 'password';
 开启远程连接
 ```sql
 create user root@'%' identified by 'password';
+grant all privileges on *.* to root@'%';
+flush privileges;
 use mysql;
 select host from user; 
 +-----------+
