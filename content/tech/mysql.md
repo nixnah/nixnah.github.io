@@ -4,7 +4,7 @@ date: 2021-08-07T10:13:13+08:00
 draft: false
 slug: mysql
 categories:
-- 技术分享
+- 安装杂记
 tags:
 - mysql
 - 笔记
