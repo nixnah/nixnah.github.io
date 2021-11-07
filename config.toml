@@ -202,12 +202,12 @@ uglyURLs = false
         weight = 2
         pre = "internal"
         post = "" # "archive"
-    [[menu.main]]
-        url = "/categories/"
-        name = "分类"
-        weight = 3
-        pre = "internal"
-        post = "" #"th"
+     # [[menu.main]]
+     #   url = "/categories/"
+     #   name = "分类"
+     #   weight = 3
+     #   pre = "internal"
+     #   post = "" #"th"
     [[menu.main]]
         url = "/tags/"
         name = "标签"
