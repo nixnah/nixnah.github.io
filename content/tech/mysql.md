@@ -52,6 +52,8 @@ useradd -r -g mysql -s /bin/false mysql
 tar -Jxf mysql-8.0.18-linux-glibc2.12-x86_64.tar.xz -C /usr/local/
 ln -s /usr/local/mysql-8.0.18-linux-glibc2.12-x86_64 /usr/local/mysql
 mkdir -p /data/mysql/{data,binlog} /var/run/mysqld
+# /var/run下的目录重启后就会被删除，可以使用别的目录。
+# 或者在/usr/lib/tmpfiles.d/ 创建文件写入以下内容 "d /var/run/mysqld 0755 mysql mysql"
 chown -R mysql:mysql /data/mysql /usr/local/mysql-8.0.18-linux-glibc2.12-x86_64 /var/run/mysqld
 chmod -R 750 /data/mysql
 ```
