@@ -25,3 +25,17 @@
   avatar = "/images/reuixiy.png"
   description = "Viva La Vida"
   weight = 4
+
+[[blogroll]]
+  name = "金步国作品集"
+  url = "https://www.jinbuguo.com"
+  avatar = "/images/anyone.png"
+  description = ""
+  weight = 5
+
+[[blogroll]]
+  name = "骏马金龙"
+  url = "https://www.junmajinlong.com"
+  avatar = "/images/anyone.png"
+  description = "我想为那些非科班、培训班出身的道友提供一个系统学习的地方，完善Linux运维类知识体系"
+  weight = 6

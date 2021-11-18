@@ -101,11 +101,8 @@ cat > /lib/systemd/system/mysqld.service <<EOF
 Description=MySQL Server
 Documentation=man:mysqld(8)
 Documentation=http://dev.mysql.com/doc/refman/en/using-systemd.html
-After=network.target
-After=syslog.target
-
-[Install]
-WantedBy=multi-user.target
+After=network.target syslog.target
+RequiresMountsFor=/var/run/mysqld
 
 [Service]
 Type=forking
@@ -116,6 +113,10 @@ ExecReload=sh -c '/usr/local/mysql/support-files/mysqld reload'
 ExecStop=sh -c '/usr/local/mysql/support-files/mysqld stop'
 Restart=on-failure
 RestartSec=15s
+
+[Install]
+WantedBy=multi-user.target
+
 EOF
 ```
 >参考: [Systemd 入门教程：命令篇](https://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html)、[Systemd 入门教程：实战篇](https://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-part-two.html)

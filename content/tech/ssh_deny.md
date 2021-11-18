@@ -60,7 +60,7 @@ for i in ${ips[*]};do
     echo $i >> /tmp/loginf.txt
     firewall-cmd --reload
 done
-sleep 1
+sleep 0.1
 done
 ```
 
