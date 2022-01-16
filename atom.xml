@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><title type="text">Hanxin</title><subtitle type="html">MemE 是一个强大且可高度定制的 GoHugo 博客主题，专为个人博客设计。</subtitle><updated>2022-01-16T09:24:37+00:00</updated><id>/</id><link rel="alternate" type="text/html" href="/"/><link rel="self" type="application/atom+xml" href="/atom.xml"/><author><name>hanxin</name><uri>/</uri><email>hanxin.me@gmail.com</email></author><rights>本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。</rights><generator uri="https://gohugo.io/" version="0.91.2">Hugo</generator><entry><title type="text">logrotate日志切割</title><link rel="alternate" type="text/html" href="/tech/logrotate/"/><id>/tech/logrotate/</id><updated>2022-01-16T09:24:35+00:00</updated><published>2021-11-09T15:49:47+08:00</published><author><name>hanxin</name><uri>/</uri><email>hanxin.me@gmail.com</email></author><rights>本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。</rights><summary type="html">一、什么是logrotate logrotate是一个日志文件管理工具，主要用于简化管……</summary><content type="html">&lt;h3 id="一什么是logrotate">一、什么是logrotate&lt;/h3>
+&lt;p>logrotate是一个日志文件管理工具，主要用于简化管理系统生成的大量日志文件。它允许日志的自动切割轮换、压缩、删除等操作。&lt;/p>
+&lt;p>通常logrotate作为cron任务被每天执行,并且执行频率不会超过每天一次。除非日志切割是以大小为标准,并且每天多次执行。或者使用-f | --fore 参数。&lt;/p>
+&lt;hr>
+&lt;h3 id="二logrotate安装配置">二、logrotate安装配置&lt;/h3>
+&lt;p>一般情况logrotate是默认安装的，配置文件在/etc/logrotate.conf。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="c1"># /usr/logrotate.conf&lt;/span>
+------
+weekly &lt;span class="c1"># 每周进行一次切割&lt;/span>
+&lt;span class="c1"># keep 4 weeks worth of backlogs&lt;/span>
+rotate &lt;span class="m">4&lt;/span> &lt;span class="c1"># 保留4周&lt;/span>
+&lt;span class="c1"># create new (empty) log files after rotating old ones&lt;/span>
+create &lt;span class="c1"># 轮转后生成新的空文件。相当于把log先mv再touch &lt;/span>
+&lt;span class="c1"># use date as a suffix of the rotated file&lt;/span>
+dateext &lt;span class="c1"># 以日期为后缀&lt;/span>
+&lt;span class="c1"># uncomment this if you want your log files compressed&lt;/span>
+compress &lt;span class="c1"># 压缩log&lt;/span>
+&lt;span class="c1"># packages drop log rotation information into this directory&lt;/span>
+include /etc/logrotate.d
+&lt;span class="c1"># system-specific logs may be also be configured here.&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>logrotate默认会读取/etc/logrotate.d 目录下的配置。推荐在此文件下定制化自己的配置。&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;strong>常用指令&lt;/strong>&lt;/p>
+&lt;p>完整版可以参考 &lt;code>man logrotate.conf&lt;/code>&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>配置参数&lt;/th>
+&lt;th>说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>daily&lt;/td>
+&lt;td>切割频率，表示每天切割。 其他可用参数weekly、monthly、yearly等。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>minsize &lt;u>count&lt;/u>&lt;/td>
+&lt;td>至少到达多少byte才进行切割 。例：size 100 、size 100k 、size100M 、size 100G&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>missingok&lt;/td>
+&lt;td>如果文件不存在，将继续执行下一个文件不会报错。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>notifempty&lt;/td>
+&lt;td>如果文件为空将不会切割。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>minage &lt;u>count&lt;/u>&lt;/td>
+&lt;td>至少存在多少天才进行切割。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>create &lt;u>user&lt;/u> &lt;u>group&lt;/u> &lt;u>mod&lt;/u>&lt;/td>
+&lt;td>切割后立即创建与原文件的同名的空文件。user 用户 group 组 mod 权限&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>olddir &lt;u>dir&lt;/u>&lt;/td>
+&lt;td>切割后log的存放目录。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>copytruncate&lt;/td>
+&lt;td>先复制log再truncate。这个方法相对于create，文件的inode 不会改变&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>postrotate/endscript&lt;/td>
+&lt;td>每个必须单独一行；rotate之后需要执行的命令&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>sharedscript&lt;/td>
+&lt;td>多个文件时间只会执行一次脚本&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>compress&lt;/td>
+&lt;td>启用压缩&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>delaycompress&lt;/td>
+&lt;td>首次切割将不会压缩。&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>&lt;strong>logrotate 具体流程如下:&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>crond加载/etc/cron.d/0hourly 每小时的01分执行一次/etc/cron.hourly/0anacron&lt;/li>
+&lt;/ol>
+&lt;p>&lt;code>/etc/cron.d/0hourly&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="c1"># Run the hourly jobs&lt;/span>
+&lt;span class="nv">SHELL&lt;/span>&lt;span class="o">=&lt;/span>/bin/bash
+&lt;span class="nv">PATH&lt;/span>&lt;span class="o">=&lt;/span>/sbin:/bin:/usr/sbin:/usr/bin
+&lt;span class="nv">MAILTO&lt;/span>&lt;span class="o">=&lt;/span>root
+&lt;span class="m">01&lt;/span> * * * * root run-parts /etc/cron.hourly
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>/etc/cron.hourly/0anacron&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="cp">#!/bin/sh
+&lt;/span>&lt;span class="cp">&lt;/span>&lt;span class="c1"># Check whether 0anacron was run today already&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="nb">test&lt;/span> -r /var/spool/anacron/cron.daily&lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span>
+&lt;span class="nv">day&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="sb">`&lt;/span>cat /var/spool/anacron/cron.daily&lt;span class="sb">`&lt;/span>
+&lt;span class="k">fi&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="o">[&lt;/span> &lt;span class="sb">`&lt;/span>date +%Y%m%d&lt;span class="sb">`&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$day&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">]&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span>
+&lt;span class="nb">exit&lt;/span> 0&lt;span class="p">;&lt;/span>
+&lt;span class="k">fi&lt;/span>
+&lt;span class="c1"># Do not run jobs when on battery power&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="nb">test&lt;/span> -x /usr/bin/on_ac_power&lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span>
+/usr/bin/on_ac_power &amp;gt;/dev/null 2&amp;gt;&lt;span class="p">&amp;amp;&lt;/span>&lt;span class="m">1&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="nb">test&lt;/span> &lt;span class="nv">$?&lt;/span> -eq 1&lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span>
+&lt;span class="nb">exit&lt;/span> &lt;span class="m">0&lt;/span>
+&lt;span class="k">fi&lt;/span>
+&lt;span class="k">fi&lt;/span>
+/usr/sbin/anacron -s
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="2">
+&lt;li>0anacron脚本调用anacron加载/etc/anacrontb 然后根据配置执行 /etc/cron.daily、/etc/cron.monthly下的脚本&lt;/li>
+&lt;/ol>
+&lt;p>&lt;code>/etc/anacrontab&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="c1"># /etc/anacrontab: configuration file for anacron&lt;/span>
+&lt;span class="c1"># See anacron(8) and anacrontab(5) for details.&lt;/span>
+&lt;span class="nv">SHELL&lt;/span>&lt;span class="o">=&lt;/span>/bin/sh
+&lt;span class="nv">PATH&lt;/span>&lt;span class="o">=&lt;/span>/sbin:/bin:/usr/sbin:/usr/bin
+&lt;span class="nv">MAILTO&lt;/span>&lt;span class="o">=&lt;/span>root
+&lt;span class="c1"># the maximal random delay added to the base delay of the jobs&lt;/span>
+&lt;span class="nv">RANDOM_DELAY&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">45&lt;/span>
+&lt;span class="c1"># the jobs will be started during the following hours only&lt;/span>
+&lt;span class="nv">START_HOURS_RANGE&lt;/span>&lt;span class="o">=&lt;/span>3-22
+&lt;span class="c1">#period in days delay in minutes job-identifier command&lt;/span>
+1 5 cron.daily nice run-parts /etc/cron.daily
+7 25 cron.weekly nice run-parts /etc/cron.weekly
+@monthly 45 cron.monthly nice run-parts /etc/cron.monthly
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="3">
+&lt;li>/etc/cron.daily 调用目录下logrotate脚本 加载/etc/logrotate.conf（lograte.conf 加载/etc/logrotate.d/目录下的所有配置文件）切割log。&lt;/li>
+&lt;/ol>
+&lt;p>&lt;code>/etc/cron.daily/logrotate&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="cp">#!/bin/sh
+&lt;/span>&lt;span class="cp">&lt;/span>/usr/sbin/logrotate -s /var/lib/logrotate/logrotate.status /etc/logrotate.conf
+&lt;span class="nv">EXITVALUE&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$?&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="o">[&lt;/span> &lt;span class="nv">$EXITVALUE&lt;/span> !&lt;span class="o">=&lt;/span> &lt;span class="m">0&lt;/span> &lt;span class="o">]&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span>
+/usr/bin/logger -t logrotate &lt;span class="s2">&amp;#34;ALERT exited abnormally with [&lt;/span>&lt;span class="nv">$EXITVALUE&lt;/span>&lt;span class="s2">]&amp;#34;&lt;/span>
+&lt;span class="k">fi&lt;/span>
+&lt;span class="nb">exit&lt;/span> &lt;span class="m">0&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;hr>
+&lt;h3 id="三实战练习">三、实战练习&lt;/h3>
+&lt;p>以mysql为例子创建logrotate的配置&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">vim /etc/logrotate.d/mysqld
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;pre tabindex="0">&lt;code>/var/log/mysqld.log {
+weekly
+missingok
+rotate 2
+notifempty
+compress
+dateext
+dateformat -%Y-%m-%d-%H-%M
+delaycompress
+copytruncate
+minsize 100k
+}
+&lt;/code>&lt;/pre>&lt;p>测试配置是否可用&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">logrotate -s /var/lib/logrotate/logrotate.status /etc/logrotate.d/mysqld -vf
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="imageslogrotatepng">&lt;img src="/images/logrotate.png" alt="">&lt;/h2>
+&lt;h3 id="四使用systemd管理logrotate">四、使用systemd管理logrotate&lt;/h3>
+&lt;p>首先把/etc/cron.daily/logrotate删掉或者备份到其他目录。&lt;/p>
+&lt;p>编写servie 文件&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">vim /usr/lib/systemd/system/logrotate.service
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="o">[&lt;/span>Unit&lt;span class="o">]&lt;/span>
+&lt;span class="nv">Description&lt;/span>&lt;span class="o">=&lt;/span>Rotate log files
+&lt;span class="nv">RequiresMountsFor&lt;/span>&lt;span class="o">=&lt;/span>/var/log
+&lt;span class="o">[&lt;/span>Service&lt;span class="o">]&lt;/span>
+&lt;span class="nv">Type&lt;/span>&lt;span class="o">=&lt;/span>oneshot
+&lt;span class="nv">ExecStart&lt;/span>&lt;span class="o">=&lt;/span>/usr/sbin/logrotate -s /var/lib/logrotate/logrotate.status /etc/logrotate.conf
+&lt;span class="nv">Nice&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">19&lt;/span>
+&lt;span class="nv">IOSchedulingClass&lt;/span>&lt;span class="o">=&lt;/span>best-effort
+&lt;span class="nv">IOSchedulingPriority&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">7&lt;/span>
+&lt;span class="nv">MemoryDenyWriteExecute&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nb">true&lt;/span>
+&lt;span class="nv">PrivateDevices&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nb">true&lt;/span>
+&lt;span class="nv">PrivateTmp&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nb">true&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>编写timer定时器&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">vim /usr/lib/systemd/system/logrotate.timer
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="o">[&lt;/span>Unit&lt;span class="o">]&lt;/span>
+&lt;span class="nv">Description&lt;/span>&lt;span class="o">=&lt;/span>Daily rotation of log files
+&lt;span class="o">[&lt;/span>Timer&lt;span class="o">]&lt;/span>
+&lt;span class="nv">OnCalendar&lt;/span>&lt;span class="o">=&lt;/span>daily
+&lt;span class="nv">AccuracySec&lt;/span>&lt;span class="o">=&lt;/span>1h
+&lt;span class="nv">Persistent&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nb">true&lt;/span>
+&lt;span class="o">[&lt;/span>Install&lt;span class="o">]&lt;/span>
+&lt;span class="nv">WantedBy&lt;/span>&lt;span class="o">=&lt;/span>timers.target
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">systemctl daemon-reload
+systemctl &lt;span class="nb">enable&lt;/span> logrotate.timer --now
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用&lt;code>systemctl list-timers&lt;/code> 查看定时器。可以查看下次运行时间、上次执行时间等信息。
+&lt;img src="/images/logti.png" alt="">&lt;/p></content><category scheme="/tech/" term="tech" label="tech"/><category scheme="/tags/linux/" term="linux" label="linux"/><category scheme="/tags/%E7%AC%94%E8%AE%B0/" term="笔记" label="笔记"/></entry><entry><title type="text">sudo 执行脚本找不到变量</title><link rel="alternate" type="text/html" href="/tech/sudo/"/><id>/tech/sudo/</id><updated>2022-01-16T09:24:35+00:00</updated><published>2021-10-29T23:39:42+08:00</published><author><name>hanxin</name><uri>/</uri><email>hanxin.me@gmail.com</email></author><rights>本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。</rights><summary type="html">习惯了使用root用户的我，一次使用普通用户执行sudo ./xxxx.sh 发现报错找不到java.切……</summary><content type="html">&lt;p>习惯了使用root用户的我，一次使用普通用户执行sudo ./xxxx.sh 发现报错找不到java.切换到root用户下执行&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">java
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="/images/java.png" alt="">
+完全没问题，但是每次执行sudo时 就会报错java找不到.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">sudo java
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="/images/jnf.png" alt="">
+查找资料发现执行sudo时会将变量重置为minimal
+&lt;img src="images/env_reset.png" alt="">
+&lt;img src="/images/env_reset2.png" alt="">
+如果需要保存变量/etc/sudoers 添加
+&lt;code>Defaults env_keep = &amp;quot;JAVA_HOME&amp;quot;&lt;/code>
+然后修改&lt;code>secure_path&lt;/code> 将JAVA_HOME路径添加到最后即可.
+&lt;img src="/images/suend.png" alt="">&lt;/p>
+&lt;p>结果验证：
+&lt;img src="/images/sures.png" alt="">&lt;/p></content><category scheme="/tech/" term="tech" label="tech"/><category scheme="/tags/%E7%AC%94%E8%AE%B0/" term="笔记" label="笔记"/><category scheme="/tags/linux/" term="linux" label="linux"/></entry><entry><title type="text">SSH爆破防护</title><link rel="alternate" type="text/html" href="/tech/ssh_deny/"/><id>/tech/ssh_deny/</id><updated>2022-01-16T09:24:35+00:00</updated><published>2021-10-13T20:31:54+08:00</published><author><name>hanxin</name><uri>/</uri><email>hanxin.me@gmail.com</email></author><rights>本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。</rights><summary type="html">好久没登陆云服务器，最近登录提示竟有数万条失败记录。 如果不及时处理肯定有失守的一天。……</summary><content type="html">&lt;p>好久没登陆云服务器，最近登录提示竟有数万条失败记录。 如果不及时处理肯定有失守的一天。空闲时间写了个小脚本处理一下。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="cp">#!/usr/bin/env bash
+&lt;/span>&lt;span class="cp">&lt;/span>
+&lt;span class="c1"># 读取登录失败超过4次的ip地址&lt;/span>
+&lt;span class="nv">ips&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>lastb &lt;span class="p">|&lt;/span> awk &lt;span class="s1">&amp;#39;{ip[$3]++}END{ for (i in ip) if (ip[i] &amp;gt; 4) print i }&amp;#39;&lt;/span>&lt;span class="k">)&lt;/span>
+&lt;span class="c1"># 加入防火墙黑名单&lt;/span>
+&lt;span class="c1"># 将port换成自己实际ssh端口,默认22&lt;/span>
+&lt;span class="k">for&lt;/span> i in &lt;span class="si">${&lt;/span>&lt;span class="nv">ips&lt;/span>&lt;span class="p">[*]&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="k">do&lt;/span>
+egrep &lt;span class="nv">$i&lt;/span> /root/loginf.txt &lt;span class="p">&amp;amp;&lt;/span>&amp;gt;/dev/null &lt;span class="o">||&lt;/span> &lt;span class="o">{&lt;/span> firewall-cmd --permanent --add-rich-rule&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;rule family=&amp;#34;&lt;/span>ipv4&lt;span class="s2">&amp;#34; source address=&amp;#34;&lt;/span>&lt;span class="nv">$i&lt;/span>&lt;span class="s2">&amp;#34; port protocol=&amp;#34;&lt;/span>tcp&lt;span class="s2">&amp;#34; port=22 drop&amp;#34;&lt;/span> &lt;span class="p">;&lt;/span> &lt;span class="nb">echo&lt;/span> &lt;span class="nv">$i&lt;/span> &amp;gt;&amp;gt; /root/loginf.txt &lt;span class="p">;&lt;/span> &lt;span class="o">}&lt;/span>
+&lt;span class="k">done&lt;/span>
+firewall-cmd --reload
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>写到crontab 定时执行&lt;/p>
+&lt;hr>
+&lt;p>11月4日更&lt;/p>
+&lt;p>抽空完善了一下脚本，通过定时任务很难及时有效的阻止爆破行为。
+这次改动是将脚本写成了守护进程,并且由systemd来管理。&lt;/p>
+&lt;p>编写脚本&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">vim /usr/local/bin/sshdeny
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>CentOS7 lastb版本问题没有--since参数将ips变量替换为以下即可&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="nv">ips&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>lastb &lt;span class="p">|&lt;/span> grep &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>date &lt;span class="p">|&lt;/span> cut -d &lt;span class="s1">&amp;#39; &amp;#39;&lt;/span> -f2-4&lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> awk &lt;span class="s1">&amp;#39;{ip[$3]++}END{ for (i in ip) if (ip[i] &amp;gt; 4) print i }&amp;#39;&lt;/span>&lt;span class="k">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="cp">#!/usr/bin/env bash
+&lt;/span>&lt;span class="cp">&lt;/span>
+&lt;span class="nb">set&lt;/span> -o errexit -o pipefail -o nounset
+&lt;span class="o">[&lt;/span> -f /tmp/loginf.txt &lt;span class="o">]&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="o">{&lt;/span> lastb &lt;span class="p">|&lt;/span> awk &lt;span class="s1">&amp;#39;{ip[$3]++}END{ for (i in ip) if (ip[i] &amp;gt; 4) print i }&amp;#39;&lt;/span> &amp;gt; /tmp/loginf.txt &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="k">while&lt;/span> &lt;span class="nb">read&lt;/span> line &lt;span class="p">;&lt;/span>&lt;span class="k">do&lt;/span> firewall-cmd --permanent --add-rich-rule&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;rule family=&amp;#34;&lt;/span>ipv4&lt;span class="s2">&amp;#34; source address=&amp;#34;&lt;/span>&lt;span class="nv">$line&lt;/span>&lt;span class="s2">&amp;#34; port protocol=&amp;#34;&lt;/span>tcp&lt;span class="s2">&amp;#34; port=22 drop&amp;#34;&lt;/span> &amp;gt;/dev/nul 2&amp;gt;&lt;span class="p">&amp;amp;&lt;/span>&lt;span class="m">1&lt;/span> &lt;span class="p">;&lt;/span>&lt;span class="k">done&lt;/span> &amp;lt; /tmp/loginf.txt&lt;span class="p">;&lt;/span> &lt;span class="o">}&lt;/span>
+&lt;span class="k">while&lt;/span> :&lt;span class="p">;&lt;/span>&lt;span class="k">do&lt;/span>
+&lt;span class="nv">ips&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>lastb --since today &lt;span class="p">|&lt;/span> awk &lt;span class="s1">&amp;#39;{ip[$3]++}END{ for (i in ip) if (ip[i] &amp;gt; 4) print i }&amp;#39;&lt;/span>&lt;span class="k">)&lt;/span>
+&lt;span class="c1"># lastb 版本太低的话没有--since 参数。 可以使用以下命令替代&lt;/span>
+&lt;span class="c1"># ips=$(lastb | grep &amp;#34;$(date | cut -d &amp;#39; &amp;#39; -f2-4)&amp;#34; | awk &amp;#39;{ip[$3]++}END{ for (i in ip) if (ip[i] &amp;gt; 4) print i }&amp;#39;)&lt;/span>
+&lt;span class="k">for&lt;/span> i in &lt;span class="si">${&lt;/span>&lt;span class="nv">ips&lt;/span>&lt;span class="p">[*]&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="k">do&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="o">[&lt;/span> x&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$i&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="s2">&amp;#34;x&amp;#34;&lt;/span> &lt;span class="o">]&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="k">then&lt;/span>
+&lt;span class="k">continue&lt;/span>
+&lt;span class="k">elif&lt;/span> egrep &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$i&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> /tmp/loginf.txt &lt;span class="p">&amp;amp;&lt;/span>&amp;gt;/dev/null &lt;span class="p">;&lt;/span>&lt;span class="k">then&lt;/span>
+&lt;span class="k">continue&lt;/span>
+&lt;span class="k">fi&lt;/span>
+&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;IP:&lt;/span>&lt;span class="nv">$i&lt;/span>&lt;span class="s2"> SSH connection denied&amp;#34;&lt;/span>
+firewall-cmd --permanent --add-rich-rule&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;rule family=&amp;#34;&lt;/span>ipv4&lt;span class="s2">&amp;#34; source address=&amp;#34;&lt;/span>&lt;span class="nv">$i&lt;/span>&lt;span class="s2">&amp;#34; port protocol=&amp;#34;&lt;/span>tcp&lt;span class="s2">&amp;#34; port=22 drop&amp;#34;&lt;/span> &amp;gt;/dev/nul 2&amp;gt;&lt;span class="p">&amp;amp;&lt;/span>&lt;span class="m">1&lt;/span>
+&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$i&lt;/span> &amp;gt;&amp;gt; /tmp/loginf.txt
+firewall-cmd --reload
+&lt;span class="k">done&lt;/span>
+sleep 0.1
+&lt;span class="k">done&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>创建service文件&lt;/p>
+&lt;p>CentOS7 需要将MemoryMax=1G 更换为 MemoryLimit=1G&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">cat &amp;gt;/usr/lib/systemd/system/sshdeny.service &lt;span class="s">&amp;lt;&amp;lt;EOF
+&lt;/span>&lt;span class="s">[Unit]
+&lt;/span>&lt;span class="s">Description=Multiple login failures will deny SSH connections
+&lt;/span>&lt;span class="s">
+&lt;/span>&lt;span class="s">[Service]
+&lt;/span>&lt;span class="s">User=root
+&lt;/span>&lt;span class="s">Type=simple
+&lt;/span>&lt;span class="s">ExecStart=/usr/local/bin/sshdeny
+&lt;/span>&lt;span class="s">ExecReload=/usr/bin/kill -HUP $MAINPID
+&lt;/span>&lt;span class="s">ExecStop=/usr/bin/kill -TERM $MAINPID
+&lt;/span>&lt;span class="s">TimeoutStartSec=30s
+&lt;/span>&lt;span class="s">Restart=on-failure
+&lt;/span>&lt;span class="s">CPUQuota=30%
+&lt;/span>&lt;span class="s">MemoryMax=1G
+&lt;/span>&lt;span class="s">
+&lt;/span>&lt;span class="s">[Install]
+&lt;/span>&lt;span class="s">WantedBy=multi-user.target
+&lt;/span>&lt;span class="s">
+&lt;/span>&lt;span class="s">EOF&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>参考：&lt;a href="http://www.jinbuguo.com/systemd/systemd.index.html">systemd.index 中文手册&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>重载systemd service&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">systemctl daemon-reload
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>启动服务&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">systemctl start sshdeny
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>检查测试&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">systemctl status sshdeny
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="/images/sshdeny.png" alt="">&lt;/p>
+&lt;p>防止ssh爆破其实网上有很多现成的轮子比如fail2ban、DenyHosts等，本文只做这里只做一个思考。实际中避免重复做轮子。&lt;/p></content><category scheme="/tech/" term="tech" label="tech"/><category scheme="/tags/linux/" term="linux" label="linux"/><category scheme="/tags/%E7%AC%94%E8%AE%B0/" term="笔记" label="笔记"/></entry><entry><title type="text">MySQL8安装与配置</title><link rel="alternate" type="text/html" href="/tech/mysql/"/><id>/tech/mysql/</id><updated>2022-01-16T09:24:35+00:00</updated><published>2021-08-07T10:13:13+08:00</published><author><name>hanxin</name><uri>/</uri><email>hanxin.me@gmail.com</email></author><rights>本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。</rights><summary type="html">环境: 操作系统：Fedora 31（CentOS7通用） 数据库版本：MySQL 8.0.18 x86_64 一、……</summary><content type="html">&lt;p>环境:&lt;/p>
+&lt;ul>
+&lt;li>操作系统：Fedora 31（CentOS7通用）&lt;/li>
+&lt;li>数据库版本：MySQL 8.0.18&lt;/li>
+&lt;li>x86_64&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h5 id="一准备工作">一、准备工作&lt;/h5>
+&lt;ol>
+&lt;li>&lt;a href="https://downloads.mysql.com/archives/community/">MySQL官网&lt;/a>下载安装包
+&lt;img src="/images/mysql-dl.png" alt="">&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>此版本为解压即用免编译版本。&lt;/p>
+&lt;/blockquote>
+&lt;ol start="2">
+&lt;li>卸载mariadb和mysql的rpm包&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">yum list installed &lt;span class="p">|&lt;/span> egrep &lt;span class="s2">&amp;#34;(mariadb|mysql)&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> xargs yum remove -y
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="3">
+&lt;li>mysql依赖libaio库，如果本地未安装，后续初始化数据目录和启动服务会有问题。&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">yum search libaio
+yum install libaio -y
+&lt;span class="c1"># 有的还需要安装 ncurses-compat-libs libxcrypt-compat&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;hr>
+&lt;h5 id="二目录结构">二、目录结构&lt;/h5>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Directory&lt;/th>
+&lt;th>Contents of Directory&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>bin&lt;/td>
+&lt;td>&lt;a href="https://dev.mysql.com/doc/refman/8.0/en/mysqld.html">mysqld&lt;/a> server,client and utils programs&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>docs&lt;/td>
+&lt;td>MySQL manual in info format&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>man&lt;/td>
+&lt;td>Unix manual pages&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>include&lt;/td>
+&lt;td>include(header) files&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>lib&lt;/td>
+&lt;td>Libraries&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>share&lt;/td>
+&lt;td>Error messages,dictionary,and SQL for database installation&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>support-files&lt;/td>
+&lt;td>Miscellaneous support files&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;hr>
+&lt;h5 id="三配置软件">三、配置软件&lt;/h5>
+&lt;p>创建用户、组及目录&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">groupadd mysql
+useradd -r -g mysql -s /bin/false mysql
+tar -Jxf mysql-8.0.18-linux-glibc2.12-x86_64.tar.xz -C /usr/local/
+ln -s /usr/local/mysql-8.0.18-linux-glibc2.12-x86_64 /usr/local/mysql
+mkdir -p /data/mysql/&lt;span class="o">{&lt;/span>data,binlog&lt;span class="o">}&lt;/span> /var/run/mysqld
+&lt;span class="c1"># /var/run下的目录重启后就会被删除，可以使用别的目录。&lt;/span>
+&lt;span class="c1"># 或者在/usr/lib/tmpfiles.d/ 创建文件写入以下内容 &amp;#34;d /var/run/mysqld 0755 mysql mysql&amp;#34;&lt;/span>
+chown -R mysql:mysql /data/mysql /usr/local/mysql-8.0.18-linux-glibc2.12-x86_64 /var/run/mysqld
+chmod -R &lt;span class="m">750&lt;/span> /data/mysql
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>设置环境变量&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;export PATH=/usr/local/mysql/bin:$PATH&amp;#39;&lt;/span> &amp;gt;&amp;gt; ~/.bashrc
+. ~/.bashrc
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>初始化数据&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">mysqld --initialize-insecure --user&lt;span class="o">=&lt;/span>mysql --basedir&lt;span class="o">=&lt;/span>/usr/local/mysql --datadir&lt;span class="o">=&lt;/span>/data/mysql/data
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>配置文件&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">cat &amp;gt; /etc/my.cnf &lt;span class="s">&amp;lt;&amp;lt;EOF
+&lt;/span>&lt;span class="s">[mysqld]
+&lt;/span>&lt;span class="s">user=mysql
+&lt;/span>&lt;span class="s">basedir=/usr/local/mysql
+&lt;/span>&lt;span class="s">datadir=/data/mysql/data
+&lt;/span>&lt;span class="s">log_bin=/data/mysql/binlog/mysql-bin
+&lt;/span>&lt;span class="s">max_binlog_size=100M
+&lt;/span>&lt;span class="s">port=3306
+&lt;/span>&lt;span class="s">server-id=1
+&lt;/span>&lt;span class="s">pid-file=/var/run/mysqld/mysqld.pid
+&lt;/span>&lt;span class="s">log-error=/var/log/mysqld.log
+&lt;/span>&lt;span class="s">socket=/tmp/mysql.sock
+&lt;/span>&lt;span class="s">EOF&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>准备启动脚本&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="c1"># CentOS 执行&lt;/span>
+cp /usr/local/mysql/support-files/mysql.service /etc/init.d/mysqld
+chkconfig --add mysqld
+&lt;span class="c1"># Fedora 执行&lt;/span>
+&lt;span class="nb">cd&lt;/span> /usr/local/mysql/support-files
+cp mysql.server mysqld
+cat &amp;gt; /lib/systemd/system/mysqld.service &lt;span class="s">&amp;lt;&amp;lt;EOF
+&lt;/span>&lt;span class="s">[Unit]
+&lt;/span>&lt;span class="s">Description=MySQL Server
+&lt;/span>&lt;span class="s">Documentation=man:mysqld(8)
+&lt;/span>&lt;span class="s">Documentation=http://dev.mysql.com/doc/refman/en/using-systemd.html
+&lt;/span>&lt;span class="s">After=network.target syslog.target
+&lt;/span>&lt;span class="s">RequiresMountsFor=/var/run/mysqld
+&lt;/span>&lt;span class="s">
+&lt;/span>&lt;span class="s">[Service]
+&lt;/span>&lt;span class="s">Type=forking
+&lt;/span>&lt;span class="s">User=mysql
+&lt;/span>&lt;span class="s">Group=mysql
+&lt;/span>&lt;span class="s">ExecStart=sh -c &amp;#39;/usr/local/mysql/support-files/mysqld start&amp;#39;
+&lt;/span>&lt;span class="s">ExecReload=sh -c &amp;#39;/usr/local/mysql/support-files/mysqld reload&amp;#39;
+&lt;/span>&lt;span class="s">ExecStop=sh -c &amp;#39;/usr/local/mysql/support-files/mysqld stop&amp;#39;
+&lt;/span>&lt;span class="s">Restart=on-failure
+&lt;/span>&lt;span class="s">RestartSec=15s
+&lt;/span>&lt;span class="s">
+&lt;/span>&lt;span class="s">[Install]
+&lt;/span>&lt;span class="s">WantedBy=multi-user.target
+&lt;/span>&lt;span class="s">
+&lt;/span>&lt;span class="s">EOF&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>参考: &lt;a href="https://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html">Systemd 入门教程：命令篇&lt;/a>、&lt;a href="https://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-part-two.html">Systemd 入门教程：实战篇&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>启动服务&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="c1"># Fedora&lt;/span>
+systemctl daemon-reload
+systemctl &lt;span class="nb">enable&lt;/span> mysqld --now
+&lt;span class="c1"># CentOS&lt;/span>
+chkconfig mysqld on
+systemtl start mysqld
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>初始化时使用initialize-insecure 参数并不会生成随机root密码&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="n">mysql&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">uroot&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">p&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="n">Enter&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">password&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">#&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">直接回车&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>设置root本地密码&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="k">alter&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">user&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">user&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">identified&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">by&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;password&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>开启远程连接&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="k">create&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">user&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">root&lt;/span>&lt;span class="o">@&lt;/span>&lt;span class="s1">&amp;#39;%&amp;#39;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">identified&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">by&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;password&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="k">grant&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">all&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">privileges&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">on&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">to&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">root&lt;/span>&lt;span class="o">@&lt;/span>&lt;span class="s1">&amp;#39;%&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="n">flush&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">privileges&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="n">use&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">mysql&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="k">select&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">host&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">from&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">user&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="c1">-----------+
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">host&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="c1">-----------+
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">%&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">localhost&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">localhost&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">localhost&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">localhost&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="c1">-----------+
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>远程连接测试&lt;/p>
+&lt;p>&lt;img src="/images/nav.png" alt="">&lt;/p></content><category scheme="/tech/" term="tech" label="tech"/><category scheme="/tags/mysql/" term="mysql" label="mysql"/><category scheme="/tags/%E7%AC%94%E8%AE%B0/" term="笔记" label="笔记"/></entry></feed>

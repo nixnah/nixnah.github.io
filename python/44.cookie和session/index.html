@@ -1,0 +1,793 @@
+<!doctype html><html lang=zh-cn><head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"><meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=theme-color content="#16171d"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=format-detection content="telephone=no, date=no, address=no, email=no"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><title>44.Cookie和Session | Hanxin</title><link rel=stylesheet href=/css/meme.min.88c90dc75021618344ec926f4ed6ac307f30ba48911294816b16370a41e5f137.css><script src=/js/meme.min.f460a174bb100a60a7e275913695161f1e09aab1378fe99cfd30cde14da70888.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap" media=print onload="this.media='all'"><noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap"></noscript><meta name=author content="骆昊"><meta name=description content="Cookie和Session 我们继续来完成上一章节中的项目，实现“用户登录”的功能，……"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=mask-icon href=/icons/safari-pinned-tab.svg color=#2a6df4><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-title content="Hanxin"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=mobile-web-app-capable content="yes"><meta name=application-name content="Hanxin"><meta name=msapplication-starturl content="../../"><meta name=msapplication-TileColor content="#fff"><meta name=msapplication-TileImage content="../../icons/mstile-150x150.png"><link rel=manifest href=/manifest.json><link rel=canonical href=/python/44.cookie%E5%92%8Csession/><script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2021-08-23T17:34:40+08:00","dateModified":"2022-01-16T09:24:35+00:00","url":"/python/44.cookie%E5%92%8Csession/","name":"44.Cookie和Session","description":"Cookie和Session 我们继续来完成上一章节中的项目，实现“用户登录”的功能，……","image":"/icons/apple-touch-icon.png","license":"本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。","publisher":{"@type":"Organization","name":"Hanxin","logo":{"@type":"ImageObject","url":"/icons/apple-touch-icon.png"},"url":"/"},"mainEntityOfPage":{"@type":"WebSite","@id":"/"}}</script><meta name=twitter:card content="summary"><meta property="og:title" content="44.Cookie和Session"><meta property="og:description" content="Cookie和Session 我们继续来完成上一章节中的项目，实现“用户登录”的功能，……"><meta property="og:url" content="/python/44.cookie%E5%92%8Csession/"><meta property="og:site_name" content="Hanxin"><meta property="og:locale" content="zh"><meta property="og:image" content="/icons/apple-touch-icon.png"><meta property="og:type" content="website"></head><body><div class=container><header class=header><div class=header-wrapper><div class="header-inner single"><div class=site-brand><a href=/ class=brand>Hanxin</a></div><nav class=nav><ul class=menu id=menu><li class=menu-item><a href=/life/><span class=menu-item-name>生活</span></a></li><li class=menu-item><a href=/tech/><span class=menu-item-name>技术</span></a></li><li class=menu-item><a href=/tags/><span class=menu-item-name>标签</span></a></li><li class=menu-item><a href=/about/><span class=menu-item-name>关于</span></a></li><li class=menu-item><a href=/blogroll/><span class=menu-item-name>友链</span></a></li><li class=menu-item><a href=/python/><span class=menu-item-name>Python-100天</span></a></li><li class=menu-item><a id=theme-switcher href=#><span class="icon theme-icon-light">🌞</span><span class="icon theme-icon-dark">🌙</span></a></li></ul></nav></div></div><input type=checkbox id=nav-toggle aria-hidden=true>
+<label for=nav-toggle class=nav-toggle></label>
+<label for=nav-toggle class=nav-curtain></label></header><main class="main single" id=main><div class=main-inner><article class="content post h-entry" data-align=justify data-type=python data-toc-num=true><h1 class="post-title p-name">44.Cookie和Session</h1><div class=post-meta><time datetime=2021-08-23T17:34:40+08:00 class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;2021.8.23</time>
+<time datetime=2022-01-16T09:24:35+00:00 class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M4e2 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H48C21.49 64 0 85.49.0 112v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 4e2H54a6 6 0 01-6-6V160h352v298a6 6 0 01-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.1.16</time>
+<span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;8764</span>
+<span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;18&nbsp;分钟</span></div><div class="post-body e-content"><h2 id=cookie和session><a href=#cookie和session class=anchor-link>#</a>Cookie和Session</h2><p>我们继续来完成上一章节中的项目，实现“用户登录”的功能，并限制只有登录的用户才能投票。</p><h3 id=用户登录的准备工作><a href=#用户登录的准备工作 class=anchor-link>#</a>用户登录的准备工作</h3><p>我们先为实现用户登录做一些准备工作。</p><ol><li><p>创建用户模型。之前我们讲解过如果通过Django的ORM实现从二维表到模型的转换（反向工程），这次我们尝试把模型变成二维表（正向工程）。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>class</span> <span class=nc>User</span><span class=p>(</span><span class=n>models</span><span class=o>.</span><span class=n>Model</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;用户&#34;&#34;&#34;</span>
+    <span class=n>no</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>AutoField</span><span class=p>(</span><span class=n>primary_key</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>verbose_name</span><span class=o>=</span><span class=s1>&#39;编号&#39;</span><span class=p>)</span>
+    <span class=n>username</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>CharField</span><span class=p>(</span><span class=n>max_length</span><span class=o>=</span><span class=mi>20</span><span class=p>,</span> <span class=n>unique</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>verbose_name</span><span class=o>=</span><span class=s1>&#39;用户名&#39;</span><span class=p>)</span>
+    <span class=n>password</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>CharField</span><span class=p>(</span><span class=n>max_length</span><span class=o>=</span><span class=mi>32</span><span class=p>,</span> <span class=n>verbose_name</span><span class=o>=</span><span class=s1>&#39;密码&#39;</span><span class=p>)</span>
+    <span class=n>tel</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>CharField</span><span class=p>(</span><span class=n>max_length</span><span class=o>=</span><span class=mi>20</span><span class=p>,</span> <span class=n>verbose_name</span><span class=o>=</span><span class=s1>&#39;手机号&#39;</span><span class=p>)</span>
+    <span class=n>reg_date</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>DateTimeField</span><span class=p>(</span><span class=n>auto_now_add</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>verbose_name</span><span class=o>=</span><span class=s1>&#39;注册时间&#39;</span><span class=p>)</span>
+    <span class=n>last_visit</span> <span class=o>=</span> <span class=n>models</span><span class=o>.</span><span class=n>DateTimeField</span><span class=p>(</span><span class=n>null</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span> <span class=n>verbose_name</span><span class=o>=</span><span class=s1>&#39;最后登录时间&#39;</span><span class=p>)</span>
+
+    <span class=k>class</span> <span class=nc>Meta</span><span class=p>:</span>
+        <span class=n>db_table</span> <span class=o>=</span> <span class=s1>&#39;tb_user&#39;</span>
+        <span class=n>verbose_name</span> <span class=o>=</span> <span class=s1>&#39;用户&#39;</span>
+        <span class=n>verbose_name_plural</span> <span class=o>=</span> <span class=s1>&#39;用户&#39;</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>使用下面的命令生成迁移文件并执行迁移，将<code>User</code>模型直接变成关系型数据库中的二维表<code>tb_user</code>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Bash data-lang=Bash>python manage.py makemigrations polls
+python manage.py migrate polls
+</code></pre></td></tr></table></div></div></div></li><li><p>用下面的SQL语句直接插入两条测试数据，通常不能讲用户的密码直接保存在数据库中，因此我们将用户密码处理成对应的MD5摘要。MD5消息摘要算法是一种被广泛使用的密码哈希函数（散列函数），可以产生出一个128位（比特）的哈希值（散列值），用于确保信息传输完整一致。在使用哈希值时，通常会将哈希值表示为16进制字符串，因此128位的MD5摘要通常表示为32个十六进制符号。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-SQL data-lang=SQL><span class=k>insert</span><span class=w> </span><span class=k>into</span><span class=w> </span><span class=o>`</span><span class=n>tb_user</span><span class=o>`</span><span class=w>
+</span><span class=w>    </span><span class=p>(</span><span class=o>`</span><span class=n>username</span><span class=o>`</span><span class=p>,</span><span class=w> </span><span class=o>`</span><span class=n>password</span><span class=o>`</span><span class=p>,</span><span class=w> </span><span class=o>`</span><span class=n>tel</span><span class=o>`</span><span class=p>,</span><span class=w> </span><span class=o>`</span><span class=n>reg_date</span><span class=o>`</span><span class=p>)</span><span class=w>
+</span><span class=w></span><span class=k>values</span><span class=w>
+</span><span class=w>    </span><span class=p>(</span><span class=s1>&#39;wangdachui&#39;</span><span class=p>,</span><span class=w> </span><span class=s1>&#39;1c63129ae9db9c60c3e8aa94d3e00495&#39;</span><span class=p>,</span><span class=w> </span><span class=s1>&#39;13122334455&#39;</span><span class=p>,</span><span class=w> </span><span class=n>now</span><span class=p>()),</span><span class=w>
+</span><span class=w>    </span><span class=p>(</span><span class=s1>&#39;hellokitty&#39;</span><span class=p>,</span><span class=w> </span><span class=s1>&#39;c6f8cf68e5f68b0aa4680e089ee4742c&#39;</span><span class=p>,</span><span class=w> </span><span class=s1>&#39;13890006789&#39;</span><span class=p>,</span><span class=w> </span><span class=n>now</span><span class=p>());</span><span class=w>
+</span></code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：上面创建的两个用户<code>wangdachui</code>和<code>hellokitty</code>密码分别是<code>1qaz2wsx</code>和<code>Abc123!!</code>。</p></blockquote></li><li><p>我们在应用下增加一个名为<code>utils.py</code>的模块用来保存需要使用的工具函数。Python标准库中的<code>hashlib</code>模块封装了常用的哈希算法，包括：MD5、SHA1、SHA256等。下面是使用<code>hashlib</code>中的<code>md5</code>类将字符串处理成MD5摘要的函数如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>hashlib</span>
+
+
+<span class=k>def</span> <span class=nf>gen_md5_digest</span><span class=p>(</span><span class=n>content</span><span class=p>):</span>
+    <span class=k>return</span> <span class=n>hashlib</span><span class=o>.</span><span class=n>md5</span><span class=p>(</span><span class=n>content</span><span class=o>.</span><span class=n>encode</span><span class=p>())</span><span class=o>.</span><span class=n>hexdigest</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>编写用户登录的视图函数和模板页。</p><p>添加渲染登录页面的视图函数：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>def</span> <span class=nf>login</span><span class=p>(</span><span class=n>request</span><span class=p>:</span> <span class=n>HttpRequest</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>HttpResponse</span><span class=p>:</span>
+    <span class=n>hint</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+    <span class=k>return</span> <span class=n>render</span><span class=p>(</span><span class=n>request</span><span class=p>,</span> <span class=s1>&#39;login.html&#39;</span><span class=p>,</span> <span class=p>{</span><span class=s1>&#39;hint&#39;</span><span class=p>:</span> <span class=n>hint</span><span class=p>})</span>
+</code></pre></td></tr></table></div></div></div><p>增加<code>login.html</code>模板页：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-HTML data-lang=HTML><span class=cp>&lt;!DOCTYPE html&gt;</span>
+<span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
+<span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
+    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>charset</span><span class=o>=</span><span class=s>&#34;UTF-8&#34;</span><span class=p>&gt;</span>
+    <span class=p>&lt;</span><span class=nt>title</span><span class=p>&gt;</span>用户登录<span class=p>&lt;/</span><span class=nt>title</span><span class=p>&gt;</span>
+    <span class=p>&lt;</span><span class=nt>style</span><span class=p>&gt;</span>
+        <span class=p>#</span><span class=nn>container</span> <span class=p>{</span>
+            <span class=k>width</span><span class=p>:</span> <span class=mi>520</span><span class=kt>px</span><span class=p>;</span>
+            <span class=k>margin</span><span class=p>:</span> <span class=mi>10</span><span class=kt>px</span> <span class=kc>auto</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=p>.</span><span class=nc>input</span> <span class=p>{</span>
+            <span class=k>margin</span><span class=p>:</span> <span class=mi>20</span><span class=kt>px</span> <span class=mi>0</span><span class=p>;</span>
+            <span class=k>width</span><span class=p>:</span> <span class=mi>460</span><span class=kt>px</span><span class=p>;</span>
+            <span class=k>height</span><span class=p>:</span> <span class=mi>40</span><span class=kt>px</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=p>.</span><span class=nc>input</span><span class=o>&gt;</span><span class=nt>label</span> <span class=p>{</span>
+            <span class=k>display</span><span class=p>:</span> <span class=kc>inline-block</span><span class=p>;</span>
+            <span class=k>width</span><span class=p>:</span> <span class=mi>140</span><span class=kt>px</span><span class=p>;</span>
+            <span class=k>text-align</span><span class=p>:</span> <span class=kc>right</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=p>.</span><span class=nc>input</span><span class=o>&gt;</span><span class=nt>img</span> <span class=p>{</span>
+            <span class=k>width</span><span class=p>:</span> <span class=mi>150</span><span class=kt>px</span><span class=p>;</span>
+            <span class=k>vertical-align</span><span class=p>:</span> <span class=kc>middle</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=nt>input</span><span class=o>[</span><span class=nt>name</span><span class=o>=</span><span class=nt>captcha</span><span class=o>]</span> <span class=p>{</span>
+            <span class=k>vertical-align</span><span class=p>:</span> <span class=kc>middle</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=nt>form</span><span class=o>+</span><span class=nt>div</span> <span class=p>{</span>
+            <span class=k>margin-top</span><span class=p>:</span> <span class=mi>20</span><span class=kt>px</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=nt>form</span><span class=o>+</span><span class=nt>div</span><span class=o>&gt;</span><span class=nt>a</span> <span class=p>{</span>
+            <span class=k>text-decoration</span><span class=p>:</span> <span class=kc>none</span><span class=p>;</span>
+            <span class=k>color</span><span class=p>:</span> <span class=kc>darkcyan</span><span class=p>;</span>
+            <span class=k>font-size</span><span class=p>:</span> <span class=mf>1.2</span><span class=kt>em</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=p>.</span><span class=nc>button</span> <span class=p>{</span>
+            <span class=k>width</span><span class=p>:</span> <span class=mi>500</span><span class=kt>px</span><span class=p>;</span>
+            <span class=k>text-align</span><span class=p>:</span> <span class=kc>center</span><span class=p>;</span>
+            <span class=k>margin-top</span><span class=p>:</span> <span class=mi>20</span><span class=kt>px</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=p>.</span><span class=nc>hint</span> <span class=p>{</span>
+            <span class=k>color</span><span class=p>:</span> <span class=kc>red</span><span class=p>;</span>
+            <span class=k>font-size</span><span class=p>:</span> <span class=mi>12</span><span class=kt>px</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>&lt;/</span><span class=nt>style</span><span class=p>&gt;</span>
+<span class=p>&lt;/</span><span class=nt>head</span><span class=p>&gt;</span>
+<span class=p>&lt;</span><span class=nt>body</span><span class=p>&gt;</span>
+    <span class=p>&lt;</span><span class=nt>div</span> <span class=na>id</span><span class=o>=</span><span class=s>&#34;container&#34;</span><span class=p>&gt;</span>
+        <span class=p>&lt;</span><span class=nt>h1</span><span class=p>&gt;</span>用户登录<span class=p>&lt;/</span><span class=nt>h1</span><span class=p>&gt;</span>
+        <span class=p>&lt;</span><span class=nt>hr</span><span class=p>&gt;</span>
+        <span class=p>&lt;</span><span class=nt>p</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;hint&#34;</span><span class=p>&gt;</span>{{ hint }}<span class=p>&lt;/</span><span class=nt>p</span><span class=p>&gt;</span>
+        <span class=p>&lt;</span><span class=nt>form</span> <span class=na>action</span><span class=o>=</span><span class=s>&#34;/login/&#34;</span> <span class=na>method</span><span class=o>=</span><span class=s>&#34;post&#34;</span><span class=p>&gt;</span>
+            {% csrf_token %}
+            <span class=p>&lt;</span><span class=nt>fieldset</span><span class=p>&gt;</span>
+                <span class=p>&lt;</span><span class=nt>legend</span><span class=p>&gt;</span>用户信息<span class=p>&lt;/</span><span class=nt>legend</span><span class=p>&gt;</span>
+                <span class=p>&lt;</span><span class=nt>div</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;input&#34;</span><span class=p>&gt;</span>
+                    <span class=p>&lt;</span><span class=nt>label</span><span class=p>&gt;</span>用户名：<span class=p>&lt;/</span><span class=nt>label</span><span class=p>&gt;</span>
+                    <span class=p>&lt;</span><span class=nt>input</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;text&#34;</span> <span class=na>name</span><span class=o>=</span><span class=s>&#34;username&#34;</span><span class=p>&gt;</span>
+                <span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+                <span class=p>&lt;</span><span class=nt>div</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;input&#34;</span><span class=p>&gt;</span>
+                    <span class=p>&lt;</span><span class=nt>label</span><span class=p>&gt;</span>密码：<span class=p>&lt;/</span><span class=nt>label</span><span class=p>&gt;</span>
+                    <span class=p>&lt;</span><span class=nt>input</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;password&#34;</span> <span class=na>name</span><span class=o>=</span><span class=s>&#34;password&#34;</span><span class=p>&gt;</span>
+                <span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+                <span class=p>&lt;</span><span class=nt>div</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;input&#34;</span><span class=p>&gt;</span>
+                    <span class=p>&lt;</span><span class=nt>label</span><span class=p>&gt;</span>验证码：<span class=p>&lt;/</span><span class=nt>label</span><span class=p>&gt;</span>
+                    <span class=p>&lt;</span><span class=nt>input</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;text&#34;</span> <span class=na>name</span><span class=o>=</span><span class=s>&#34;captcha&#34;</span><span class=p>&gt;</span>
+                    <span class=p>&lt;</span><span class=nt>img</span> <span class=na>id</span><span class=o>=</span><span class=s>&#34;code&#34;</span> <span class=na>src</span><span class=o>=</span><span class=s>&#34;/captcha/&#34;</span> <span class=na>alt</span><span class=o>=</span><span class=s>&#34;&#34;</span> <span class=na>width</span><span class=o>=</span><span class=s>&#34;150&#34;</span> <span class=na>height</span><span class=o>=</span><span class=s>&#34;40&#34;</span><span class=p>&gt;</span>
+                <span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+            <span class=p>&lt;/</span><span class=nt>fieldset</span><span class=p>&gt;</span>
+            <span class=p>&lt;</span><span class=nt>div</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;button&#34;</span><span class=p>&gt;</span>
+                <span class=p>&lt;</span><span class=nt>input</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;submit&#34;</span> <span class=na>value</span><span class=o>=</span><span class=s>&#34;登录&#34;</span><span class=p>&gt;</span>
+                <span class=p>&lt;</span><span class=nt>input</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;reset&#34;</span> <span class=na>value</span><span class=o>=</span><span class=s>&#34;重置&#34;</span><span class=p>&gt;</span>
+            <span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+        <span class=p>&lt;/</span><span class=nt>form</span><span class=p>&gt;</span>
+        <span class=p>&lt;</span><span class=nt>div</span><span class=p>&gt;</span>
+            <span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;/&#34;</span><span class=p>&gt;</span>返回首页<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;</span>
+            <span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;/register/&#34;</span><span class=p>&gt;</span>注册新用户<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;</span>
+        <span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+    <span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+<span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
+<span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
+</code></pre></td></tr></table></div></div></div><p>注意，在上面的表单中，我们使用了模板指令<code>{% csrf_token %}</code>为表单添加一个隐藏域（大家可以在浏览器中显示网页源代码就可以看到这个指令生成的<code>type</code>属性为<code>hidden</code>的<code>input</code>标签），它的作用是在表单中生成一个随机令牌（token）来防范<a href=https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0 target=_blank rel=noopener>跨站请求伪造</a>（简称为CSRF），这也是Django在提交表单时的硬性要求。如果我们的表单中没有这样的令牌，那么提交表单时，Django框架会产生一个响应状态码为<code>403</code>的响应（禁止访问），除非我们设置了免除CSRF令牌。下图是一个关于CSRF简单生动的例子。</p><p><img src=/res/csrf-simple.png alt></p></li></ol><p>接下来，我们可以编写提供验证码和实现用户登录的视图函数，在此之前，我们先说说一个Web应用实现用户跟踪的方式以及Django框架对实现用户跟踪所提供的支持。对一个Web应用来说，用户登录成功后必然要让服务器能够记住该用户已经登录，这样服务器才能为这个用户提供更好的服务，而且上面说到的CSRF也是通过钓鱼网站来套取用户登录信息进行恶意操作的攻击手段，这些都是以用户跟踪技术为基础的。在理解了这些背景知识后，我们就清楚用户登录时到底需要执行哪些操作。</p><h3 id=实现用户跟踪><a href=#实现用户跟踪 class=anchor-link>#</a>实现用户跟踪</h3><p>如今，一个网站如果不通过某种方式记住你是谁以及你之前在网站的活动情况，失去的就是网站的可用性和便利性，继而很有可能导致网站用户的流式，所以记住一个用户（更专业的说法叫<strong>用户跟踪</strong>）对绝大多数Web应用来说都是必需的功能。</p><p>在服务器端，我们想记住一个用户最简单的办法就是创建一个对象，通过这个对象就可以把用户相关的信息都保存起来，这个对象就是我们常说的session（用户会话对象）。那么问题来了，HTTP本身是一个<strong>无连接</strong>（每次请求和响应的过程中，服务器一旦完成对客户端请求的响应之后就断开连接）、<strong>无状态</strong>（客户端再次发起对服务器的请求时，服务器无法得知这个客户端之前的任何信息）的协议，即便服务器通过session对象保留了用户数据，还得通过某种方式来确定当前的请求与之前保存过的哪一个session是有关联的。相信很多人都能想到，我们可以给每个session对象分配一个全局唯一的标识符来识别session对象，我们姑且称之为sessionid，每次客户端发起请求时，只要携带上这个sessionid，就有办法找到与之对应的session对象，从而实现在两次请求之间记住该用户的信息，也就是我们之前说的用户跟踪。</p><p>要让客户端记住并在每次请求时带上sessionid又有以下几种做法：</p><ol><li><p>URL重写。所谓URL重写就是在URL中携带sessionid，例如：<code>http://www.example.com/index.html?sessionid=123456</code>，服务器通过获取sessionid参数的值来取到与之对应的session对象。</p></li><li><p>隐藏域（隐式表单域）。在提交表单的时候，可以通过在表单中设置隐藏域向服务器发送额外的数据。例如：<code>&lt;input type="hidden" name="sessionid" value="123456"></code>。</p></li><li><p>本地存储。现在的浏览器都支持多种本地存储方案，包括：cookie、localStorage、sessionStorage、IndexedDB等。在这些方案中，cookie是历史最为悠久也是被诟病得最多的一种方案，也是我们接下来首先为大家讲解的一种方案。简单的说，cookie是一种以键值对方式保存在浏览器临时文件中的数据，每次请求时，请求头中会携带本站点的cookie到服务器，那么只要将sessionid写入cookie，下次请求时服务器只要读取请求头中的cookie就能够获得这个sessionid，如下图所示。</p><p><img src=/res/sessionid_from_cookie.png alt></p><p>在HTML5时代要，除了cookie，还可以使用新的本地存储API来保存数据，就是刚才提到的localStorage、sessionStorage、IndexedDB等技术，如下图所示。</p><p><img src=/res/cookie_xstorage_indexeddb.png alt></p></li></ol><p><strong>总结一下</strong>，要实现用户跟踪，服务器端可以为每个用户会话创建一个session对象并将session对象的ID写入到浏览器的cookie中；用户下次请求服务器时，浏览器会在HTTP请求头中携带该网站保存的cookie信息，这样服务器就可以从cookie中找到session对象的ID并根据此ID获取到之前创建的session对象；由于session对象可以用键值对的方式保存用户数据，这样之前保存在session对象中的信息可以悉数取出，服务器也可以根据这些信息判定用户身份和了解用户偏好，为用户提供更好的个性化服务。</p><h3 id=django框架对session的支持><a href=#django框架对session的支持 class=anchor-link>#</a>Django框架对session的支持</h3><p>在创建Django项目时，默认的配置文件<code>settings.py</code>文件中已经激活了一个名为<code>SessionMiddleware</code>的中间件（关于中间件的知识我们在后面的章节做详细讲解，这里只需要知道它的存在即可），因为这个中间件的存在，我们可以直接通过请求对象的<code>session</code>属性来操作会话对象。前面我们说过，<code>session</code>属性是一个像字典一样可以读写数据的容器对象，因此我们可以使用“键值对”的方式来保留用户数据。与此同时，<code>SessionMiddleware</code>中间件还封装了对cookie的操作，在cookie中保存了sessionid，这一点我们在上面已经提到过了。</p><p>在默认情况下，Django将session的数据序列化后保存在关系型数据库中，在Django 1.6以后的版本中，默认的序列化数据的方式是JSON序列化，而在此之前一直使用Pickle序列化。JSON序列化和Pickle序列化的差别在于前者将对象序列化为字符串（字符形式），而后者将对象序列化为字节串（二进制形式），因为安全方面的原因，JSON序列化成为了目前Django框架默认序列化数据的方式，这就要求在我们保存在session中的数据必须是能够JSON序列化的，否则就会引发异常。还有一点需要说明的是，使用关系型数据库保存session中的数据在大多数时候并不是最好的选择，因为数据库可能会承受巨大的压力而成为系统性能的瓶颈，在后面的章节中我们会告诉大家如何将session保存到缓存服务中以提升系统的性能。</p><h3 id=实现用户登录验证><a href=#实现用户登录验证 class=anchor-link>#</a>实现用户登录验证</h3><p>首先，我们在刚才的<code>polls/utils.py</code>文件中编写生成随机验证码的函数<code>gen_random_code</code>，内容如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>random</span>
+
+<span class=n>ALL_CHARS</span> <span class=o>=</span> <span class=s1>&#39;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span>
+
+
+<span class=k>def</span> <span class=nf>gen_random_code</span><span class=p>(</span><span class=n>length</span><span class=o>=</span><span class=mi>4</span><span class=p>):</span>
+    <span class=k>return</span> <span class=s1>&#39;&#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>choices</span><span class=p>(</span><span class=n>ALL_CHARS</span><span class=p>,</span> <span class=n>k</span><span class=o>=</span><span class=n>length</span><span class=p>))</span>
+</code></pre></td></tr></table></div></div></div><p>编写生成验证码图片的类<code>Captcha</code>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span><span class=lnt>178
+</span><span class=lnt>179
+</span><span class=lnt>180
+</span><span class=lnt>181
+</span><span class=lnt>182
+</span><span class=lnt>183
+</span><span class=lnt>184
+</span><span class=lnt>185
+</span><span class=lnt>186
+</span><span class=lnt>187
+</span><span class=lnt>188
+</span><span class=lnt>189
+</span><span class=lnt>190
+</span><span class=lnt>191
+</span><span class=lnt>192
+</span><span class=lnt>193
+</span><span class=lnt>194
+</span><span class=lnt>195
+</span><span class=lnt>196
+</span><span class=lnt>197
+</span><span class=lnt>198
+</span><span class=lnt>199
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=s2>&#34;&#34;&#34;
+</span><span class=s2>图片验证码
+</span><span class=s2>&#34;&#34;&#34;</span>
+<span class=kn>import</span> <span class=nn>os</span>
+<span class=kn>import</span> <span class=nn>random</span>
+<span class=kn>from</span> <span class=nn>io</span> <span class=kn>import</span> <span class=n>BytesIO</span>
+
+<span class=kn>from</span> <span class=nn>PIL</span> <span class=kn>import</span> <span class=n>Image</span>
+<span class=kn>from</span> <span class=nn>PIL</span> <span class=kn>import</span> <span class=n>ImageFilter</span>
+<span class=kn>from</span> <span class=nn>PIL.ImageDraw</span> <span class=kn>import</span> <span class=n>Draw</span>
+<span class=kn>from</span> <span class=nn>PIL.ImageFont</span> <span class=kn>import</span> <span class=n>truetype</span>
+
+
+<span class=k>class</span> <span class=nc>Bezier</span><span class=p>:</span>
+    <span class=s2>&#34;&#34;&#34;贝塞尔曲线&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>tsequence</span> <span class=o>=</span> <span class=nb>tuple</span><span class=p>([</span><span class=n>t</span> <span class=o>/</span> <span class=mf>20.0</span> <span class=k>for</span> <span class=n>t</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>21</span><span class=p>)])</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>beziers</span> <span class=o>=</span> <span class=p>{}</span>
+
+    <span class=k>def</span> <span class=nf>make_bezier</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>n</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;绘制贝塞尔曲线&#34;&#34;&#34;</span>
+        <span class=k>try</span><span class=p>:</span>
+            <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>beziers</span><span class=p>[</span><span class=n>n</span><span class=p>]</span>
+        <span class=k>except</span> <span class=ne>KeyError</span><span class=p>:</span>
+            <span class=n>combinations</span> <span class=o>=</span> <span class=n>pascal_row</span><span class=p>(</span><span class=n>n</span> <span class=o>-</span> <span class=mi>1</span><span class=p>)</span>
+            <span class=n>result</span> <span class=o>=</span> <span class=p>[]</span>
+            <span class=k>for</span> <span class=n>t</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>tsequence</span><span class=p>:</span>
+                <span class=n>tpowers</span> <span class=o>=</span> <span class=p>(</span><span class=n>t</span> <span class=o>**</span> <span class=n>i</span> <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>n</span><span class=p>))</span>
+                <span class=n>upowers</span> <span class=o>=</span> <span class=p>((</span><span class=mi>1</span> <span class=o>-</span> <span class=n>t</span><span class=p>)</span> <span class=o>**</span> <span class=n>i</span> <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>n</span> <span class=o>-</span> <span class=mi>1</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>))</span>
+                <span class=n>coefs</span> <span class=o>=</span> <span class=p>[</span><span class=n>c</span> <span class=o>*</span> <span class=n>a</span> <span class=o>*</span> <span class=n>b</span> <span class=k>for</span> <span class=n>c</span><span class=p>,</span> <span class=n>a</span><span class=p>,</span> <span class=n>b</span> <span class=ow>in</span> <span class=nb>zip</span><span class=p>(</span><span class=n>combinations</span><span class=p>,</span>
+                                                      <span class=n>tpowers</span><span class=p>,</span> <span class=n>upowers</span><span class=p>)]</span>
+                <span class=n>result</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>coefs</span><span class=p>)</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>beziers</span><span class=p>[</span><span class=n>n</span><span class=p>]</span> <span class=o>=</span> <span class=n>result</span>
+            <span class=k>return</span> <span class=n>result</span>
+
+
+<span class=k>class</span> <span class=nc>Captcha</span><span class=p>:</span>
+    <span class=s2>&#34;&#34;&#34;验证码&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>width</span><span class=p>,</span> <span class=n>height</span><span class=p>,</span> <span class=n>fonts</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>color</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_image</span> <span class=o>=</span> <span class=kc>None</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_fonts</span> <span class=o>=</span> <span class=n>fonts</span> <span class=k>if</span> <span class=n>fonts</span> <span class=k>else</span> \
+            <span class=p>[</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>dirname</span><span class=p>(</span><span class=vm>__file__</span><span class=p>),</span> <span class=s1>&#39;fonts&#39;</span><span class=p>,</span> <span class=n>font</span><span class=p>)</span>
+             <span class=k>for</span> <span class=n>font</span> <span class=ow>in</span> <span class=p>[</span><span class=s1>&#39;Arial.ttf&#39;</span><span class=p>,</span> <span class=s1>&#39;Georgia.ttf&#39;</span><span class=p>,</span> <span class=s1>&#39;Action.ttf&#39;</span><span class=p>]]</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_color</span> <span class=o>=</span> <span class=n>color</span> <span class=k>if</span> <span class=n>color</span> <span class=k>else</span> <span class=n>random_color</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>200</span><span class=p>,</span> <span class=n>random</span><span class=o>.</span><span class=n>randint</span><span class=p>(</span><span class=mi>220</span><span class=p>,</span> <span class=mi>255</span><span class=p>))</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_width</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_height</span> <span class=o>=</span> <span class=n>width</span><span class=p>,</span> <span class=n>height</span>
+
+    <span class=nd>@classmethod</span>
+    <span class=k>def</span> <span class=nf>instance</span><span class=p>(</span><span class=bp>cls</span><span class=p>,</span> <span class=n>width</span><span class=o>=</span><span class=mi>200</span><span class=p>,</span> <span class=n>height</span><span class=o>=</span><span class=mi>75</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;用于获取Captcha对象的类方法&#34;&#34;&#34;</span>
+        <span class=n>prop_name</span> <span class=o>=</span> <span class=sa>f</span><span class=s1>&#39;_instance_</span><span class=si>{</span><span class=n>width</span><span class=si>}</span><span class=s1>_</span><span class=si>{</span><span class=n>height</span><span class=si>}</span><span class=s1>&#39;</span>
+        <span class=k>if</span> <span class=ow>not</span> <span class=nb>hasattr</span><span class=p>(</span><span class=bp>cls</span><span class=p>,</span> <span class=n>prop_name</span><span class=p>):</span>
+            <span class=nb>setattr</span><span class=p>(</span><span class=bp>cls</span><span class=p>,</span> <span class=n>prop_name</span><span class=p>,</span> <span class=bp>cls</span><span class=p>(</span><span class=n>width</span><span class=p>,</span> <span class=n>height</span><span class=p>))</span>
+        <span class=k>return</span> <span class=nb>getattr</span><span class=p>(</span><span class=bp>cls</span><span class=p>,</span> <span class=n>prop_name</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>_background</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;绘制背景&#34;&#34;&#34;</span>
+        <span class=n>Draw</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_image</span><span class=p>)</span><span class=o>.</span><span class=n>rectangle</span><span class=p>([(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>),</span> <span class=bp>self</span><span class=o>.</span><span class=n>_image</span><span class=o>.</span><span class=n>size</span><span class=p>],</span>
+                                    <span class=n>fill</span><span class=o>=</span><span class=n>random_color</span><span class=p>(</span><span class=mi>230</span><span class=p>,</span> <span class=mi>255</span><span class=p>))</span>
+
+    <span class=k>def</span> <span class=nf>_smooth</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;平滑图像&#34;&#34;&#34;</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_image</span><span class=o>.</span><span class=n>filter</span><span class=p>(</span><span class=n>ImageFilter</span><span class=o>.</span><span class=n>SMOOTH</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>_curve</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>width</span><span class=o>=</span><span class=mi>4</span><span class=p>,</span> <span class=n>number</span><span class=o>=</span><span class=mi>6</span><span class=p>,</span> <span class=n>color</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;绘制曲线&#34;&#34;&#34;</span>
+        <span class=n>dx</span><span class=p>,</span> <span class=n>height</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_image</span><span class=o>.</span><span class=n>size</span>
+        <span class=n>dx</span> <span class=o>/=</span> <span class=n>number</span>
+        <span class=n>path</span> <span class=o>=</span> <span class=p>[(</span><span class=n>dx</span> <span class=o>*</span> <span class=n>i</span><span class=p>,</span> <span class=n>random</span><span class=o>.</span><span class=n>randint</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>height</span><span class=p>))</span>
+                <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=n>number</span><span class=p>)]</span>
+        <span class=n>bcoefs</span> <span class=o>=</span> <span class=n>Bezier</span><span class=p>()</span><span class=o>.</span><span class=n>make_bezier</span><span class=p>(</span><span class=n>number</span> <span class=o>-</span> <span class=mi>1</span><span class=p>)</span>
+        <span class=n>points</span> <span class=o>=</span> <span class=p>[]</span>
+        <span class=k>for</span> <span class=n>coefs</span> <span class=ow>in</span> <span class=n>bcoefs</span><span class=p>:</span>
+            <span class=n>points</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=nb>tuple</span><span class=p>(</span><span class=nb>sum</span><span class=p>([</span><span class=n>coef</span> <span class=o>*</span> <span class=n>p</span> <span class=k>for</span> <span class=n>coef</span><span class=p>,</span> <span class=n>p</span> <span class=ow>in</span> <span class=nb>zip</span><span class=p>(</span><span class=n>coefs</span><span class=p>,</span> <span class=n>ps</span><span class=p>)])</span>
+                                <span class=k>for</span> <span class=n>ps</span> <span class=ow>in</span> <span class=nb>zip</span><span class=p>(</span><span class=o>*</span><span class=n>path</span><span class=p>)))</span>
+        <span class=n>Draw</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_image</span><span class=p>)</span><span class=o>.</span><span class=n>line</span><span class=p>(</span><span class=n>points</span><span class=p>,</span> <span class=n>fill</span><span class=o>=</span><span class=n>color</span> <span class=k>if</span> <span class=n>color</span> <span class=k>else</span> <span class=bp>self</span><span class=o>.</span><span class=n>_color</span><span class=p>,</span> <span class=n>width</span><span class=o>=</span><span class=n>width</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>_noise</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>number</span><span class=o>=</span><span class=mi>50</span><span class=p>,</span> <span class=n>level</span><span class=o>=</span><span class=mi>2</span><span class=p>,</span> <span class=n>color</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;绘制扰码&#34;&#34;&#34;</span>
+        <span class=n>width</span><span class=p>,</span> <span class=n>height</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_image</span><span class=o>.</span><span class=n>size</span>
+        <span class=n>dx</span><span class=p>,</span> <span class=n>dy</span> <span class=o>=</span> <span class=n>width</span> <span class=o>/</span> <span class=mi>10</span><span class=p>,</span> <span class=n>height</span> <span class=o>/</span> <span class=mi>10</span>
+        <span class=n>width</span><span class=p>,</span> <span class=n>height</span> <span class=o>=</span> <span class=n>width</span> <span class=o>-</span> <span class=n>dx</span><span class=p>,</span> <span class=n>height</span> <span class=o>-</span> <span class=n>dy</span>
+        <span class=n>draw</span> <span class=o>=</span> <span class=n>Draw</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_image</span><span class=p>)</span>
+        <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>number</span><span class=p>):</span>
+            <span class=n>x</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>uniform</span><span class=p>(</span><span class=n>dx</span><span class=p>,</span> <span class=n>width</span><span class=p>))</span>
+            <span class=n>y</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>uniform</span><span class=p>(</span><span class=n>dy</span><span class=p>,</span> <span class=n>height</span><span class=p>))</span>
+            <span class=n>draw</span><span class=o>.</span><span class=n>line</span><span class=p>(((</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>),</span> <span class=p>(</span><span class=n>x</span> <span class=o>+</span> <span class=n>level</span><span class=p>,</span> <span class=n>y</span><span class=p>)),</span>
+                      <span class=n>fill</span><span class=o>=</span><span class=n>color</span> <span class=k>if</span> <span class=n>color</span> <span class=k>else</span> <span class=bp>self</span><span class=o>.</span><span class=n>_color</span><span class=p>,</span> <span class=n>width</span><span class=o>=</span><span class=n>level</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>_text</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>captcha_text</span><span class=p>,</span> <span class=n>fonts</span><span class=p>,</span> <span class=n>font_sizes</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>drawings</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>squeeze_factor</span><span class=o>=</span><span class=mf>0.75</span><span class=p>,</span> <span class=n>color</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;绘制文本&#34;&#34;&#34;</span>
+        <span class=n>color</span> <span class=o>=</span> <span class=n>color</span> <span class=k>if</span> <span class=n>color</span> <span class=k>else</span> <span class=bp>self</span><span class=o>.</span><span class=n>_color</span>
+        <span class=n>fonts</span> <span class=o>=</span> <span class=nb>tuple</span><span class=p>([</span><span class=n>truetype</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>size</span><span class=p>)</span>
+                       <span class=k>for</span> <span class=n>name</span> <span class=ow>in</span> <span class=n>fonts</span>
+                       <span class=k>for</span> <span class=n>size</span> <span class=ow>in</span> <span class=n>font_sizes</span> <span class=ow>or</span> <span class=p>(</span><span class=mi>65</span><span class=p>,</span> <span class=mi>70</span><span class=p>,</span> <span class=mi>75</span><span class=p>)])</span>
+        <span class=n>draw</span> <span class=o>=</span> <span class=n>Draw</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_image</span><span class=p>)</span>
+        <span class=n>char_images</span> <span class=o>=</span> <span class=p>[]</span>
+        <span class=k>for</span> <span class=n>c</span> <span class=ow>in</span> <span class=n>captcha_text</span><span class=p>:</span>
+            <span class=n>font</span> <span class=o>=</span> <span class=n>random</span><span class=o>.</span><span class=n>choice</span><span class=p>(</span><span class=n>fonts</span><span class=p>)</span>
+            <span class=n>c_width</span><span class=p>,</span> <span class=n>c_height</span> <span class=o>=</span> <span class=n>draw</span><span class=o>.</span><span class=n>textsize</span><span class=p>(</span><span class=n>c</span><span class=p>,</span> <span class=n>font</span><span class=o>=</span><span class=n>font</span><span class=p>)</span>
+            <span class=n>char_image</span> <span class=o>=</span> <span class=n>Image</span><span class=o>.</span><span class=n>new</span><span class=p>(</span><span class=s1>&#39;RGB&#39;</span><span class=p>,</span> <span class=p>(</span><span class=n>c_width</span><span class=p>,</span> <span class=n>c_height</span><span class=p>),</span> <span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>))</span>
+            <span class=n>char_draw</span> <span class=o>=</span> <span class=n>Draw</span><span class=p>(</span><span class=n>char_image</span><span class=p>)</span>
+            <span class=n>char_draw</span><span class=o>.</span><span class=n>text</span><span class=p>((</span><span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>),</span> <span class=n>c</span><span class=p>,</span> <span class=n>font</span><span class=o>=</span><span class=n>font</span><span class=p>,</span> <span class=n>fill</span><span class=o>=</span><span class=n>color</span><span class=p>)</span>
+            <span class=n>char_image</span> <span class=o>=</span> <span class=n>char_image</span><span class=o>.</span><span class=n>crop</span><span class=p>(</span><span class=n>char_image</span><span class=o>.</span><span class=n>getbbox</span><span class=p>())</span>
+            <span class=k>for</span> <span class=n>drawing</span> <span class=ow>in</span> <span class=n>drawings</span><span class=p>:</span>
+                <span class=n>d</span> <span class=o>=</span> <span class=nb>getattr</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>drawing</span><span class=p>)</span>
+                <span class=n>char_image</span> <span class=o>=</span> <span class=n>d</span><span class=p>(</span><span class=n>char_image</span><span class=p>)</span>
+            <span class=n>char_images</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>char_image</span><span class=p>)</span>
+        <span class=n>width</span><span class=p>,</span> <span class=n>height</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_image</span><span class=o>.</span><span class=n>size</span>
+        <span class=n>offset</span> <span class=o>=</span> <span class=nb>int</span><span class=p>((</span><span class=n>width</span> <span class=o>-</span> <span class=nb>sum</span><span class=p>(</span><span class=nb>int</span><span class=p>(</span><span class=n>i</span><span class=o>.</span><span class=n>size</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>*</span> <span class=n>squeeze_factor</span><span class=p>)</span>
+                                  <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=n>char_images</span><span class=p>[:</span><span class=o>-</span><span class=mi>1</span><span class=p>])</span> <span class=o>-</span>
+                      <span class=n>char_images</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span><span class=o>.</span><span class=n>size</span><span class=p>[</span><span class=mi>0</span><span class=p>])</span> <span class=o>/</span> <span class=mi>2</span><span class=p>)</span>
+        <span class=k>for</span> <span class=n>char_image</span> <span class=ow>in</span> <span class=n>char_images</span><span class=p>:</span>
+            <span class=n>c_width</span><span class=p>,</span> <span class=n>c_height</span> <span class=o>=</span> <span class=n>char_image</span><span class=o>.</span><span class=n>size</span>
+            <span class=n>mask</span> <span class=o>=</span> <span class=n>char_image</span><span class=o>.</span><span class=n>convert</span><span class=p>(</span><span class=s1>&#39;L&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>point</span><span class=p>(</span><span class=k>lambda</span> <span class=n>i</span><span class=p>:</span> <span class=n>i</span> <span class=o>*</span> <span class=mf>1.97</span><span class=p>)</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_image</span><span class=o>.</span><span class=n>paste</span><span class=p>(</span><span class=n>char_image</span><span class=p>,</span>
+                              <span class=p>(</span><span class=n>offset</span><span class=p>,</span> <span class=nb>int</span><span class=p>((</span><span class=n>height</span> <span class=o>-</span> <span class=n>c_height</span><span class=p>)</span> <span class=o>/</span> <span class=mi>2</span><span class=p>)),</span>
+                              <span class=n>mask</span><span class=p>)</span>
+            <span class=n>offset</span> <span class=o>+=</span> <span class=nb>int</span><span class=p>(</span><span class=n>c_width</span> <span class=o>*</span> <span class=n>squeeze_factor</span><span class=p>)</span>
+
+    <span class=nd>@staticmethod</span>
+    <span class=k>def</span> <span class=nf>_warp</span><span class=p>(</span><span class=n>image</span><span class=p>,</span> <span class=n>dx_factor</span><span class=o>=</span><span class=mf>0.3</span><span class=p>,</span> <span class=n>dy_factor</span><span class=o>=</span><span class=mf>0.3</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;图像扭曲&#34;&#34;&#34;</span>
+        <span class=n>width</span><span class=p>,</span> <span class=n>height</span> <span class=o>=</span> <span class=n>image</span><span class=o>.</span><span class=n>size</span>
+        <span class=n>dx</span> <span class=o>=</span> <span class=n>width</span> <span class=o>*</span> <span class=n>dx_factor</span>
+        <span class=n>dy</span> <span class=o>=</span> <span class=n>height</span> <span class=o>*</span> <span class=n>dy_factor</span>
+        <span class=n>x1</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>uniform</span><span class=p>(</span><span class=o>-</span><span class=n>dx</span><span class=p>,</span> <span class=n>dx</span><span class=p>))</span>
+        <span class=n>y1</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>uniform</span><span class=p>(</span><span class=o>-</span><span class=n>dy</span><span class=p>,</span> <span class=n>dy</span><span class=p>))</span>
+        <span class=n>x2</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>uniform</span><span class=p>(</span><span class=o>-</span><span class=n>dx</span><span class=p>,</span> <span class=n>dx</span><span class=p>))</span>
+        <span class=n>y2</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>uniform</span><span class=p>(</span><span class=o>-</span><span class=n>dy</span><span class=p>,</span> <span class=n>dy</span><span class=p>))</span>
+        <span class=n>warp_image</span> <span class=o>=</span> <span class=n>Image</span><span class=o>.</span><span class=n>new</span><span class=p>(</span>
+            <span class=s1>&#39;RGB&#39;</span><span class=p>,</span>
+            <span class=p>(</span><span class=n>width</span> <span class=o>+</span> <span class=nb>abs</span><span class=p>(</span><span class=n>x1</span><span class=p>)</span> <span class=o>+</span> <span class=nb>abs</span><span class=p>(</span><span class=n>x2</span><span class=p>),</span> <span class=n>height</span> <span class=o>+</span> <span class=nb>abs</span><span class=p>(</span><span class=n>y1</span><span class=p>)</span> <span class=o>+</span> <span class=nb>abs</span><span class=p>(</span><span class=n>y2</span><span class=p>)))</span>
+        <span class=n>warp_image</span><span class=o>.</span><span class=n>paste</span><span class=p>(</span><span class=n>image</span><span class=p>,</span> <span class=p>(</span><span class=nb>abs</span><span class=p>(</span><span class=n>x1</span><span class=p>),</span> <span class=nb>abs</span><span class=p>(</span><span class=n>y1</span><span class=p>)))</span>
+        <span class=n>width2</span><span class=p>,</span> <span class=n>height2</span> <span class=o>=</span> <span class=n>warp_image</span><span class=o>.</span><span class=n>size</span>
+        <span class=k>return</span> <span class=n>warp_image</span><span class=o>.</span><span class=n>transform</span><span class=p>(</span>
+            <span class=p>(</span><span class=n>width</span><span class=p>,</span> <span class=n>height</span><span class=p>),</span>
+            <span class=n>Image</span><span class=o>.</span><span class=n>QUAD</span><span class=p>,</span>
+            <span class=p>(</span><span class=n>x1</span><span class=p>,</span> <span class=n>y1</span><span class=p>,</span> <span class=o>-</span><span class=n>x1</span><span class=p>,</span> <span class=n>height2</span> <span class=o>-</span> <span class=n>y2</span><span class=p>,</span> <span class=n>width2</span> <span class=o>+</span> <span class=n>x2</span><span class=p>,</span> <span class=n>height2</span> <span class=o>+</span> <span class=n>y2</span><span class=p>,</span> <span class=n>width2</span> <span class=o>-</span> <span class=n>x2</span><span class=p>,</span> <span class=o>-</span><span class=n>y1</span><span class=p>))</span>
+
+    <span class=nd>@staticmethod</span>
+    <span class=k>def</span> <span class=nf>_offset</span><span class=p>(</span><span class=n>image</span><span class=p>,</span> <span class=n>dx_factor</span><span class=o>=</span><span class=mf>0.1</span><span class=p>,</span> <span class=n>dy_factor</span><span class=o>=</span><span class=mf>0.2</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;图像偏移&#34;&#34;&#34;</span>
+        <span class=n>width</span><span class=p>,</span> <span class=n>height</span> <span class=o>=</span> <span class=n>image</span><span class=o>.</span><span class=n>size</span>
+        <span class=n>dx</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>random</span><span class=p>()</span> <span class=o>*</span> <span class=n>width</span> <span class=o>*</span> <span class=n>dx_factor</span><span class=p>)</span>
+        <span class=n>dy</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>random</span><span class=p>()</span> <span class=o>*</span> <span class=n>height</span> <span class=o>*</span> <span class=n>dy_factor</span><span class=p>)</span>
+        <span class=n>offset_image</span> <span class=o>=</span> <span class=n>Image</span><span class=o>.</span><span class=n>new</span><span class=p>(</span><span class=s1>&#39;RGB&#39;</span><span class=p>,</span> <span class=p>(</span><span class=n>width</span> <span class=o>+</span> <span class=n>dx</span><span class=p>,</span> <span class=n>height</span> <span class=o>+</span> <span class=n>dy</span><span class=p>))</span>
+        <span class=n>offset_image</span><span class=o>.</span><span class=n>paste</span><span class=p>(</span><span class=n>image</span><span class=p>,</span> <span class=p>(</span><span class=n>dx</span><span class=p>,</span> <span class=n>dy</span><span class=p>))</span>
+        <span class=k>return</span> <span class=n>offset_image</span>
+
+    <span class=nd>@staticmethod</span>
+    <span class=k>def</span> <span class=nf>_rotate</span><span class=p>(</span><span class=n>image</span><span class=p>,</span> <span class=n>angle</span><span class=o>=</span><span class=mi>25</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;图像旋转&#34;&#34;&#34;</span>
+        <span class=k>return</span> <span class=n>image</span><span class=o>.</span><span class=n>rotate</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>uniform</span><span class=p>(</span><span class=o>-</span><span class=n>angle</span><span class=p>,</span> <span class=n>angle</span><span class=p>),</span>
+                            <span class=n>Image</span><span class=o>.</span><span class=n>BILINEAR</span><span class=p>,</span> <span class=n>expand</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>generate</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>captcha_text</span><span class=o>=</span><span class=s1>&#39;&#39;</span><span class=p>,</span> <span class=n>fmt</span><span class=o>=</span><span class=s1>&#39;PNG&#39;</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;生成验证码(文字和图片)
+</span><span class=s2>        :param captcha_text: 验证码文字
+</span><span class=s2>        :param fmt: 生成的验证码图片格式
+</span><span class=s2>        :return: 验证码图片的二进制数据
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_image</span> <span class=o>=</span> <span class=n>Image</span><span class=o>.</span><span class=n>new</span><span class=p>(</span><span class=s1>&#39;RGB&#39;</span><span class=p>,</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_width</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_height</span><span class=p>),</span> <span class=p>(</span><span class=mi>255</span><span class=p>,</span> <span class=mi>255</span><span class=p>,</span> <span class=mi>255</span><span class=p>))</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_background</span><span class=p>()</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_text</span><span class=p>(</span><span class=n>captcha_text</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_fonts</span><span class=p>,</span>
+                   <span class=n>drawings</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;_warp&#39;</span><span class=p>,</span> <span class=s1>&#39;_rotate&#39;</span><span class=p>,</span> <span class=s1>&#39;_offset&#39;</span><span class=p>])</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_curve</span><span class=p>()</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_noise</span><span class=p>()</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_smooth</span><span class=p>()</span>
+        <span class=n>image_bytes</span> <span class=o>=</span> <span class=n>BytesIO</span><span class=p>()</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_image</span><span class=o>.</span><span class=n>save</span><span class=p>(</span><span class=n>image_bytes</span><span class=p>,</span> <span class=nb>format</span><span class=o>=</span><span class=n>fmt</span><span class=p>)</span>
+        <span class=k>return</span> <span class=n>image_bytes</span><span class=o>.</span><span class=n>getvalue</span><span class=p>()</span>
+
+
+<span class=k>def</span> <span class=nf>pascal_row</span><span class=p>(</span><span class=n>n</span><span class=o>=</span><span class=mi>0</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;生成毕达哥拉斯三角形（杨辉三角）&#34;&#34;&#34;</span>
+    <span class=n>result</span> <span class=o>=</span> <span class=p>[</span><span class=mi>1</span><span class=p>]</span>
+    <span class=n>x</span><span class=p>,</span> <span class=n>numerator</span> <span class=o>=</span> <span class=mi>1</span><span class=p>,</span> <span class=n>n</span>
+    <span class=k>for</span> <span class=n>denominator</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=n>n</span> <span class=o>//</span> <span class=mi>2</span> <span class=o>+</span> <span class=mi>1</span><span class=p>):</span>
+        <span class=n>x</span> <span class=o>*=</span> <span class=n>numerator</span>
+        <span class=n>x</span> <span class=o>/=</span> <span class=n>denominator</span>
+        <span class=n>result</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+        <span class=n>numerator</span> <span class=o>-=</span> <span class=mi>1</span>
+    <span class=k>if</span> <span class=n>n</span> <span class=o>&amp;</span> <span class=mi>1</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
+        <span class=n>result</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=nb>reversed</span><span class=p>(</span><span class=n>result</span><span class=p>[:</span><span class=o>-</span><span class=mi>1</span><span class=p>]))</span>
+    <span class=k>else</span><span class=p>:</span>
+        <span class=n>result</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=nb>reversed</span><span class=p>(</span><span class=n>result</span><span class=p>))</span>
+    <span class=k>return</span> <span class=n>result</span>
+
+
+<span class=k>def</span> <span class=nf>random_color</span><span class=p>(</span><span class=n>start</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>end</span><span class=o>=</span><span class=mi>255</span><span class=p>,</span> <span class=n>opacity</span><span class=o>=</span><span class=mi>255</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;获得随机颜色&#34;&#34;&#34;</span>
+    <span class=n>red</span> <span class=o>=</span> <span class=n>random</span><span class=o>.</span><span class=n>randint</span><span class=p>(</span><span class=n>start</span><span class=p>,</span> <span class=n>end</span><span class=p>)</span>
+    <span class=n>green</span> <span class=o>=</span> <span class=n>random</span><span class=o>.</span><span class=n>randint</span><span class=p>(</span><span class=n>start</span><span class=p>,</span> <span class=n>end</span><span class=p>)</span>
+    <span class=n>blue</span> <span class=o>=</span> <span class=n>random</span><span class=o>.</span><span class=n>randint</span><span class=p>(</span><span class=n>start</span><span class=p>,</span> <span class=n>end</span><span class=p>)</span>
+    <span class=k>if</span> <span class=n>opacity</span> <span class=ow>is</span> <span class=kc>None</span><span class=p>:</span>
+        <span class=k>return</span> <span class=n>red</span><span class=p>,</span> <span class=n>green</span><span class=p>,</span> <span class=n>blue</span>
+    <span class=k>return</span> <span class=n>red</span><span class=p>,</span> <span class=n>green</span><span class=p>,</span> <span class=n>blue</span><span class=p>,</span> <span class=n>opacity</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：上面的代码中用到了三个字体文件，字体文件位于<code>polls/fonts</code>目录下，大家可以自行添加字体文件，但是需要注意字体文件的文件名跟上面代码的第45行保持一致。</p></blockquote><p>接下来，我们先完成提供验证码的视图函数。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>def</span> <span class=nf>get_captcha</span><span class=p>(</span><span class=n>request</span><span class=p>:</span> <span class=n>HttpRequest</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>HttpResponse</span><span class=p>:</span>
+    <span class=s2>&#34;&#34;&#34;验证码&#34;&#34;&#34;</span>
+    <span class=n>captcha_text</span> <span class=o>=</span> <span class=n>gen_random_code</span><span class=p>()</span>
+    <span class=n>request</span><span class=o>.</span><span class=n>session</span><span class=p>[</span><span class=s1>&#39;captcha&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=n>captcha_text</span>
+    <span class=n>image_data</span> <span class=o>=</span> <span class=n>Captcha</span><span class=o>.</span><span class=n>instance</span><span class=p>()</span><span class=o>.</span><span class=n>generate</span><span class=p>(</span><span class=n>captcha_text</span><span class=p>)</span>
+    <span class=k>return</span> <span class=n>HttpResponse</span><span class=p>(</span><span class=n>image_data</span><span class=p>,</span> <span class=n>content_type</span><span class=o>=</span><span class=s1>&#39;image/png&#39;</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>注意上面代码中的第4行，我们将随机生成的验证码字符串保存到session中，稍后用户登录时，我们要将保存在session中的验证码字符串和用户输入的验证码字符串进行比对，如果用户输入了正确的验证码才能够执行后续的登录流程，代码如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>def</span> <span class=nf>login</span><span class=p>(</span><span class=n>request</span><span class=p>:</span> <span class=n>HttpRequest</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>HttpResponse</span><span class=p>:</span>
+    <span class=n>hint</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span>
+    <span class=k>if</span> <span class=n>request</span><span class=o>.</span><span class=n>method</span> <span class=o>==</span> <span class=s1>&#39;POST&#39;</span><span class=p>:</span>
+        <span class=n>username</span> <span class=o>=</span> <span class=n>request</span><span class=o>.</span><span class=n>POST</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;username&#39;</span><span class=p>)</span>
+        <span class=n>password</span> <span class=o>=</span> <span class=n>request</span><span class=o>.</span><span class=n>POST</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;password&#39;</span><span class=p>)</span>
+        <span class=k>if</span> <span class=n>username</span> <span class=ow>and</span> <span class=n>password</span><span class=p>:</span>
+            <span class=n>password</span> <span class=o>=</span> <span class=n>gen_md5_digest</span><span class=p>(</span><span class=n>password</span><span class=p>)</span>
+            <span class=n>user</span> <span class=o>=</span> <span class=n>User</span><span class=o>.</span><span class=n>objects</span><span class=o>.</span><span class=n>filter</span><span class=p>(</span><span class=n>username</span><span class=o>=</span><span class=n>username</span><span class=p>,</span> <span class=n>password</span><span class=o>=</span><span class=n>password</span><span class=p>)</span><span class=o>.</span><span class=n>first</span><span class=p>()</span>
+            <span class=k>if</span> <span class=n>user</span><span class=p>:</span>
+                <span class=n>request</span><span class=o>.</span><span class=n>session</span><span class=p>[</span><span class=s1>&#39;userid&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=n>user</span><span class=o>.</span><span class=n>no</span>
+                <span class=n>request</span><span class=o>.</span><span class=n>session</span><span class=p>[</span><span class=s1>&#39;username&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=n>user</span><span class=o>.</span><span class=n>username</span>
+                <span class=k>return</span> <span class=n>redirect</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>)</span>
+            <span class=k>else</span><span class=p>:</span>
+                <span class=n>hint</span> <span class=o>=</span> <span class=s1>&#39;用户名或密码错误&#39;</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=n>hint</span> <span class=o>=</span> <span class=s1>&#39;请输入有效的用户名和密码&#39;</span>
+    <span class=k>return</span> <span class=n>render</span><span class=p>(</span><span class=n>request</span><span class=p>,</span> <span class=s1>&#39;login.html&#39;</span><span class=p>,</span> <span class=p>{</span><span class=s1>&#39;hint&#39;</span><span class=p>:</span> <span class=n>hint</span><span class=p>})</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：上面的代码没有对用户名和密码没有进行验证，实际项目中建议使用正则表达式验证用户输入信息，否则有可能将无效的数据交给数据库进行处理或者造成其他安全方面的隐患。</p></blockquote><p>上面的代码中，我们设定了登录成功后会在session中保存用户的编号（<code>userid</code>）和用户名（<code>username</code>），页面会重定向到首页。接下来我们可以稍微对首页的代码进行调整，在页面的右上角显示出登录用户的用户名。我们将这段代码单独写成了一个名为header.html的HTML文件，首页中可以通过在<code>&lt;body></code>标签中添加<code>{% include 'header.html' %}</code>来包含这个页面，代码如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-HTML data-lang=HTML><span class=p>&lt;</span><span class=nt>div</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;user&#34;</span><span class=p>&gt;</span>
+    {% if request.session.userid %}
+    <span class=p>&lt;</span><span class=nt>span</span><span class=p>&gt;</span>{{ request.session.username }}<span class=p>&lt;/</span><span class=nt>span</span><span class=p>&gt;</span>
+    <span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;/logout&#34;</span><span class=p>&gt;</span>注销<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;</span>
+    {% else %}
+    <span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;/login&#34;</span><span class=p>&gt;</span>登录<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;</span><span class=ni>&amp;nbsp;&amp;nbsp;</span>
+    {% endif %}
+    <span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;/register&#34;</span><span class=p>&gt;</span>注册<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;</span>
+<span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</code></pre></td></tr></table></div></div></div><p>如果用户没有登录，页面会显示登录和注册的超链接；而用户登录成功后，页面上会显示用户名和注销的链接，注销链接对应的视图函数如下所示，URL的映射与之前讲过的类似，不再赘述。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>def</span> <span class=nf>logout</span><span class=p>(</span><span class=n>request</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;注销&#34;&#34;&#34;</span>
+    <span class=n>request</span><span class=o>.</span><span class=n>session</span><span class=o>.</span><span class=n>flush</span><span class=p>()</span>
+    <span class=k>return</span> <span class=n>redirect</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>上面的代码通过session对象<code>flush</code>方法来销毁session，一方面清除了服务器上session对象保存的用户数据，一方面将保存在浏览器cookie中的sessionid删除掉，稍后我们会对如何读写cookie的操作加以说明。</p><p>我们可以通过项目使用的数据库中名为<code>django_session</code> 的表来找到所有的session，该表的结构如下所示：</p><div class=table-container><table><thead><tr><th>session_key</th><th>session_data</th><th>expire_date</th></tr></thead><tbody><tr><td>c9g2gt5cxo0k2evykgpejhic5ae7bfpl</td><td>MmI4YzViYjJhOGMyMDJkY2M5Yzg3...</td><td>2019-05-25 23:16:13.898522</td></tr></tbody></table></div><p>其中，第1列就是浏览器cookie中保存的sessionid；第2列是经过BASE64编码后的session中的数据，如果使用Python的<code>base64</code>对其进行解码，解码的过程和结果如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>base64</span>
+
+<span class=n>base64</span><span class=o>.</span><span class=n>b64decode</span><span class=p>(</span><span class=s1>&#39;MmI4YzViYjJhOGMyMDJkY2M5Yzg3ZWIyZGViZmUzYmYxNzdlNDdmZjp7ImNhcHRjaGEiOiJzS3d0Iiwibm8iOjEsInVzZXJuYW1lIjoiamFja2ZydWVkIn0=&#39;</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>第3列是session的过期时间，session过期后浏览器保存的cookie中的sessionid就会失效，但是数据库中的这条对应的记录仍然会存在，如果想清除过期的数据，可以使用下面的命令。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>python manage.py clearsessions
+</code></pre></td></tr></table></div></div></div><p>Django框架默认的session过期时间为两周（1209600秒），如果想修改这个时间，可以在项目的配置文件中添加如下所示的代码。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=c1># 配置会话的超时时间为1天（86400秒）</span>
+<span class=n>SESSION_COOKIE_AGE</span> <span class=o>=</span> <span class=mi>86400</span>
+</code></pre></td></tr></table></div></div></div><p>有很多对安全性要求较高的应用都必须在关闭浏览器窗口时让会话过期，不再保留用户的任何信息，如果希望在关闭浏览器窗口时就让会话过期（cookie中的sessionid失效），可以加入如下所示的配置。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=c1># 设置为True在关闭浏览器窗口时session就过期</span>
+<span class=n>SESSION_EXPIRE_AT_BROWSER_CLOSE</span> <span class=o>=</span> <span class=kc>True</span>
+</code></pre></td></tr></table></div></div></div><p>如果不希望将session的数据保存在数据库中，可以将其放入缓存中，对应的配置如下所示，缓存的配置和使用我们在后面讲解。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=c1># 配置将会话对象放到缓存中存储</span>
+<span class=n>SESSION_ENGINE</span> <span class=o>=</span> <span class=s1>&#39;django.contrib.sessions.backends.cache&#39;</span>
+<span class=c1># 配置使用哪一组缓存来保存会话</span>
+<span class=n>SESSION_CACHE_ALIAS</span> <span class=o>=</span> <span class=s1>&#39;default&#39;</span>
+</code></pre></td></tr></table></div></div></div><p>如果要修改session数据默认的序列化方式，可以将默认的<code>JSONSerializer</code>修改为<code>PickleSerializer</code>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>SESSION_SERIALIZER</span> <span class=o>=</span> <span class=s1>&#39;django.contrib.sessions.serializers.PickleSerializer&#39;</span>
+</code></pre></td></tr></table></div></div></div><p>接下来，我们就可以限制只有登录用户才能为老师投票，修改后的<code>praise_or_criticize</code>函数如下所示，我们通过从<code>request.session</code>中获取<code>userid</code>来判定用户是否登录。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>def</span> <span class=nf>praise_or_criticize</span><span class=p>(</span><span class=n>request</span><span class=p>:</span> <span class=n>HttpRequest</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>HttpResponse</span><span class=p>:</span>
+    <span class=k>if</span> <span class=n>request</span><span class=o>.</span><span class=n>session</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;userid&#39;</span><span class=p>):</span>
+        <span class=k>try</span><span class=p>:</span>
+            <span class=n>tno</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>request</span><span class=o>.</span><span class=n>GET</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;tno&#39;</span><span class=p>))</span>
+            <span class=n>teacher</span> <span class=o>=</span> <span class=n>Teacher</span><span class=o>.</span><span class=n>objects</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>no</span><span class=o>=</span><span class=n>tno</span><span class=p>)</span>
+            <span class=k>if</span> <span class=n>request</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>startswith</span><span class=p>(</span><span class=s1>&#39;/praise/&#39;</span><span class=p>):</span>
+                <span class=n>teacher</span><span class=o>.</span><span class=n>good_count</span> <span class=o>+=</span> <span class=mi>1</span>
+                <span class=n>count</span> <span class=o>=</span> <span class=n>teacher</span><span class=o>.</span><span class=n>good_count</span>
+            <span class=k>else</span><span class=p>:</span>
+                <span class=n>teacher</span><span class=o>.</span><span class=n>bad_count</span> <span class=o>+=</span> <span class=mi>1</span>
+                <span class=n>count</span> <span class=o>=</span> <span class=n>teacher</span><span class=o>.</span><span class=n>bad_count</span>
+            <span class=n>teacher</span><span class=o>.</span><span class=n>save</span><span class=p>()</span>
+            <span class=n>data</span> <span class=o>=</span> <span class=p>{</span><span class=s1>&#39;code&#39;</span><span class=p>:</span> <span class=mi>20000</span><span class=p>,</span> <span class=s1>&#39;mesg&#39;</span><span class=p>:</span> <span class=s1>&#39;投票成功&#39;</span><span class=p>,</span> <span class=s1>&#39;count&#39;</span><span class=p>:</span> <span class=n>count</span><span class=p>}</span>
+        <span class=k>except</span> <span class=p>(</span><span class=ne>ValueError</span><span class=p>,</span> <span class=n>Teacher</span><span class=o>.</span><span class=n>DoesNotExist</span><span class=p>):</span>
+            <span class=n>data</span> <span class=o>=</span> <span class=p>{</span><span class=s1>&#39;code&#39;</span><span class=p>:</span> <span class=mi>20001</span><span class=p>,</span> <span class=s1>&#39;mesg&#39;</span><span class=p>:</span> <span class=s1>&#39;投票失败&#39;</span><span class=p>}</span>
+    <span class=k>else</span><span class=p>:</span>
+        <span class=n>data</span> <span class=o>=</span> <span class=p>{</span><span class=s1>&#39;code&#39;</span><span class=p>:</span> <span class=mi>20002</span><span class=p>,</span> <span class=s1>&#39;mesg&#39;</span><span class=p>:</span> <span class=s1>&#39;请先登录&#39;</span><span class=p>}</span>
+    <span class=k>return</span> <span class=n>JsonResponse</span><span class=p>(</span><span class=n>data</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>当然，在修改了视图函数后，<code>teachers.html</code>也需要进行调整，用户如果没有登录，就将用户引导至登录页，登录成功再返回到投票页，此处不再赘述。</p><h3 id=在视图函数中读写cookie><a href=#在视图函数中读写cookie class=anchor-link>#</a>在视图函数中读写cookie</h3><p>下面我们对如何使用cookie做一个更为细致的说明以便帮助大家在Web项目中更好的使用这项技术。Django封装的<code>HttpRequest</code>和<code>HttpResponse</code>对象分别提供了读写cookie的操作。</p><p>HttpRequest封装的属性和方法：</p><ol><li><code>COOKIES</code>属性 - 该属性包含了HTTP请求携带的所有cookie。</li><li><code>get_signed_cookie</code>方法 - 获取带签名的cookie，如果签名验证失败，会产生<code>BadSignature</code>异常。</li></ol><p>HttpResponse封装的方法：</p><ol><li><code>set_cookie</code>方法 - 该方法可以设置一组键值对并将其最终将写入浏览器。</li><li><code>set_signed_cookie</code>方法 - 跟上面的方法作用相似，但是会对cookie进行签名来达到防篡改的作用。因为如果篡改了cookie中的数据，在不知道<a href=https://zh.wikipedia.org/wiki/%E5%AF%86%E9%92%A5 target=_blank rel=noopener>密钥</a>和<a href=https://zh.wikipedia.org/wiki/%E7%9B%90_(%E5%AF%86%E7%A0%81%E5%AD%A6) target=_blank rel=noopener>盐</a>的情况下是无法生成有效的签名，这样服务器在读取cookie时会发现数据与签名不一致从而产生<code>BadSignature</code>异常。需要说明的是，这里所说的密钥就是我们在Django项目配置文件中指定的<code>SECRET_KEY</code>，而盐是程序中设定的一个字符串，你愿意设定为什么都可以，只要是一个有效的字符串。</li></ol><p>上面提到的方法，如果不清楚它们的具体用法，可以自己查阅一下Django的<a href=https://docs.djangoproject.com/en/2.1/ref/request-response/ target=_blank rel=noopener>官方文档</a>，没有什么资料比官方文档能够更清楚的告诉你这些方法到底如何使用。</p><p>刚才我们说过了，激活<code>SessionMiddleware</code>之后，每个<code>HttpRequest</code>对象都会绑定一个session属性，它是一个类似字典的对象，除了保存用户数据之外还提供了检测浏览器是否支持cookie的方法，包括：</p><ol><li><code>set_test_cookie</code>方法 - 设置用于测试的cookie。</li><li><code>test_cookie_worked</code>方法 - 检测测试cookie是否工作。</li><li><code>delete_test_cookie</code>方法 - 删除用于测试的cookie。</li><li><code>set_expiry</code>方法 - 设置会话的过期时间。</li><li><code>get_expire_age</code>/<code>get_expire_date</code>方法 - 获取会话的过期时间。</li><li><code>clear_expired</code>方法 - 清理过期的会话。</li></ol><p>下面是在执行登录之前检查浏览器是否支持cookie的代码。通常情况下，浏览器默认开启了对cookie的支持，但是可能因为某种原因，用户禁用了浏览器的cookie功能，遇到这种情况我们可以在视图函数中提供一个检查功能，如果检查到用户浏览器不支持cookie，可以给出相应的提示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>def</span> <span class=nf>login</span><span class=p>(</span><span class=n>request</span><span class=p>):</span>
+    <span class=k>if</span> <span class=n>request</span><span class=o>.</span><span class=n>method</span> <span class=o>==</span> <span class=s1>&#39;POST&#39;</span><span class=p>:</span>
+        <span class=k>if</span> <span class=n>request</span><span class=o>.</span><span class=n>session</span><span class=o>.</span><span class=n>test_cookie_worked</span><span class=p>():</span>
+            <span class=n>request</span><span class=o>.</span><span class=n>session</span><span class=o>.</span><span class=n>delete_test_cookie</span><span class=p>()</span>
+            <span class=c1># Add your code to perform login process here</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=k>return</span> <span class=n>HttpResponse</span><span class=p>(</span><span class=s2>&#34;Please enable cookies and try again.&#34;</span><span class=p>)</span>
+    <span class=n>request</span><span class=o>.</span><span class=n>session</span><span class=o>.</span><span class=n>set_test_cookie</span><span class=p>()</span>
+    <span class=k>return</span> <span class=n>render_to_response</span><span class=p>(</span><span class=s1>&#39;login.html&#39;</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><h3 id=cookie的替代品><a href=#cookie的替代品 class=anchor-link>#</a>Cookie的替代品</h3><p>之前我们说过了，cookie的名声一直都不怎么好，当然我们在实际开发中是不会在cookie中保存用户的敏感信息（如用户的密码、信用卡的账号等）的，而且保存在cookie中的数据一般也会做好编码和签名的工作。对于支持HTML5的浏览器来说，可以使用localStorage和sessionStorage做为cookie的替代方案，相信从名字上你就能听出二者的差别，存储在<code>localStorage</code>的数据可以长期保留；而存储在<code>sessionStorage</code>的数据会在浏览器关闭时会被清除 。关于这些cookie替代品的用法，建议大家查阅<a href=https://developer.mozilla.org/zh-CN/docs/Web target=_blank rel=noopener>MDN</a>来进行了解。</p></div><ul class=post-copyright><li class="copyright-item author"><span class=copyright-item-text>作者</span>：<span class="p-author h-card">骆昊</span></li><li class="copyright-item link"><span class=copyright-item-text>链接</span>：<a href=https://github.com/jackfrued/Python-100-Days target=_blank rel=noopener>https://github.com/jackfrued/Python-100-Days</a></li><li class="copyright-item license"><span class=copyright-item-text>许可</span>：本文采用<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>「CC BY-NC-SA 4.0」</a>协议，转载请注明出处。</li></ul></article><div class=related-posts><h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2><ul class=related-list><li class=related-item><a href=/python/01.%E5%88%9D%E8%AF%86python/ class=related-link>01.初识Python</a></li><li class=related-item><a href=/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/ class=related-link>02.语言元素</a></li><li class=related-item><a href=/python/03.%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84/ class=related-link>03.分支结构</a></li><li class=related-item><a href=/python/04.%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84/ class=related-link>04.循环结构</a></li><li class=related-item><a href=/python/05.%E6%9E%84%E9%80%A0%E7%A8%8B%E5%BA%8F%E9%80%BB%E8%BE%91/ class=related-link>05.构造程序逻辑</a></li></ul></div><div class=post-tags><a href=/tags/python/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>python</a></div></div></main><div id=back-to-top class=back-to-top><a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a></div><footer id=footer class=footer><div class=footer-inner><div class=site-info>©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;hanxin</div><script src=https://sdk.jinrishici.com/v2/browser/jinrishici.js></script>
+<text class=poem_sentence></text>
+<text class=poem_info></text>
+<script type=text/javascript>jinrishici.load(function(a){var b=document.querySelector(".poem_sentence"),c=document.querySelector(".poem_info");b.innerHTML=a.data.content,c.innerHTML='——'+a.data.origin.author})</script></div></footer></div><script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script><script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script></body></html>

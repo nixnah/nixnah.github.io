@@ -1,0 +1,355 @@
+<!doctype html><html lang=zh-cn><head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"><meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=theme-color content="#16171d"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=format-detection content="telephone=no, date=no, address=no, email=no"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><title>08.面向对象编程基础 | Hanxin</title><link rel=stylesheet href=/css/meme.min.88c90dc75021618344ec926f4ed6ac307f30ba48911294816b16370a41e5f137.css><script src=/js/meme.min.f460a174bb100a60a7e275913695161f1e09aab1378fe99cfd30cde14da70888.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap" media=print onload="this.media='all'"><noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap"></noscript><meta name=author content="骆昊"><meta name=description content="面向对象编程基础 活在当下的程序员应该都听过&#34;面向对象编程&#34;一词，……"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=mask-icon href=/icons/safari-pinned-tab.svg color=#2a6df4><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-title content="Hanxin"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=mobile-web-app-capable content="yes"><meta name=application-name content="Hanxin"><meta name=msapplication-starturl content="../../"><meta name=msapplication-TileColor content="#fff"><meta name=msapplication-TileImage content="../../icons/mstile-150x150.png"><link rel=manifest href=/manifest.json><link rel=canonical href=/python/08.%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/><script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2021-08-23T17:34:57+08:00","dateModified":"2022-01-16T09:24:35+00:00","url":"/python/08.%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/","name":"08.面向对象编程基础","description":"面向对象编程基础 活在当下的程序员应该都听过\"面向对象编程\"一词，……","image":"/icons/apple-touch-icon.png","license":"本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。","publisher":{"@type":"Organization","name":"Hanxin","logo":{"@type":"ImageObject","url":"/icons/apple-touch-icon.png"},"url":"/"},"mainEntityOfPage":{"@type":"WebSite","@id":"/"}}</script><meta name=twitter:card content="summary"><meta property="og:title" content="08.面向对象编程基础"><meta property="og:description" content="面向对象编程基础 活在当下的程序员应该都听过&#34;面向对象编程&#34;一词，……"><meta property="og:url" content="/python/08.%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"><meta property="og:site_name" content="Hanxin"><meta property="og:locale" content="zh"><meta property="og:image" content="/icons/apple-touch-icon.png"><meta property="og:type" content="website"></head><body><div class=container><header class=header><div class=header-wrapper><div class="header-inner single"><div class=site-brand><a href=/ class=brand>Hanxin</a></div><nav class=nav><ul class=menu id=menu><li class=menu-item><a href=/life/><span class=menu-item-name>生活</span></a></li><li class=menu-item><a href=/tech/><span class=menu-item-name>技术</span></a></li><li class=menu-item><a href=/tags/><span class=menu-item-name>标签</span></a></li><li class=menu-item><a href=/about/><span class=menu-item-name>关于</span></a></li><li class=menu-item><a href=/blogroll/><span class=menu-item-name>友链</span></a></li><li class=menu-item><a href=/python/><span class=menu-item-name>Python-100天</span></a></li><li class=menu-item><a id=theme-switcher href=#><span class="icon theme-icon-light">🌞</span><span class="icon theme-icon-dark">🌙</span></a></li></ul></nav></div></div><input type=checkbox id=nav-toggle aria-hidden=true>
+<label for=nav-toggle class=nav-toggle></label>
+<label for=nav-toggle class=nav-curtain></label></header><main class="main single" id=main><div class=main-inner><article class="content post h-entry" data-align=justify data-type=python data-toc-num=true><h1 class="post-title p-name">08.面向对象编程基础</h1><div class=post-meta><time datetime=2021-08-23T17:34:57+08:00 class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;2021.8.23</time>
+<time datetime=2022-01-16T09:24:35+00:00 class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M4e2 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H48C21.49 64 0 85.49.0 112v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 4e2H54a6 6 0 01-6-6V160h352v298a6 6 0 01-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.1.16</time>
+<span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3582</span>
+<span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;8&nbsp;分钟</span></div><div class="post-body e-content"><h2 id=面向对象编程基础><a href=#面向对象编程基础 class=anchor-link>#</a>面向对象编程基础</h2><p>活在当下的程序员应该都听过"面向对象编程"一词，也经常有人问能不能用一句话解释下什么是"面向对象编程"，我们先来看看比较正式的说法。</p><p>"把一组数据结构和处理它们的方法组成对象（object），把相同行为的对象归纳为类（class），通过类的封装（encapsulation）隐藏内部细节，通过继承（inheritance）实现类的特化（specialization）和泛化（generalization），通过多态（polymorphism）实现基于对象类型的动态分派。"</p><p>这样一说是不是更不明白了。所以我们还是看看更通俗易懂的说法，下面这段内容来自于<a href=https://www.zhihu.com/ target=_blank rel=noopener>知乎</a>。</p><p><img src=/res/oop-zhihu.png alt></p><blockquote><p><strong>说明：</strong> 以上的内容来自于网络，不代表作者本人的观点和看法，与作者本人立场无关，相关责任不由作者承担。</p></blockquote><p>之前我们说过"<strong>程序是指令的集合</strong>"，我们在程序中书写的语句在执行时会变成一条或多条指令然后由CPU去执行。当然为了简化程序的设计，我们引入了函数的概念，把相对独立且经常重复使用的代码放置到函数中，在需要使用这些功能的时候只要调用函数即可；如果一个函数的功能过于复杂和臃肿，我们又可以进一步将函数继续切分为子函数来降低系统的复杂性。但是说了这么多，不知道大家是否发现，所谓编程就是程序员按照计算机的工作方式控制计算机完成各种任务。但是，计算机的工作方式与正常人类的思维模式是不同的，如果编程就必须得抛弃人类正常的思维方式去迎合计算机，编程的乐趣就少了很多，"每个人都应该学习编程"这样的豪言壮语就只能说说而已。当然，这些还不是最重要的，最重要的是当我们需要开发一个复杂的系统时，代码的复杂性会让开发和维护工作都变得举步维艰，所以在上世纪60年代末期，"<a href=https://zh.wikipedia.org/wiki/%E8%BD%AF%E4%BB%B6%E5%8D%B1%E6%9C%BA target=_blank rel=noopener>软件危机</a>"、"<a href=https://zh.wikipedia.org/wiki/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B target=_blank rel=noopener>软件工程</a>"等一系列的概念开始在行业中出现。</p><p>当然，程序员圈子内的人都知道，现实中并没有解决上面所说的这些问题的"<a href=https://zh.wikipedia.org/wiki/%E6%B2%A1%E6%9C%89%E9%93%B6%E5%BC%B9 target=_blank rel=noopener>银弹</a>"，真正让软件开发者看到希望的是上世纪70年代诞生的<a href=https://zh.wikipedia.org/wiki/Smalltalk target=_blank rel=noopener>Smalltalk</a>编程语言中引入的面向对象的编程思想（面向对象编程的雏形可以追溯到更早期的<a href=https://zh.wikipedia.org/wiki/Simula target=_blank rel=noopener>Simula</a>语言）。按照这种编程理念，程序中的数据和操作数据的函数是一个逻辑上的整体，我们称之为“对象”，而我们解决问题的方式就是创建出需要的对象并向对象发出各种各样的消息，多个对象的协同工作最终可以让我们构造出复杂的系统来解决现实中的问题。</p><blockquote><p><strong>说明：</strong> 当然面向对象也不是解决软件开发中所有问题的最后的“银弹”，所以今天的高级程序设计语言几乎都提供了对多种编程范式的支持，Python也不例外。</p></blockquote><h3 id=类和对象><a href=#类和对象 class=anchor-link>#</a>类和对象</h3><p>简单的说，类是对象的蓝图和模板，而对象是类的实例。这个解释虽然有点像用概念在解释概念，但是从这句话我们至少可以看出，类是抽象的概念，而对象是具体的东西。在面向对象编程的世界中，一切皆为对象，对象都有属性和行为，每个对象都是独一无二的，而且对象一定属于某个类（型）。当我们把一大堆拥有共同特征的对象的静态特征（属性）和动态特征（行为）都抽取出来后，就可以定义出一个叫做“类”的东西。</p><p><img src=/res/object-feature.png alt></p><h3 id=定义类><a href=#定义类 class=anchor-link>#</a>定义类</h3><p>在Python中可以使用<code>class</code>关键字定义类，然后在类中通过之前学习过的函数来定义方法，这样就可以将对象的动态特征描述出来，代码如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>class</span> <span class=nc>Student</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+
+    <span class=c1># __init__是一个特殊方法用于在创建对象时进行初始化操作</span>
+    <span class=c1># 通过这个方法我们可以为学生对象绑定name和age两个属性</span>
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>age</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>name</span> <span class=o>=</span> <span class=n>name</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>age</span> <span class=o>=</span> <span class=n>age</span>
+
+    <span class=k>def</span> <span class=nf>study</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>course_name</span><span class=p>):</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>正在学习</span><span class=si>%s</span><span class=s1>.&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>course_name</span><span class=p>))</span>
+
+    <span class=c1># PEP 8要求标识符的名字用全小写多个单词用下划线连接</span>
+    <span class=c1># 但是部分程序员和公司更倾向于使用驼峰命名法(驼峰标识)</span>
+    <span class=k>def</span> <span class=nf>watch_movie</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>age</span> <span class=o>&lt;</span> <span class=mi>18</span><span class=p>:</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>只能观看《熊出没》.&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>正在观看岛国爱情大电影.&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明：</strong> 写在类中的函数，我们通常称之为（对象的）方法，这些方法就是对象可以接收的消息。</p></blockquote><h3 id=创建和使用对象><a href=#创建和使用对象 class=anchor-link>#</a>创建和使用对象</h3><p>当我们定义好一个类之后，可以通过下面的方式来创建对象并给对象发消息。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=c1># 创建学生对象并指定姓名和年龄</span>
+    <span class=n>stu1</span> <span class=o>=</span> <span class=n>Student</span><span class=p>(</span><span class=s1>&#39;骆昊&#39;</span><span class=p>,</span> <span class=mi>38</span><span class=p>)</span>
+    <span class=c1># 给对象发study消息</span>
+    <span class=n>stu1</span><span class=o>.</span><span class=n>study</span><span class=p>(</span><span class=s1>&#39;Python程序设计&#39;</span><span class=p>)</span>
+    <span class=c1># 给对象发watch_av消息</span>
+    <span class=n>stu1</span><span class=o>.</span><span class=n>watch_movie</span><span class=p>()</span>
+    <span class=n>stu2</span> <span class=o>=</span> <span class=n>Student</span><span class=p>(</span><span class=s1>&#39;王大锤&#39;</span><span class=p>,</span> <span class=mi>15</span><span class=p>)</span>
+    <span class=n>stu2</span><span class=o>.</span><span class=n>study</span><span class=p>(</span><span class=s1>&#39;思想品德&#39;</span><span class=p>)</span>
+    <span class=n>stu2</span><span class=o>.</span><span class=n>watch_movie</span><span class=p>()</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><h3 id=访问可见性问题><a href=#访问可见性问题 class=anchor-link>#</a>访问可见性问题</h3><p>对于上面的代码，有C++、Java、C#等编程经验的程序员可能会问，我们给<code>Student</code>对象绑定的<code>name</code>和<code>age</code>属性到底具有怎样的访问权限（也称为可见性）。因为在很多面向对象编程语言中，我们通常会将对象的属性设置为私有的（private）或受保护的（protected），简单的说就是不允许外界访问，而对象的方法通常都是公开的（public），因为公开的方法就是对象能够接受的消息。在Python中，属性和方法的访问权限只有两种，也就是公开的和私有的，如果希望属性是私有的，在给属性命名时可以用两个下划线作为开头，下面的代码可以验证这一点。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>class</span> <span class=nc>Test</span><span class=p>:</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>foo</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>__foo</span> <span class=o>=</span> <span class=n>foo</span>
+
+    <span class=k>def</span> <span class=nf>__bar</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=nb>print</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>__foo</span><span class=p>)</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;__bar&#39;</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>test</span> <span class=o>=</span> <span class=n>Test</span><span class=p>(</span><span class=s1>&#39;hello&#39;</span><span class=p>)</span>
+    <span class=c1># AttributeError: &#39;Test&#39; object has no attribute &#39;__bar&#39;</span>
+    <span class=n>test</span><span class=o>.</span><span class=n>__bar</span><span class=p>()</span>
+    <span class=c1># AttributeError: &#39;Test&#39; object has no attribute &#39;__foo&#39;</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>test</span><span class=o>.</span><span class=n>__foo</span><span class=p>)</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s2>&#34;__main__&#34;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>但是，Python并没有从语法上严格保证私有属性或方法的私密性，它只是给私有的属性和方法换了一个名字来妨碍对它们的访问，事实上如果你知道更换名字的规则仍然可以访问到它们，下面的代码就可以验证这一点。之所以这样设定，可以用这样一句名言加以解释，就是"<strong>We are all consenting adults here</strong>"。因为绝大多数程序员都认为开放比封闭要好，而且程序员要自己为自己的行为负责。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>class</span> <span class=nc>Test</span><span class=p>:</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>foo</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>__foo</span> <span class=o>=</span> <span class=n>foo</span>
+
+    <span class=k>def</span> <span class=nf>__bar</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=nb>print</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>__foo</span><span class=p>)</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;__bar&#39;</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>test</span> <span class=o>=</span> <span class=n>Test</span><span class=p>(</span><span class=s1>&#39;hello&#39;</span><span class=p>)</span>
+    <span class=n>test</span><span class=o>.</span><span class=n>_Test__bar</span><span class=p>()</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>test</span><span class=o>.</span><span class=n>_Test__foo</span><span class=p>)</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s2>&#34;__main__&#34;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>在实际开发中，我们并不建议将属性设置为私有的，因为这会导致子类无法访问（后面会讲到）。所以大多数Python程序员会遵循一种命名惯例就是让属性名以单下划线开头来表示属性是受保护的，本类之外的代码在访问这样的属性时应该要保持慎重。这种做法并不是语法上的规则，单下划线开头的属性和方法外界仍然是可以访问的，所以更多的时候它是一种暗示或隐喻，关于这一点可以看看我的<a href=http://blog.csdn.net/jackfrued/article/details/79521404 target=_blank rel=noopener>《Python - 那些年我们踩过的那些坑》</a>文章中的讲解。</p><h3 id=面向对象的支柱><a href=#面向对象的支柱 class=anchor-link>#</a>面向对象的支柱</h3><p>面向对象有三大支柱：封装、继承和多态。后面两个概念在下一个章节中进行详细的说明，这里我们先说一下什么是封装。我自己对封装的理解是"隐藏一切可以隐藏的实现细节，只向外界暴露（提供）简单的编程接口"。我们在类中定义的方法其实就是把数据和对数据的操作封装起来了，在我们创建了对象之后，只需要给对象发送一个消息（调用方法）就可以执行方法中的代码，也就是说我们只需要知道方法的名字和传入的参数（方法的外部视图），而不需要知道方法内部的实现细节（方法的内部视图）。</p><h3 id=练习><a href=#练习 class=anchor-link>#</a>练习</h3><h4 id=练习1定义一个类描述数字时钟><a href=#练习1定义一个类描述数字时钟 class=anchor-link>#</a>练习1：定义一个类描述数字时钟。</h4><p>参考答案：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>time</span> <span class=kn>import</span> <span class=n>sleep</span>
+
+
+<span class=k>class</span> <span class=nc>Clock</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;数字时钟&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>hour</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>minute</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>second</span><span class=o>=</span><span class=mi>0</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;初始化方法
+</span><span class=s2>
+</span><span class=s2>        :param hour: 时
+</span><span class=s2>        :param minute: 分
+</span><span class=s2>        :param second: 秒
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_hour</span> <span class=o>=</span> <span class=n>hour</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_minute</span> <span class=o>=</span> <span class=n>minute</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_second</span> <span class=o>=</span> <span class=n>second</span>
+
+    <span class=k>def</span> <span class=nf>run</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;走字&#34;&#34;&#34;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_second</span> <span class=o>+=</span> <span class=mi>1</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_second</span> <span class=o>==</span> <span class=mi>60</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_second</span> <span class=o>=</span> <span class=mi>0</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_minute</span> <span class=o>+=</span> <span class=mi>1</span>
+            <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_minute</span> <span class=o>==</span> <span class=mi>60</span><span class=p>:</span>
+                <span class=bp>self</span><span class=o>.</span><span class=n>_minute</span> <span class=o>=</span> <span class=mi>0</span>
+                <span class=bp>self</span><span class=o>.</span><span class=n>_hour</span> <span class=o>+=</span> <span class=mi>1</span>
+                <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_hour</span> <span class=o>==</span> <span class=mi>24</span><span class=p>:</span>
+                    <span class=bp>self</span><span class=o>.</span><span class=n>_hour</span> <span class=o>=</span> <span class=mi>0</span>
+
+    <span class=k>def</span> <span class=nf>show</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;显示时间&#34;&#34;&#34;</span>
+        <span class=k>return</span> <span class=s1>&#39;</span><span class=si>%02d</span><span class=s1>:</span><span class=si>%02d</span><span class=s1>:</span><span class=si>%02d</span><span class=s1>&#39;</span> <span class=o>%</span> \
+               <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_hour</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_minute</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_second</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>clock</span> <span class=o>=</span> <span class=n>Clock</span><span class=p>(</span><span class=mi>23</span><span class=p>,</span> <span class=mi>59</span><span class=p>,</span> <span class=mi>58</span><span class=p>)</span>
+    <span class=k>while</span> <span class=kc>True</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>clock</span><span class=o>.</span><span class=n>show</span><span class=p>())</span>
+        <span class=n>sleep</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>
+        <span class=n>clock</span><span class=o>.</span><span class=n>run</span><span class=p>()</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><h4 id=练习2定义一个类描述平面上的点并提供移动点和计算到另一个点距离的方法><a href=#练习2定义一个类描述平面上的点并提供移动点和计算到另一个点距离的方法 class=anchor-link>#</a>练习2：定义一个类描述平面上的点并提供移动点和计算到另一个点距离的方法。</h4><p>参考答案：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>math</span> <span class=kn>import</span> <span class=n>sqrt</span>
+
+
+<span class=k>class</span> <span class=nc>Point</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>y</span><span class=o>=</span><span class=mi>0</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;初始化方法
+</span><span class=s2>        
+</span><span class=s2>        :param x: 横坐标
+</span><span class=s2>        :param y: 纵坐标
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>x</span> <span class=o>=</span> <span class=n>x</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>y</span> <span class=o>=</span> <span class=n>y</span>
+
+    <span class=k>def</span> <span class=nf>move_to</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;移动到指定位置
+</span><span class=s2>        
+</span><span class=s2>        :param x: 新的横坐标
+</span><span class=s2>        &#34;param y: 新的纵坐标
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>x</span> <span class=o>=</span> <span class=n>x</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>y</span> <span class=o>=</span> <span class=n>y</span>
+
+    <span class=k>def</span> <span class=nf>move_by</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>dx</span><span class=p>,</span> <span class=n>dy</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;移动指定的增量
+</span><span class=s2>        
+</span><span class=s2>        :param dx: 横坐标的增量
+</span><span class=s2>        &#34;param dy: 纵坐标的增量
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>x</span> <span class=o>+=</span> <span class=n>dx</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>y</span> <span class=o>+=</span> <span class=n>dy</span>
+
+    <span class=k>def</span> <span class=nf>distance_to</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;计算与另一个点的距离
+</span><span class=s2>        
+</span><span class=s2>        :param other: 另一个点
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=n>dx</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>x</span> <span class=o>-</span> <span class=n>other</span><span class=o>.</span><span class=n>x</span>
+        <span class=n>dy</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>y</span> <span class=o>-</span> <span class=n>other</span><span class=o>.</span><span class=n>y</span>
+        <span class=k>return</span> <span class=n>sqrt</span><span class=p>(</span><span class=n>dx</span> <span class=o>**</span> <span class=mi>2</span> <span class=o>+</span> <span class=n>dy</span> <span class=o>**</span> <span class=mi>2</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=fm>__str__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=s1>&#39;(</span><span class=si>%s</span><span class=s1>, </span><span class=si>%s</span><span class=s1>)&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=nb>str</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>x</span><span class=p>),</span> <span class=nb>str</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>y</span><span class=p>))</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>p1</span> <span class=o>=</span> <span class=n>Point</span><span class=p>(</span><span class=mi>3</span><span class=p>,</span> <span class=mi>5</span><span class=p>)</span>
+    <span class=n>p2</span> <span class=o>=</span> <span class=n>Point</span><span class=p>()</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>p1</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>p2</span><span class=p>)</span>
+    <span class=n>p2</span><span class=o>.</span><span class=n>move_by</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>p2</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>p1</span><span class=o>.</span><span class=n>distance_to</span><span class=p>(</span><span class=n>p2</span><span class=p>))</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明：</strong> 本章中的插图来自于Grady Booch等著作的<a href=https://item.jd.com/20476561918.html target=_blank rel=noopener>《面向对象分析与设计》</a>一书，该书是讲解面向对象编程的经典著作，有兴趣的读者可以购买和阅读这本书来了解更多的面向对象的相关知识。</p></blockquote></div><ul class=post-copyright><li class="copyright-item author"><span class=copyright-item-text>作者</span>：<span class="p-author h-card">骆昊</span></li><li class="copyright-item link"><span class=copyright-item-text>链接</span>：<a href=https://github.com/jackfrued/Python-100-Days target=_blank rel=noopener>https://github.com/jackfrued/Python-100-Days</a></li><li class="copyright-item license"><span class=copyright-item-text>许可</span>：本文采用<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>「CC BY-NC-SA 4.0」</a>协议，转载请注明出处。</li></ul></article><div class=related-posts><h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2><ul class=related-list><li class=related-item><a href=/python/01.%E5%88%9D%E8%AF%86python/ class=related-link>01.初识Python</a></li><li class=related-item><a href=/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/ class=related-link>02.语言元素</a></li><li class=related-item><a href=/python/03.%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84/ class=related-link>03.分支结构</a></li><li class=related-item><a href=/python/04.%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84/ class=related-link>04.循环结构</a></li><li class=related-item><a href=/python/05.%E6%9E%84%E9%80%A0%E7%A8%8B%E5%BA%8F%E9%80%BB%E8%BE%91/ class=related-link>05.构造程序逻辑</a></li></ul></div><div class=post-tags><a href=/tags/python/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>python</a></div></div></main><div id=back-to-top class=back-to-top><a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a></div><footer id=footer class=footer><div class=footer-inner><div class=site-info>©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;hanxin</div><script src=https://sdk.jinrishici.com/v2/browser/jinrishici.js></script>
+<text class=poem_sentence></text>
+<text class=poem_info></text>
+<script type=text/javascript>jinrishici.load(function(a){var b=document.querySelector(".poem_sentence"),c=document.querySelector(".poem_info");b.innerHTML=a.data.content,c.innerHTML='——'+a.data.origin.author})</script></div></footer></div><script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script><script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script></body></html>

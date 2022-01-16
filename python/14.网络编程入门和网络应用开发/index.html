@@ -1,0 +1,549 @@
+<!doctype html><html lang=zh-cn><head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"><meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=theme-color content="#16171d"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=format-detection content="telephone=no, date=no, address=no, email=no"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><title>14.网络编程入门和网络应用开发 | Hanxin</title><link rel=stylesheet href=/css/meme.min.88c90dc75021618344ec926f4ed6ac307f30ba48911294816b16370a41e5f137.css><script src=/js/meme.min.f460a174bb100a60a7e275913695161f1e09aab1378fe99cfd30cde14da70888.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap" media=print onload="this.media='all'"><noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap"></noscript><meta name=author content="骆昊"><meta name=description content="网络编程入门 计算机网络基础 计算机网络是独立自主的计算机互联而成的系统的总称，组建计算……"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=mask-icon href=/icons/safari-pinned-tab.svg color=#2a6df4><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-title content="Hanxin"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=mobile-web-app-capable content="yes"><meta name=application-name content="Hanxin"><meta name=msapplication-starturl content="../../"><meta name=msapplication-TileColor content="#fff"><meta name=msapplication-TileImage content="../../icons/mstile-150x150.png"><link rel=manifest href=/manifest.json><link rel=canonical href=/python/14.%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%E5%92%8C%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/><script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2021-08-23T17:34:50+08:00","dateModified":"2022-01-16T09:24:35+00:00","url":"/python/14.%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%E5%92%8C%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/","name":"14.网络编程入门和网络应用开发","description":"网络编程入门 计算机网络基础 计算机网络是独立自主的计算机互联而成的系统的总称，组建计算……","image":"/icons/apple-touch-icon.png","license":"本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。","publisher":{"@type":"Organization","name":"Hanxin","logo":{"@type":"ImageObject","url":"/icons/apple-touch-icon.png"},"url":"/"},"mainEntityOfPage":{"@type":"WebSite","@id":"/"}}</script><meta name=twitter:card content="summary"><meta property="og:title" content="14.网络编程入门和网络应用开发"><meta property="og:description" content="网络编程入门 计算机网络基础 计算机网络是独立自主的计算机互联而成的系统的总称，组建计算……"><meta property="og:url" content="/python/14.%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%E5%92%8C%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/"><meta property="og:site_name" content="Hanxin"><meta property="og:locale" content="zh"><meta property="og:image" content="/icons/apple-touch-icon.png"><meta property="og:type" content="website"></head><body><div class=container><header class=header><div class=header-wrapper><div class="header-inner single"><div class=site-brand><a href=/ class=brand>Hanxin</a></div><nav class=nav><ul class=menu id=menu><li class=menu-item><a href=/life/><span class=menu-item-name>生活</span></a></li><li class=menu-item><a href=/tech/><span class=menu-item-name>技术</span></a></li><li class=menu-item><a href=/tags/><span class=menu-item-name>标签</span></a></li><li class=menu-item><a href=/about/><span class=menu-item-name>关于</span></a></li><li class=menu-item><a href=/blogroll/><span class=menu-item-name>友链</span></a></li><li class=menu-item><a href=/python/><span class=menu-item-name>Python-100天</span></a></li><li class=menu-item><a id=theme-switcher href=#><span class="icon theme-icon-light">🌞</span><span class="icon theme-icon-dark">🌙</span></a></li></ul></nav></div></div><input type=checkbox id=nav-toggle aria-hidden=true>
+<label for=nav-toggle class=nav-toggle></label>
+<label for=nav-toggle class=nav-curtain></label></header><main class="main single" id=main><div class=main-inner><article class="content post h-entry" data-align=justify data-type=python data-toc-num=true><h1 class="post-title p-name">14.网络编程入门和网络应用开发</h1><div class=post-meta><time datetime=2021-08-23T17:34:50+08:00 class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;2021.8.23</time>
+<time datetime=2022-01-16T09:24:35+00:00 class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M4e2 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H48C21.49 64 0 85.49.0 112v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 4e2H54a6 6 0 01-6-6V160h352v298a6 6 0 01-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.1.16</time>
+<span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;6715</span>
+<span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;14&nbsp;分钟</span></div><div class="post-body e-content"><h2 id=网络编程入门><a href=#网络编程入门 class=anchor-link>#</a>网络编程入门</h2><h3 id=计算机网络基础><a href=#计算机网络基础 class=anchor-link>#</a>计算机网络基础</h3><p>计算机网络是独立自主的计算机互联而成的系统的总称，组建计算机网络最主要的目的是实现多台计算机之间的通信和资源共享。今天计算机网络中的设备和计算机网络的用户已经多得不可计数，而计算机网络也可以称得上是一个“复杂巨系统”，对于这样的系统，我们不可能用一两篇文章把它讲清楚，有兴趣的读者可以自行阅读Andrew S.Tanenbaum老师的经典之作《计算机网络》或Kurose和Ross老师合著的《计算机网络:自顶向下方法》来了解计算机网络的相关知识。</p><h4 id=计算机网络发展史><a href=#计算机网络发展史 class=anchor-link>#</a>计算机网络发展史</h4><ol><li><p>1960s - 美国国防部ARPANET项目问世，奠定了分组交换网络的基础。</p><p><img src=/res/arpanet.png alt></p></li><li><p>1980s - 国际标准化组织（ISO）发布OSI/RM，奠定了网络技术标准化的基础。</p><p><img src=/res/osimodel.png alt></p></li><li><p>1990s - 英国人<a href=https://zh.wikipedia.org/wiki/%E6%8F%90%E5%A7%86%C2%B7%E6%9F%8F%E5%85%A7%E8%8C%B2-%E6%9D%8E target=_blank rel=noopener>蒂姆·伯纳斯-李</a>发明了图形化的浏览器，浏览器的简单易用性使得计算机网络迅速被普及。</p><p>在没有浏览器的年代，上网是这样的。</p><p><img src=/res/before-browser.jpg alt></p><p>有了浏览器以后，上网是这样的。</p><p><img src=/res/after-browser.jpg alt></p></li></ol><h4 id=tcpip模型><a href=#tcpip模型 class=anchor-link>#</a>TCP/IP模型</h4><p>实现网络通信的基础是网络通信协议，这些协议通常是由<a href=https://zh.wikipedia.org/wiki/%E4%BA%92%E8%81%94%E7%BD%91%E5%B7%A5%E7%A8%8B%E4%BB%BB%E5%8A%A1%E7%BB%84 target=_blank rel=noopener>互联网工程任务组</a> （IETF）制定的。所谓“协议”就是通信计算机双方必须共同遵从的一组约定，例如怎样建立连接、怎样互相识别等，网络协议的三要素是：语法、语义和时序。构成我们今天使用的Internet的基础的是TCP/IP协议族，所谓协议族就是一系列的协议及其构成的通信模型，我们通常也把这套东西称为TCP/IP模型。与国际标准化组织发布的OSI/RM这个七层模型不同，TCP/IP是一个四层模型，也就是说，该模型将我们使用的网络从逻辑上分解为四个层次，自底向上依次是：网络接口层、网络层、传输层和应用层，如下图所示。</p><p><img src=/res/TCP-IP-model.png alt></p><p>IP通常被翻译为网际协议，它服务于网络层，主要实现了寻址和路由的功能。接入网络的每一台主机都需要有自己的IP地址，IP地址就是主机在计算机网络上的身份标识。当然由于IPv4地址的匮乏，我们平常在家里、办公室以及其他可以接入网络的公共区域上网时获得的IP地址并不是全球唯一的IP地址，而是一个<a href=https://zh.wikipedia.org/zh-hans/%E5%B1%80%E5%9F%9F%E7%BD%91 target=_blank rel=noopener>局域网（LAN）</a>中的内部IP地址，通过<a href=https://zh.wikipedia.org/wiki/%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2 target=_blank rel=noopener>网络地址转换（NAT）服务</a>我们也可以实现对网络的访问。计算机网络上有大量的被我们称为“<a href=https://zh.wikipedia.org/wiki/%E8%B7%AF%E7%94%B1%E5%99%A8 target=_blank rel=noopener>路由器</a>”的网络中继设备，它们会存储转发我们发送到网络上的数据分组，让从源头发出的数据最终能够找到传送到目的地通路，这项功能就是所谓的路由。</p><p>TCP全称传输控制协议，它是基于IP提供的寻址和路由服务而建立起来的负责实现端到端可靠传输的协议，之所以将TCP称为可靠的传输协议是因为TCP向调用者承诺了三件事情：</p><ol><li>数据不传丢不传错（利用握手、校验和重传机制可以实现）。</li><li>流量控制（通过滑动窗口匹配数据发送者和接收者之间的传输速度）。</li><li>拥塞控制（通过RTT时间以及对滑动窗口的控制缓解网络拥堵）。</li></ol><h4 id=网络应用模式><a href=#网络应用模式 class=anchor-link>#</a>网络应用模式</h4><ol><li>C/S模式和B/S模式。这里的C指的是Client（客户端），通常是一个需要安装到某个宿主操作系统上的应用程序；而B指的是Browser（浏览器），它几乎是所有图形化操作系统都默认安装了的一个应用软件；通过C或B都可以实现对S（服务器）的访问。关于二者的比较和讨论在网络上有一大堆的文章，在此我们就不再浪费笔墨了。</li><li>去中心化的网络应用模式。不管是B/S还是C/S都需要服务器的存在，服务器就是整个应用模式的中心，而去中心化的网络应用通常没有固定的服务器或者固定的客户端，所有应用的使用者既可以作为资源的提供者也可以作为资源的访问者。</li></ol><h3 id=基于http协议的网络资源访问><a href=#基于http协议的网络资源访问 class=anchor-link>#</a>基于HTTP协议的网络资源访问</h3><h4 id=http超文本传输协议><a href=#http超文本传输协议 class=anchor-link>#</a>HTTP（超文本传输协议）</h4><p>HTTP是超文本传输协议（Hyper-Text Transfer Proctol）的简称，维基百科上对HTTP的解释是：超文本传输协议是一种用于分布式、协作式和超媒体信息系统的应用层协议，它是<a href=https://zh.wikipedia.org/wiki/%E5%85%A8%E7%90%83%E8%B3%87%E8%A8%8A%E7%B6%B2 target=_blank rel=noopener>万维网</a>数据通信的基础，设计HTTP最初的目的是为了提供一种发布和接收<a href=https://zh.wikipedia.org/wiki/HTML target=_blank rel=noopener>HTML</a>页面的方法，通过HTTP或者<a href=https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE target=_blank rel=noopener>HTTPS</a>（超文本传输安全协议）请求的资源由URI（<a href=https://zh.wikipedia.org/wiki/%E7%B5%B1%E4%B8%80%E8%B3%87%E6%BA%90%E6%A8%99%E8%AD%98%E7%AC%A6 target=_blank rel=noopener>统一资源标识符</a>）来标识。关于HTTP的更多内容，我们推荐阅读阮一峰老师的<a href=http://www.ruanyifeng.com/blog/2016/08/http.html target=_blank rel=noopener>《HTTP 协议入门》</a>，简单的说，通过HTTP我们可以获取网络上的（基于字符的）资源，开发中经常会用到的网络API（有的地方也称之为网络数据接口）就是基于HTTP来实现数据传输的。</p><h4 id=json格式><a href=#json格式 class=anchor-link>#</a>JSON格式</h4><p><strong>JSON</strong>（<strong>J</strong>ava<strong>S</strong>cript <strong>O</strong>bject <strong>N</strong>otation）是一种轻量级的数据交换语言，该语言以易于让人阅读的文字（纯文本）为基础，用来传输由属性值或者序列性的值组成的数据对象。尽管JSON是最初只是Javascript中一种创建对象的字面量语法，但它在当下更是一种独立于语言的数据格式，很多编程语言都支持JSON格式数据的生成和解析，Python内置的json模块也提供了这方面的功能。由于JSON是纯文本，它和<a href=https://zh.wikipedia.org/wiki/XML target=_blank rel=noopener>XML</a>一样都适用于异构系统之间的数据交换，而相较于XML，JSON显得更加的轻便和优雅。下面是表达同样信息的XML和JSON，而JSON的优势是相当直观的。</p><p>XML的例子：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-XML data-lang=XML><span class=cp>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span class=nt>&lt;message&gt;</span>
+	<span class=nt>&lt;from&gt;</span>Alice<span class=nt>&lt;/from&gt;</span>
+	<span class=nt>&lt;to&gt;</span>Bob<span class=nt>&lt;/to&gt;</span>
+	<span class=nt>&lt;content&gt;</span>Will you marry me?<span class=nt>&lt;/content&gt;</span>
+<span class=nt>&lt;/message&gt;</span>
+</code></pre></td></tr></table></div></div></div><p>JSON的例子：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-JSON data-lang=JSON><span class=p>{</span>
+    <span class=nt>&#34;from&#34;</span><span class=p>:</span> <span class=s2>&#34;Alice&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;to&#34;</span><span class=p>:</span> <span class=s2>&#34;Bob&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;content&#34;</span><span class=p>:</span> <span class=s2>&#34;Will you marry me?&#34;</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div></div><h4 id=requests库><a href=#requests库 class=anchor-link>#</a>requests库</h4><p>requests是一个基于HTTP协议来使用网络的第三库，其<a href=http://cn.python-requests.org/zh_CN/latest/ target=_blank rel=noopener>官方网站</a>有这样的一句介绍它的话：“Requests是唯一的一个<strong>非转基因</strong>的Python HTTP库，人类可以安全享用。”简单的说，使用requests库可以非常方便的使用HTTP，避免安全缺陷、冗余代码以及“重复发明轮子”（行业黑话，通常用在软件工程领域表示重新创造一个已有的或是早已被优化過的基本方法）。前面的文章中我们已经使用过这个库，下面我们还是通过requests来实现一个访问网络数据接口并从中获取美女图片下载链接然后下载美女图片到本地的例子程序，程序中使用了<a href=https://www.tianapi.com/ target=_blank rel=noopener>天行数据</a>提供的网络API。</p><p>我们可以先通过pip安装requests及其依赖库。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>pip install requests
+</code></pre></td></tr></table></div></div></div><p>如果使用PyCharm作为开发工具，可以直接在代码中书写<code>import requests</code>，然后通过代码修复功能来自动下载安装requests。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>time</span> <span class=kn>import</span> <span class=n>time</span>
+<span class=kn>from</span> <span class=nn>threading</span> <span class=kn>import</span> <span class=n>Thread</span>
+
+<span class=kn>import</span> <span class=nn>requests</span>
+
+
+<span class=c1># 继承Thread类创建自定义的线程类</span>
+<span class=k>class</span> <span class=nc>DownloadHanlder</span><span class=p>(</span><span class=n>Thread</span><span class=p>):</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>url</span><span class=p>):</span>
+        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>url</span> <span class=o>=</span> <span class=n>url</span>
+
+    <span class=k>def</span> <span class=nf>run</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=n>filename</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>url</span><span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>url</span><span class=o>.</span><span class=n>rfind</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>:]</span>
+        <span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>url</span><span class=p>)</span>
+        <span class=k>with</span> <span class=nb>open</span><span class=p>(</span><span class=s1>&#39;/Users/Hao/&#39;</span> <span class=o>+</span> <span class=n>filename</span><span class=p>,</span> <span class=s1>&#39;wb&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>f</span><span class=p>:</span>
+            <span class=n>f</span><span class=o>.</span><span class=n>write</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>content</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=c1># 通过requests模块的get函数获取网络资源</span>
+    <span class=c1># 下面的代码中使用了天行数据接口提供的网络API</span>
+    <span class=c1># 要使用该数据接口需要在天行数据的网站上注册</span>
+    <span class=c1># 然后用自己的Key替换掉下面代码的中APIKey即可</span>
+    <span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span>
+        <span class=s1>&#39;http://api.tianapi.com/meinv/?key=APIKey&amp;num=10&#39;</span><span class=p>)</span>
+    <span class=c1># 将服务器返回的JSON格式的数据解析为字典</span>
+    <span class=n>data_model</span> <span class=o>=</span> <span class=n>resp</span><span class=o>.</span><span class=n>json</span><span class=p>()</span>
+    <span class=k>for</span> <span class=n>mm_dict</span> <span class=ow>in</span> <span class=n>data_model</span><span class=p>[</span><span class=s1>&#39;newslist&#39;</span><span class=p>]:</span>
+        <span class=n>url</span> <span class=o>=</span> <span class=n>mm_dict</span><span class=p>[</span><span class=s1>&#39;picUrl&#39;</span><span class=p>]</span>
+        <span class=c1># 通过多线程的方式实现图片下载</span>
+        <span class=n>DownloadHanlder</span><span class=p>(</span><span class=n>url</span><span class=p>)</span><span class=o>.</span><span class=n>start</span><span class=p>()</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><h3 id=基于传输层协议的套接字编程><a href=#基于传输层协议的套接字编程 class=anchor-link>#</a>基于传输层协议的套接字编程</h3><p>套接字这个词对很多不了解网络编程的人来说显得非常晦涩和陌生，其实说得通俗点，套接字就是一套用<a href=https://zh.wikipedia.org/wiki/C%E8%AF%AD%E8%A8%80 target=_blank rel=noopener>C语言</a>写成的应用程序开发库，主要用于实现进程间通信和网络编程，在网络应用开发中被广泛使用。在Python中也可以基于套接字来使用传输层提供的传输服务，并基于此开发自己的网络应用。实际开发中使用的套接字可以分为三类：流套接字（TCP套接字）、数据报套接字和原始套接字。</p><h4 id=tcp套接字><a href=#tcp套接字 class=anchor-link>#</a>TCP套接字</h4><p>所谓TCP套接字就是使用TCP协议提供的传输服务来实现网络通信的编程接口。在Python中可以通过创建socket对象并指定type属性为SOCK_STREAM来使用TCP套接字。由于一台主机可能拥有多个IP地址，而且很有可能会配置多个不同的服务，所以作为服务器端的程序，需要在创建套接字对象后将其绑定到指定的IP地址和端口上。这里的端口并不是物理设备而是对IP地址的扩展，用于区分不同的服务，例如我们通常将HTTP服务跟80端口绑定，而MySQL数据库服务默认绑定在3306端口，这样当服务器收到用户请求时就可以根据端口号来确定到底用户请求的是HTTP服务器还是数据库服务器提供的服务。端口的取值范围是0~65535，而1024以下的端口我们通常称之为“著名端口”（留给像FTP、HTTP、SMTP等“著名服务”使用的端口，有的地方也称之为“周知端口”），自定义的服务通常不使用这些端口，除非自定义的是HTTP或FTP这样的著名服务。</p><p>下面的代码实现了一个提供时间日期的服务器。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>socket</span> <span class=kn>import</span> <span class=n>socket</span><span class=p>,</span> <span class=n>SOCK_STREAM</span><span class=p>,</span> <span class=n>AF_INET</span>
+<span class=kn>from</span> <span class=nn>datetime</span> <span class=kn>import</span> <span class=n>datetime</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=c1># 1.创建套接字对象并指定使用哪种传输服务</span>
+    <span class=c1># family=AF_INET - IPv4地址</span>
+    <span class=c1># family=AF_INET6 - IPv6地址</span>
+    <span class=c1># type=SOCK_STREAM - TCP套接字</span>
+    <span class=c1># type=SOCK_DGRAM - UDP套接字</span>
+    <span class=c1># type=SOCK_RAW - 原始套接字</span>
+    <span class=n>server</span> <span class=o>=</span> <span class=n>socket</span><span class=p>(</span><span class=n>family</span><span class=o>=</span><span class=n>AF_INET</span><span class=p>,</span> <span class=nb>type</span><span class=o>=</span><span class=n>SOCK_STREAM</span><span class=p>)</span>
+    <span class=c1># 2.绑定IP地址和端口(端口用于区分不同的服务)</span>
+    <span class=c1># 同一时间在同一个端口上只能绑定一个服务否则报错</span>
+    <span class=n>server</span><span class=o>.</span><span class=n>bind</span><span class=p>((</span><span class=s1>&#39;192.168.1.2&#39;</span><span class=p>,</span> <span class=mi>6789</span><span class=p>))</span>
+    <span class=c1># 3.开启监听 - 监听客户端连接到服务器</span>
+    <span class=c1># 参数512可以理解为连接队列的大小</span>
+    <span class=n>server</span><span class=o>.</span><span class=n>listen</span><span class=p>(</span><span class=mi>512</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;服务器启动开始监听...&#39;</span><span class=p>)</span>
+    <span class=k>while</span> <span class=kc>True</span><span class=p>:</span>
+        <span class=c1># 4.通过循环接收客户端的连接并作出相应的处理(提供服务)</span>
+        <span class=c1># accept方法是一个阻塞方法如果没有客户端连接到服务器代码不会向下执行</span>
+        <span class=c1># accept方法返回一个元组其中的第一个元素是客户端对象</span>
+        <span class=c1># 第二个元素是连接到服务器的客户端的地址(由IP和端口两部分构成)</span>
+        <span class=n>client</span><span class=p>,</span> <span class=n>addr</span> <span class=o>=</span> <span class=n>server</span><span class=o>.</span><span class=n>accept</span><span class=p>()</span>
+        <span class=nb>print</span><span class=p>(</span><span class=nb>str</span><span class=p>(</span><span class=n>addr</span><span class=p>)</span> <span class=o>+</span> <span class=s1>&#39;连接到了服务器.&#39;</span><span class=p>)</span>
+        <span class=c1># 5.发送数据</span>
+        <span class=n>client</span><span class=o>.</span><span class=n>send</span><span class=p>(</span><span class=nb>str</span><span class=p>(</span><span class=n>datetime</span><span class=o>.</span><span class=n>now</span><span class=p>())</span><span class=o>.</span><span class=n>encode</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>))</span>
+        <span class=c1># 6.断开连接</span>
+        <span class=n>client</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>运行服务器程序后我们可以通过Windows系统的telnet来访问该服务器，结果如下图所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>telnet 192.168.1.2 <span class=m>6789</span>
+</code></pre></td></tr></table></div></div></div><p><img src=/res/telnet.png alt></p><p>当然我们也可以通过Python的程序来实现TCP客户端的功能，相较于实现服务器程序，实现客户端程序就简单多了，代码如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>socket</span> <span class=kn>import</span> <span class=n>socket</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=c1># 1.创建套接字对象默认使用IPv4和TCP协议</span>
+    <span class=n>client</span> <span class=o>=</span> <span class=n>socket</span><span class=p>()</span>
+    <span class=c1># 2.连接到服务器(需要指定IP地址和端口)</span>
+    <span class=n>client</span><span class=o>.</span><span class=n>connect</span><span class=p>((</span><span class=s1>&#39;192.168.1.2&#39;</span><span class=p>,</span> <span class=mi>6789</span><span class=p>))</span>
+    <span class=c1># 3.从服务器接收数据</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>client</span><span class=o>.</span><span class=n>recv</span><span class=p>(</span><span class=mi>1024</span><span class=p>)</span><span class=o>.</span><span class=n>decode</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>))</span>
+    <span class=n>client</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>需要注意的是，上面的服务器并没有使用多线程或者异步I/O的处理方式，这也就意味着当服务器与一个客户端处于通信状态时，其他的客户端只能排队等待。很显然，这样的服务器并不能满足我们的需求，我们需要的服务器是能够同时接纳和处理多个用户请求的。下面我们来设计一个使用多线程技术处理多个用户请求的服务器，该服务器会向连接到服务器的客户端发送一张图片。</p><p>服务器端代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>socket</span> <span class=kn>import</span> <span class=n>socket</span><span class=p>,</span> <span class=n>SOCK_STREAM</span><span class=p>,</span> <span class=n>AF_INET</span>
+<span class=kn>from</span> <span class=nn>base64</span> <span class=kn>import</span> <span class=n>b64encode</span>
+<span class=kn>from</span> <span class=nn>json</span> <span class=kn>import</span> <span class=n>dumps</span>
+<span class=kn>from</span> <span class=nn>threading</span> <span class=kn>import</span> <span class=n>Thread</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    
+    <span class=c1># 自定义线程类</span>
+    <span class=k>class</span> <span class=nc>FileTransferHandler</span><span class=p>(</span><span class=n>Thread</span><span class=p>):</span>
+
+        <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>cclient</span><span class=p>):</span>
+            <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>cclient</span> <span class=o>=</span> <span class=n>cclient</span>
+
+        <span class=k>def</span> <span class=nf>run</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+            <span class=n>my_dict</span> <span class=o>=</span> <span class=p>{}</span>
+            <span class=n>my_dict</span><span class=p>[</span><span class=s1>&#39;filename&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=s1>&#39;guido.jpg&#39;</span>
+            <span class=c1># JSON是纯文本不能携带二进制数据</span>
+            <span class=c1># 所以图片的二进制数据要处理成base64编码</span>
+            <span class=n>my_dict</span><span class=p>[</span><span class=s1>&#39;filedata&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=n>data</span>
+            <span class=c1># 通过dumps函数将字典处理成JSON字符串</span>
+            <span class=n>json_str</span> <span class=o>=</span> <span class=n>dumps</span><span class=p>(</span><span class=n>my_dict</span><span class=p>)</span>
+            <span class=c1># 发送JSON字符串</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>cclient</span><span class=o>.</span><span class=n>send</span><span class=p>(</span><span class=n>json_str</span><span class=o>.</span><span class=n>encode</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>))</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>cclient</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+
+    <span class=c1># 1.创建套接字对象并指定使用哪种传输服务</span>
+    <span class=n>server</span> <span class=o>=</span> <span class=n>socket</span><span class=p>()</span>
+    <span class=c1># 2.绑定IP地址和端口(区分不同的服务)</span>
+    <span class=n>server</span><span class=o>.</span><span class=n>bind</span><span class=p>((</span><span class=s1>&#39;192.168.1.2&#39;</span><span class=p>,</span> <span class=mi>5566</span><span class=p>))</span>
+    <span class=c1># 3.开启监听 - 监听客户端连接到服务器</span>
+    <span class=n>server</span><span class=o>.</span><span class=n>listen</span><span class=p>(</span><span class=mi>512</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;服务器启动开始监听...&#39;</span><span class=p>)</span>
+    <span class=k>with</span> <span class=nb>open</span><span class=p>(</span><span class=s1>&#39;guido.jpg&#39;</span><span class=p>,</span> <span class=s1>&#39;rb&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>f</span><span class=p>:</span>
+        <span class=c1># 将二进制数据处理成base64再解码成字符串</span>
+        <span class=n>data</span> <span class=o>=</span> <span class=n>b64encode</span><span class=p>(</span><span class=n>f</span><span class=o>.</span><span class=n>read</span><span class=p>())</span><span class=o>.</span><span class=n>decode</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+    <span class=k>while</span> <span class=kc>True</span><span class=p>:</span>
+        <span class=n>client</span><span class=p>,</span> <span class=n>addr</span> <span class=o>=</span> <span class=n>server</span><span class=o>.</span><span class=n>accept</span><span class=p>()</span>
+        <span class=c1># 启动一个线程来处理客户端的请求</span>
+        <span class=n>FileTransferHandler</span><span class=p>(</span><span class=n>client</span><span class=p>)</span><span class=o>.</span><span class=n>start</span><span class=p>()</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>客户端代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>socket</span> <span class=kn>import</span> <span class=n>socket</span>
+<span class=kn>from</span> <span class=nn>json</span> <span class=kn>import</span> <span class=n>loads</span>
+<span class=kn>from</span> <span class=nn>base64</span> <span class=kn>import</span> <span class=n>b64decode</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>client</span> <span class=o>=</span> <span class=n>socket</span><span class=p>()</span>
+    <span class=n>client</span><span class=o>.</span><span class=n>connect</span><span class=p>((</span><span class=s1>&#39;192.168.1.2&#39;</span><span class=p>,</span> <span class=mi>5566</span><span class=p>))</span>
+    <span class=c1># 定义一个保存二进制数据的对象</span>
+    <span class=n>in_data</span> <span class=o>=</span> <span class=nb>bytes</span><span class=p>()</span>
+    <span class=c1># 由于不知道服务器发送的数据有多大每次接收1024字节</span>
+    <span class=n>data</span> <span class=o>=</span> <span class=n>client</span><span class=o>.</span><span class=n>recv</span><span class=p>(</span><span class=mi>1024</span><span class=p>)</span>
+    <span class=k>while</span> <span class=n>data</span><span class=p>:</span>
+        <span class=c1># 将收到的数据拼接起来</span>
+        <span class=n>in_data</span> <span class=o>+=</span> <span class=n>data</span>
+        <span class=n>data</span> <span class=o>=</span> <span class=n>client</span><span class=o>.</span><span class=n>recv</span><span class=p>(</span><span class=mi>1024</span><span class=p>)</span>
+    <span class=c1># 将收到的二进制数据解码成JSON字符串并转换成字典</span>
+    <span class=c1># loads函数的作用就是将JSON字符串转成字典对象</span>
+    <span class=n>my_dict</span> <span class=o>=</span> <span class=n>loads</span><span class=p>(</span><span class=n>in_data</span><span class=o>.</span><span class=n>decode</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>))</span>
+    <span class=n>filename</span> <span class=o>=</span> <span class=n>my_dict</span><span class=p>[</span><span class=s1>&#39;filename&#39;</span><span class=p>]</span>
+    <span class=n>filedata</span> <span class=o>=</span> <span class=n>my_dict</span><span class=p>[</span><span class=s1>&#39;filedata&#39;</span><span class=p>]</span><span class=o>.</span><span class=n>encode</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+    <span class=k>with</span> <span class=nb>open</span><span class=p>(</span><span class=s1>&#39;/Users/Hao/&#39;</span> <span class=o>+</span> <span class=n>filename</span><span class=p>,</span> <span class=s1>&#39;wb&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>f</span><span class=p>:</span>
+        <span class=c1># 将base64格式的数据解码成二进制数据并写入文件</span>
+        <span class=n>f</span><span class=o>.</span><span class=n>write</span><span class=p>(</span><span class=n>b64decode</span><span class=p>(</span><span class=n>filedata</span><span class=p>))</span>
+    <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;图片已保存.&#39;</span><span class=p>)</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>在这个案例中，我们使用了JSON作为数据传输的格式（通过JSON格式对传输的数据进行了序列化和反序列化的操作），但是JSON并不能携带二进制数据，因此对图片的二进制数据进行了Base64编码的处理。Base64是一种用64个字符表示所有二进制数据的编码方式，通过将二进制数据每6位一组的方式重新组织，刚好可以使用0~9的数字、大小写字母以及“+”和“/”总共64个字符表示从<code>000000</code>到<code>111111</code>的64种状态。<a href=https://zh.wikipedia.org/wiki/Base64 target=_blank rel=noopener>维基百科</a>上有关于Base64编码的详细讲解，不熟悉Base64的读者可以自行阅读。</p><blockquote><p><strong>说明：</strong> 上面的代码主要为了讲解网络编程的相关内容因此并没有对异常状况进行处理，请读者自行添加异常处理代码来增强程序的健壮性。</p></blockquote><h4 id=udp套接字><a href=#udp套接字 class=anchor-link>#</a>UDP套接字</h4><p>传输层除了有可靠的传输协议TCP之外，还有一种非常轻便的传输协议叫做用户数据报协议，简称UDP。TCP和UDP都是提供端到端传输服务的协议，二者的差别就如同打电话和发短信的区别，后者不对传输的可靠性和可达性做出任何承诺从而避免了TCP中握手和重传的开销，所以在强调性能和而不是数据完整性的场景中（例如传输网络音视频数据），UDP可能是更好的选择。可能大家会注意到一个现象，就是在观看网络视频时，有时会出现卡顿，有时会出现花屏，这无非就是部分数据传丢或传错造成的。在Python中也可以使用UDP套接字来创建网络应用，对此我们不进行赘述，有兴趣的读者可以自行研究。</p><h3 id=网络应用开发><a href=#网络应用开发 class=anchor-link>#</a>网络应用开发</h3><h4 id=发送电子邮件><a href=#发送电子邮件 class=anchor-link>#</a>发送电子邮件</h4><p>在即时通信软件如此发达的今天，电子邮件仍然是互联网上使用最为广泛的应用之一，公司向应聘者发出录用通知、网站向用户发送一个激活账号的链接、银行向客户推广它们的理财产品等几乎都是通过电子邮件来完成的，而这些任务应该都是由程序自动完成的。</p><p>就像我们可以用HTTP（超文本传输协议）来访问一个网站一样，发送邮件要使用SMTP（简单邮件传输协议），SMTP也是一个建立在TCP（传输控制协议）提供的可靠数据传输服务的基础上的应用级协议，它规定了邮件的发送者如何跟发送邮件的服务器进行通信的细节，而Python中的smtplib模块将这些操作简化成了几个简单的函数。</p><p>下面的代码演示了如何在Python发送邮件。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>smtplib</span> <span class=kn>import</span> <span class=n>SMTP</span>
+<span class=kn>from</span> <span class=nn>email.header</span> <span class=kn>import</span> <span class=n>Header</span>
+<span class=kn>from</span> <span class=nn>email.mime.text</span> <span class=kn>import</span> <span class=n>MIMEText</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=c1># 请自行修改下面的邮件发送者和接收者</span>
+    <span class=n>sender</span> <span class=o>=</span> <span class=s1>&#39;abcdefg@126.com&#39;</span>
+    <span class=n>receivers</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;uvwxyz@qq.com&#39;</span><span class=p>,</span> <span class=s1>&#39;uvwxyz@126.com&#39;</span><span class=p>]</span>
+    <span class=n>message</span> <span class=o>=</span> <span class=n>MIMEText</span><span class=p>(</span><span class=s1>&#39;用Python发送邮件的示例代码.&#39;</span><span class=p>,</span> <span class=s1>&#39;plain&#39;</span><span class=p>,</span> <span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+    <span class=n>message</span><span class=p>[</span><span class=s1>&#39;From&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=n>Header</span><span class=p>(</span><span class=s1>&#39;王大锤&#39;</span><span class=p>,</span> <span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+    <span class=n>message</span><span class=p>[</span><span class=s1>&#39;To&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=n>Header</span><span class=p>(</span><span class=s1>&#39;骆昊&#39;</span><span class=p>,</span> <span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+    <span class=n>message</span><span class=p>[</span><span class=s1>&#39;Subject&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=n>Header</span><span class=p>(</span><span class=s1>&#39;示例代码实验邮件&#39;</span><span class=p>,</span> <span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+    <span class=n>smtper</span> <span class=o>=</span> <span class=n>SMTP</span><span class=p>(</span><span class=s1>&#39;smtp.126.com&#39;</span><span class=p>)</span>
+    <span class=c1># 请自行修改下面的登录口令</span>
+    <span class=n>smtper</span><span class=o>.</span><span class=n>login</span><span class=p>(</span><span class=n>sender</span><span class=p>,</span> <span class=s1>&#39;secretpass&#39;</span><span class=p>)</span>
+    <span class=n>smtper</span><span class=o>.</span><span class=n>sendmail</span><span class=p>(</span><span class=n>sender</span><span class=p>,</span> <span class=n>receivers</span><span class=p>,</span> <span class=n>message</span><span class=o>.</span><span class=n>as_string</span><span class=p>())</span>
+    <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;邮件发送完成!&#39;</span><span class=p>)</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>如果要发送带有附件的邮件，那么可以按照下面的方式进行操作。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>smtplib</span> <span class=kn>import</span> <span class=n>SMTP</span>
+<span class=kn>from</span> <span class=nn>email.header</span> <span class=kn>import</span> <span class=n>Header</span>
+<span class=kn>from</span> <span class=nn>email.mime.text</span> <span class=kn>import</span> <span class=n>MIMEText</span>
+<span class=kn>from</span> <span class=nn>email.mime.image</span> <span class=kn>import</span> <span class=n>MIMEImage</span>
+<span class=kn>from</span> <span class=nn>email.mime.multipart</span> <span class=kn>import</span> <span class=n>MIMEMultipart</span>
+
+<span class=kn>import</span> <span class=nn>urllib</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=c1># 创建一个带附件的邮件消息对象</span>
+    <span class=n>message</span> <span class=o>=</span> <span class=n>MIMEMultipart</span><span class=p>()</span>
+    
+    <span class=c1># 创建文本内容</span>
+    <span class=n>text_content</span> <span class=o>=</span> <span class=n>MIMEText</span><span class=p>(</span><span class=s1>&#39;附件中有本月数据请查收&#39;</span><span class=p>,</span> <span class=s1>&#39;plain&#39;</span><span class=p>,</span> <span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+    <span class=n>message</span><span class=p>[</span><span class=s1>&#39;Subject&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=n>Header</span><span class=p>(</span><span class=s1>&#39;本月数据&#39;</span><span class=p>,</span> <span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+    <span class=c1># 将文本内容添加到邮件消息对象中</span>
+    <span class=n>message</span><span class=o>.</span><span class=n>attach</span><span class=p>(</span><span class=n>text_content</span><span class=p>)</span>
+
+    <span class=c1># 读取文件并将文件作为附件添加到邮件消息对象中</span>
+    <span class=k>with</span> <span class=nb>open</span><span class=p>(</span><span class=s1>&#39;/Users/Hao/Desktop/hello.txt&#39;</span><span class=p>,</span> <span class=s1>&#39;rb&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>f</span><span class=p>:</span>
+        <span class=n>txt</span> <span class=o>=</span> <span class=n>MIMEText</span><span class=p>(</span><span class=n>f</span><span class=o>.</span><span class=n>read</span><span class=p>(),</span> <span class=s1>&#39;base64&#39;</span><span class=p>,</span> <span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+        <span class=n>txt</span><span class=p>[</span><span class=s1>&#39;Content-Type&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=s1>&#39;text/plain&#39;</span>
+        <span class=n>txt</span><span class=p>[</span><span class=s1>&#39;Content-Disposition&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=s1>&#39;attachment; filename=hello.txt&#39;</span>
+        <span class=n>message</span><span class=o>.</span><span class=n>attach</span><span class=p>(</span><span class=n>txt</span><span class=p>)</span>
+    <span class=c1># 读取文件并将文件作为附件添加到邮件消息对象中</span>
+    <span class=k>with</span> <span class=nb>open</span><span class=p>(</span><span class=s1>&#39;/Users/Hao/Desktop/汇总数据.xlsx&#39;</span><span class=p>,</span> <span class=s1>&#39;rb&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>f</span><span class=p>:</span>
+        <span class=n>xls</span> <span class=o>=</span> <span class=n>MIMEText</span><span class=p>(</span><span class=n>f</span><span class=o>.</span><span class=n>read</span><span class=p>(),</span> <span class=s1>&#39;base64&#39;</span><span class=p>,</span> <span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+        <span class=n>xls</span><span class=p>[</span><span class=s1>&#39;Content-Type&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=s1>&#39;application/vnd.ms-excel&#39;</span>
+        <span class=n>xls</span><span class=p>[</span><span class=s1>&#39;Content-Disposition&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=s1>&#39;attachment; filename=month-data.xlsx&#39;</span>
+        <span class=n>message</span><span class=o>.</span><span class=n>attach</span><span class=p>(</span><span class=n>xls</span><span class=p>)</span>
+    
+    <span class=c1># 创建SMTP对象</span>
+    <span class=n>smtper</span> <span class=o>=</span> <span class=n>SMTP</span><span class=p>(</span><span class=s1>&#39;smtp.126.com&#39;</span><span class=p>)</span>
+    <span class=c1># 开启安全连接</span>
+    <span class=c1># smtper.starttls()</span>
+    <span class=n>sender</span> <span class=o>=</span> <span class=s1>&#39;abcdefg@126.com&#39;</span>
+    <span class=n>receivers</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;uvwxyz@qq.com&#39;</span><span class=p>]</span>
+    <span class=c1># 登录到SMTP服务器</span>
+    <span class=c1># 请注意此处不是使用密码而是邮件客户端授权码进行登录</span>
+    <span class=c1># 对此有疑问的读者可以联系自己使用的邮件服务器客服</span>
+    <span class=n>smtper</span><span class=o>.</span><span class=n>login</span><span class=p>(</span><span class=n>sender</span><span class=p>,</span> <span class=s1>&#39;secretpass&#39;</span><span class=p>)</span>
+    <span class=c1># 发送邮件</span>
+    <span class=n>smtper</span><span class=o>.</span><span class=n>sendmail</span><span class=p>(</span><span class=n>sender</span><span class=p>,</span> <span class=n>receivers</span><span class=p>,</span> <span class=n>message</span><span class=o>.</span><span class=n>as_string</span><span class=p>())</span>
+    <span class=c1># 与邮件服务器断开连接</span>
+    <span class=n>smtper</span><span class=o>.</span><span class=n>quit</span><span class=p>()</span>
+    <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;发送完成!&#39;</span><span class=p>)</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><h4 id=发送短信><a href=#发送短信 class=anchor-link>#</a>发送短信</h4><p>发送短信也是项目中常见的功能，网站的注册码、验证码、营销信息基本上都是通过短信来发送给用户的。在下面的代码中我们使用了<a href=http://www.ihuyi.com/ target=_blank rel=noopener>互亿无线</a>短信平台（该平台为注册用户提供了50条免费短信以及常用开发语言发送短信的demo，可以登录该网站并在用户自服务页面中对短信进行配置）提供的API接口实现了发送短信的服务，当然国内的短信平台很多，读者可以根据自己的需要进行选择（通常会考虑费用预算、短信达到率、使用的难易程度等指标），如果需要在商业项目中使用短信服务建议购买短信平台提供的套餐服务。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>urllib.parse</span>
+<span class=kn>import</span> <span class=nn>http.client</span>
+<span class=kn>import</span> <span class=nn>json</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>host</span>  <span class=o>=</span> <span class=s2>&#34;106.ihuyi.com&#34;</span>
+    <span class=n>sms_send_uri</span> <span class=o>=</span> <span class=s2>&#34;/webservice/sms.php?method=Submit&#34;</span>
+    <span class=c1># 下面的参数需要填入自己注册的账号和对应的密码</span>
+    <span class=n>params</span> <span class=o>=</span> <span class=n>urllib</span><span class=o>.</span><span class=n>parse</span><span class=o>.</span><span class=n>urlencode</span><span class=p>({</span><span class=s1>&#39;account&#39;</span><span class=p>:</span> <span class=s1>&#39;你自己的账号&#39;</span><span class=p>,</span> <span class=s1>&#39;password&#39;</span> <span class=p>:</span> <span class=s1>&#39;你自己的密码&#39;</span><span class=p>,</span> <span class=s1>&#39;content&#39;</span><span class=p>:</span> <span class=s1>&#39;您的验证码是：147258。请不要把验证码泄露给其他人。&#39;</span><span class=p>,</span> <span class=s1>&#39;mobile&#39;</span><span class=p>:</span> <span class=s1>&#39;接收者的手机号&#39;</span><span class=p>,</span> <span class=s1>&#39;format&#39;</span><span class=p>:</span><span class=s1>&#39;json&#39;</span> <span class=p>})</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>params</span><span class=p>)</span>
+    <span class=n>headers</span> <span class=o>=</span> <span class=p>{</span><span class=s1>&#39;Content-type&#39;</span><span class=p>:</span> <span class=s1>&#39;application/x-www-form-urlencoded&#39;</span><span class=p>,</span> <span class=s1>&#39;Accept&#39;</span><span class=p>:</span> <span class=s1>&#39;text/plain&#39;</span><span class=p>}</span>
+    <span class=n>conn</span> <span class=o>=</span> <span class=n>http</span><span class=o>.</span><span class=n>client</span><span class=o>.</span><span class=n>HTTPConnection</span><span class=p>(</span><span class=n>host</span><span class=p>,</span> <span class=n>port</span><span class=o>=</span><span class=mi>80</span><span class=p>,</span> <span class=n>timeout</span><span class=o>=</span><span class=mi>30</span><span class=p>)</span>
+    <span class=n>conn</span><span class=o>.</span><span class=n>request</span><span class=p>(</span><span class=s1>&#39;POST&#39;</span><span class=p>,</span> <span class=n>sms_send_uri</span><span class=p>,</span> <span class=n>params</span><span class=p>,</span> <span class=n>headers</span><span class=p>)</span>
+    <span class=n>response</span> <span class=o>=</span> <span class=n>conn</span><span class=o>.</span><span class=n>getresponse</span><span class=p>()</span>
+    <span class=n>response_str</span> <span class=o>=</span> <span class=n>response</span><span class=o>.</span><span class=n>read</span><span class=p>()</span>
+    <span class=n>jsonstr</span> <span class=o>=</span> <span class=n>response_str</span><span class=o>.</span><span class=n>decode</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>json</span><span class=o>.</span><span class=n>loads</span><span class=p>(</span><span class=n>jsonstr</span><span class=p>))</span>
+    <span class=n>conn</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div></div><ul class=post-copyright><li class="copyright-item author"><span class=copyright-item-text>作者</span>：<span class="p-author h-card">骆昊</span></li><li class="copyright-item link"><span class=copyright-item-text>链接</span>：<a href=https://github.com/jackfrued/Python-100-Days target=_blank rel=noopener>https://github.com/jackfrued/Python-100-Days</a></li><li class="copyright-item license"><span class=copyright-item-text>许可</span>：本文采用<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>「CC BY-NC-SA 4.0」</a>协议，转载请注明出处。</li></ul></article><div class=related-posts><h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2><ul class=related-list><li class=related-item><a href=/python/01.%E5%88%9D%E8%AF%86python/ class=related-link>01.初识Python</a></li><li class=related-item><a href=/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/ class=related-link>02.语言元素</a></li><li class=related-item><a href=/python/03.%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84/ class=related-link>03.分支结构</a></li><li class=related-item><a href=/python/04.%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84/ class=related-link>04.循环结构</a></li><li class=related-item><a href=/python/05.%E6%9E%84%E9%80%A0%E7%A8%8B%E5%BA%8F%E9%80%BB%E8%BE%91/ class=related-link>05.构造程序逻辑</a></li></ul></div><div class=post-tags><a href=/tags/python/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>python</a></div></div></main><div id=back-to-top class=back-to-top><a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a></div><footer id=footer class=footer><div class=footer-inner><div class=site-info>©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;hanxin</div><script src=https://sdk.jinrishici.com/v2/browser/jinrishici.js></script>
+<text class=poem_sentence></text>
+<text class=poem_info></text>
+<script type=text/javascript>jinrishici.load(function(a){var b=document.querySelector(".poem_sentence"),c=document.querySelector(".poem_info");b.innerHTML=a.data.content,c.innerHTML='——'+a.data.origin.author})</script></div></footer></div><script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script><script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script></body></html>

@@ -1,0 +1,381 @@
+<!doctype html><html lang=zh-cn><head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"><meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=theme-color content="#16171d"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=format-detection content="telephone=no, date=no, address=no, email=no"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><title>64.并发下载 | Hanxin</title><link rel=stylesheet href=/css/meme.min.88c90dc75021618344ec926f4ed6ac307f30ba48911294816b16370a41e5f137.css><script src=/js/meme.min.f460a174bb100a60a7e275913695161f1e09aab1378fe99cfd30cde14da70888.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap" media=print onload="this.media='all'"><noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap"></noscript><meta name=author content="骆昊"><meta name=description content="并发下载 多线程和多进程补充知识点 threading.local类 使用线程时最不愿意遇……"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=mask-icon href=/icons/safari-pinned-tab.svg color=#2a6df4><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-title content="Hanxin"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=mobile-web-app-capable content="yes"><meta name=application-name content="Hanxin"><meta name=msapplication-starturl content="../../"><meta name=msapplication-TileColor content="#fff"><meta name=msapplication-TileImage content="../../icons/mstile-150x150.png"><link rel=manifest href=/manifest.json><link rel=canonical href=/python/64.%E5%B9%B6%E5%8F%91%E4%B8%8B%E8%BD%BD/><script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2021-08-23T17:34:24+08:00","dateModified":"2022-01-16T09:24:35+00:00","url":"/python/64.%E5%B9%B6%E5%8F%91%E4%B8%8B%E8%BD%BD/","name":"64.并发下载","description":"并发下载 多线程和多进程补充知识点 threading.local类 使用线程时最不愿意遇……","image":"/icons/apple-touch-icon.png","license":"本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。","publisher":{"@type":"Organization","name":"Hanxin","logo":{"@type":"ImageObject","url":"/icons/apple-touch-icon.png"},"url":"/"},"mainEntityOfPage":{"@type":"WebSite","@id":"/"}}</script><meta name=twitter:card content="summary"><meta property="og:title" content="64.并发下载"><meta property="og:description" content="并发下载 多线程和多进程补充知识点 threading.local类 使用线程时最不愿意遇……"><meta property="og:url" content="/python/64.%E5%B9%B6%E5%8F%91%E4%B8%8B%E8%BD%BD/"><meta property="og:site_name" content="Hanxin"><meta property="og:locale" content="zh"><meta property="og:image" content="/icons/apple-touch-icon.png"><meta property="og:type" content="website"></head><body><div class=container><header class=header><div class=header-wrapper><div class="header-inner single"><div class=site-brand><a href=/ class=brand>Hanxin</a></div><nav class=nav><ul class=menu id=menu><li class=menu-item><a href=/life/><span class=menu-item-name>生活</span></a></li><li class=menu-item><a href=/tech/><span class=menu-item-name>技术</span></a></li><li class=menu-item><a href=/tags/><span class=menu-item-name>标签</span></a></li><li class=menu-item><a href=/about/><span class=menu-item-name>关于</span></a></li><li class=menu-item><a href=/blogroll/><span class=menu-item-name>友链</span></a></li><li class=menu-item><a href=/python/><span class=menu-item-name>Python-100天</span></a></li><li class=menu-item><a id=theme-switcher href=#><span class="icon theme-icon-light">🌞</span><span class="icon theme-icon-dark">🌙</span></a></li></ul></nav></div></div><input type=checkbox id=nav-toggle aria-hidden=true>
+<label for=nav-toggle class=nav-toggle></label>
+<label for=nav-toggle class=nav-curtain></label></header><main class="main single" id=main><div class=main-inner><article class="content post h-entry" data-align=justify data-type=python data-toc-num=true><h1 class="post-title p-name">64.并发下载</h1><div class=post-meta><time datetime=2021-08-23T17:34:24+08:00 class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;2021.8.23</time>
+<time datetime=2022-01-16T09:24:35+00:00 class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M4e2 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H48C21.49 64 0 85.49.0 112v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 4e2H54a6 6 0 01-6-6V160h352v298a6 6 0 01-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.1.16</time>
+<span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2262</span>
+<span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;5&nbsp;分钟</span></div><div class="post-body e-content"><h2 id=并发下载><a href=#并发下载 class=anchor-link>#</a>并发下载</h2><h3 id=多线程和多进程补充知识点><a href=#多线程和多进程补充知识点 class=anchor-link>#</a>多线程和多进程补充知识点</h3><h4 id=threadinglocal类><a href=#threadinglocal类 class=anchor-link>#</a>threading.local类</h4><p>使用线程时最不愿意遇到的情况就是多个线程竞争资源，在这种情况下为了保证资源状态的正确性，我们可能需要对资源进行加锁保护的处理，这一方面会导致程序失去并发性，另外如果多个线程竞争多个资源时，还有可能因为加锁方式的不当导致<a href=https://zh.wikipedia.org/wiki/%E6%AD%BB%E9%94%81 target=_blank rel=noopener>死锁</a>。要解决多个线程竞争资源的问题，其中一个方案就是让每个线程都持有资源的副本（拷贝），这样每个线程可以操作自己所持有的资源，从而规避对资源的竞争。</p><p>要实现将资源和持有资源的线程进行绑定的操作，最简单的做法就是使用<code>threading</code>模块的<code>local</code>类，在网络爬虫开发中，就可以使用<code>local</code>类为每个线程绑定一个MySQL数据库连接或Redis客户端对象，这样通过线程可以直接获得这些资源，既解决了资源竞争的问题，又避免了在函数和方法调用时传递这些资源。具体的请参考本章多线程爬取“手机搜狐网”（Redis版）的实例代码。</p><h4 id=concurrentfutures模块><a href=#concurrentfutures模块 class=anchor-link>#</a>concurrent.futures模块</h4><p>Python3.2带来了<code>concurrent.futures</code> 模块，这个模块包含了线程池和进程池、管理并行编程任务、处理非确定性的执行流程、进程/线程同步等功能。关于这部分的内容推荐大家阅读<a href=http://python-parallel-programmning-cookbook.readthedocs.io/zh_CN/latest/index.html target=_blank rel=noopener>《Python并行编程》</a>。</p><h4 id=分布式进程><a href=#分布式进程 class=anchor-link>#</a>分布式进程</h4><p>使用多进程的时候，可以将进程部署在多个主机节点上，Python的<code>multiprocessing</code>模块不但支持多进程，其中<code>managers</code>子模块还支持把多进程部署到多个节点上。当然，要部署分布式进程，首先需要一个服务进程作为调度者，进程之间通过网络进行通信来实现对进程的控制和调度，由于<code>managers</code>模块已经对这些做出了很好的封装，因此在无需了解网络通信细节的前提下，就可以编写分布式多进程应用。具体的请参照本章分布式多进程爬取“手机搜狐网”的实例代码。</p><h3 id=协程和异步io><a href=#协程和异步io class=anchor-link>#</a>协程和异步I/O</h3><h4 id=协程的概念><a href=#协程的概念 class=anchor-link>#</a>协程的概念</h4><p>协程（coroutine）通常又称之为微线程或纤程，它是相互协作的一组子程序（函数）。所谓相互协作指的是在执行函数A时，可以随时中断去执行函数B，然后又中断继续执行函数A。注意，这一过程并不是函数调用（因为没有调用语句），整个过程看似像多线程，然而协程只有一个线程执行。协程通过<code>yield</code>关键字和 <code>send()</code>操作来转移执行权，协程之间不是调用者与被调用者的关系。</p><p>协程的优势在于以下两点：</p><ol><li>执行效率极高，因为子程序（函数）切换不是线程切换，由程序自身控制，没有切换线程的开销。</li><li>不需要多线程的锁机制，因为只有一个线程，也不存在竞争资源的问题，当然也就不需要对资源加锁保护，因此执行效率高很多。</li></ol><blockquote><p><strong>说明</strong>：协程适合处理的是I/O密集型任务，处理CPU密集型任务并不是它擅长的，如果要提升CPU的利用率可以考虑“多进程+多线程”或者“多进程+协程”的工作模式。</p></blockquote><h4 id=历史回顾><a href=#历史回顾 class=anchor-link>#</a>历史回顾</h4><ol><li>Python 2.2：第一次提出了生成器（最初称之为迭代器）的概念（PEP 255）。</li><li>Python 2.5：引入了将对象发送回暂停了的生成器这一特性即生成器的<code>send()</code>方法（PEP 342）。</li><li>Python 3.3：添加了<code>yield from</code>特性，允许从迭代器中返回任何值（注意生成器本身也是迭代器），这样我们就可以串联生成器并且重构出更好的生成器。</li><li>Python 3.4：引入<code>asyncio.coroutine</code>装饰器用来标记作为协程的函数，协程函数和<code>asyncio</code>及其事件循环一起使用，来实现异步I/O操作。</li><li>Python 3.5：引入了<code>async</code>和<code>await</code>，可以使用<code>async def</code>来定义一个协程函数，这个函数中不能包含任何形式的<code>yield</code>语句，但是可以使用<code>return</code>或<code>await</code>从协程中返回值。</li></ol><p>协程实现了协作式并发，通过提高CPU的利用率来达到改善性能的目的。著名的三方库<a href=https://github.com/aio-libs/aiohttp target=_blank rel=noopener><code>aiohttp</code></a>就是通过协程的方式实现了HTTP客户端和HTTP服务器的功能，较之<code>requests</code>有更好的获取数据的性能，有兴趣可以阅读它的<a href=https://aiohttp.readthedocs.io/en/stable/ target=_blank rel=noopener>官方文档</a>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>asyncio</span>
+<span class=kn>import</span> <span class=nn>aiohttp</span>
+
+
+<span class=k>async</span> <span class=k>def</span> <span class=nf>download</span><span class=p>(</span><span class=n>url</span><span class=p>):</span>
+    <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;Fetch:&#39;</span><span class=p>,</span> <span class=n>url</span><span class=p>)</span>
+    <span class=k>async</span> <span class=k>with</span> <span class=n>aiohttp</span><span class=o>.</span><span class=n>ClientSession</span><span class=p>()</span> <span class=k>as</span> <span class=n>session</span><span class=p>:</span>
+        <span class=k>async</span> <span class=k>with</span> <span class=n>session</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=n>ssl</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span> <span class=k>as</span> <span class=n>resp</span><span class=p>:</span>
+            <span class=nb>print</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=s1>&#39;---&gt;&#39;</span><span class=p>,</span> <span class=n>resp</span><span class=o>.</span><span class=n>status</span><span class=p>)</span>
+            <span class=nb>print</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=s1>&#39;---&gt;&#39;</span><span class=p>,</span> <span class=n>resp</span><span class=o>.</span><span class=n>headers</span><span class=p>)</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=se>\n\n</span><span class=s1>&#39;</span><span class=p>,</span> <span class=k>await</span> <span class=n>resp</span><span class=o>.</span><span class=n>text</span><span class=p>())</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>loop</span> <span class=o>=</span> <span class=n>asyncio</span><span class=o>.</span><span class=n>get_event_loop</span><span class=p>()</span>
+    <span class=n>urls</span> <span class=o>=</span> <span class=p>[</span>
+        <span class=s1>&#39;https://www.baidu.com&#39;</span><span class=p>,</span>
+        <span class=s1>&#39;http://www.sohu.com/&#39;</span><span class=p>,</span>
+        <span class=s1>&#39;http://www.sina.com.cn/&#39;</span><span class=p>,</span>
+        <span class=s1>&#39;https://www.taobao.com/&#39;</span><span class=p>,</span>
+        <span class=s1>&#39;http://jd.com/&#39;</span>
+    <span class=p>]</span>
+    <span class=n>tasks</span> <span class=o>=</span> <span class=p>[</span><span class=n>download</span><span class=p>(</span><span class=n>url</span><span class=p>)</span> <span class=k>for</span> <span class=n>url</span> <span class=ow>in</span> <span class=n>urls</span><span class=p>]</span>
+    <span class=n>loop</span><span class=o>.</span><span class=n>run_until_complete</span><span class=p>(</span><span class=n>asyncio</span><span class=o>.</span><span class=n>wait</span><span class=p>(</span><span class=n>tasks</span><span class=p>))</span>
+    <span class=n>loop</span><span class=o>.</span><span class=n>close</span><span class=p>()</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><h3 id=实例---多线程爬取手机搜狐网所有页面><a href=#实例---多线程爬取手机搜狐网所有页面 class=anchor-link>#</a>实例 - 多线程爬取“手机搜狐网”所有页面</h3><p>下面我们把之间讲的所有知识结合起来，用面向对象的方式实现一个爬取“手机搜狐网”的多线程爬虫。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>pickle</span>
+<span class=kn>import</span> <span class=nn>zlib</span>
+<span class=kn>from</span> <span class=nn>enum</span> <span class=kn>import</span> <span class=n>Enum</span><span class=p>,</span> <span class=n>unique</span>
+<span class=kn>from</span> <span class=nn>hashlib</span> <span class=kn>import</span> <span class=n>sha1</span>
+<span class=kn>from</span> <span class=nn>random</span> <span class=kn>import</span> <span class=n>random</span>
+<span class=kn>from</span> <span class=nn>threading</span> <span class=kn>import</span> <span class=n>Thread</span><span class=p>,</span> <span class=n>current_thread</span><span class=p>,</span> <span class=n>local</span>
+<span class=kn>from</span> <span class=nn>time</span> <span class=kn>import</span> <span class=n>sleep</span>
+<span class=kn>from</span> <span class=nn>urllib.parse</span> <span class=kn>import</span> <span class=n>urlparse</span>
+
+<span class=kn>import</span> <span class=nn>pymongo</span>
+<span class=kn>import</span> <span class=nn>redis</span>
+<span class=kn>import</span> <span class=nn>requests</span>
+<span class=kn>from</span> <span class=nn>bs4</span> <span class=kn>import</span> <span class=n>BeautifulSoup</span>
+<span class=kn>from</span> <span class=nn>bson</span> <span class=kn>import</span> <span class=n>Binary</span>
+
+
+<span class=nd>@unique</span>
+<span class=k>class</span> <span class=nc>SpiderStatus</span><span class=p>(</span><span class=n>Enum</span><span class=p>):</span>
+    <span class=n>IDLE</span> <span class=o>=</span> <span class=mi>0</span>
+    <span class=n>WORKING</span> <span class=o>=</span> <span class=mi>1</span>
+
+
+<span class=k>def</span> <span class=nf>decode_page</span><span class=p>(</span><span class=n>page_bytes</span><span class=p>,</span> <span class=n>charsets</span><span class=o>=</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>,)):</span>
+    <span class=n>page_html</span> <span class=o>=</span> <span class=kc>None</span>
+    <span class=k>for</span> <span class=n>charset</span> <span class=ow>in</span> <span class=n>charsets</span><span class=p>:</span>
+        <span class=k>try</span><span class=p>:</span>
+            <span class=n>page_html</span> <span class=o>=</span> <span class=n>page_bytes</span><span class=o>.</span><span class=n>decode</span><span class=p>(</span><span class=n>charset</span><span class=p>)</span>
+            <span class=k>break</span>
+        <span class=k>except</span> <span class=ne>UnicodeDecodeError</span><span class=p>:</span>
+            <span class=k>pass</span>
+    <span class=k>return</span> <span class=n>page_html</span>
+
+
+<span class=k>class</span> <span class=nc>Retry</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=o>*</span><span class=p>,</span> <span class=n>retry_times</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span>
+                 <span class=n>wait_secs</span><span class=o>=</span><span class=mi>5</span><span class=p>,</span> <span class=n>errors</span><span class=o>=</span><span class=p>(</span><span class=ne>Exception</span><span class=p>,</span> <span class=p>)):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>retry_times</span> <span class=o>=</span> <span class=n>retry_times</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>wait_secs</span> <span class=o>=</span> <span class=n>wait_secs</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>errors</span> <span class=o>=</span> <span class=n>errors</span>
+
+    <span class=k>def</span> <span class=fm>__call__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>fn</span><span class=p>):</span>
+
+        <span class=k>def</span> <span class=nf>wrapper</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>):</span>
+            <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>retry_times</span><span class=p>):</span>
+                <span class=k>try</span><span class=p>:</span>
+                    <span class=k>return</span> <span class=n>fn</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>,</span> <span class=o>**</span><span class=n>kwargs</span><span class=p>)</span>
+                <span class=k>except</span> <span class=bp>self</span><span class=o>.</span><span class=n>errors</span> <span class=k>as</span> <span class=n>e</span><span class=p>:</span>
+                    <span class=nb>print</span><span class=p>(</span><span class=n>e</span><span class=p>)</span>
+                    <span class=n>sleep</span><span class=p>((</span><span class=n>random</span><span class=p>()</span> <span class=o>+</span> <span class=mi>1</span><span class=p>)</span> <span class=o>*</span> <span class=bp>self</span><span class=o>.</span><span class=n>wait_secs</span><span class=p>)</span>
+            <span class=k>return</span> <span class=kc>None</span>
+
+        <span class=k>return</span> <span class=n>wrapper</span>
+
+
+<span class=k>class</span> <span class=nc>Spider</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>status</span> <span class=o>=</span> <span class=n>SpiderStatus</span><span class=o>.</span><span class=n>IDLE</span>
+
+    <span class=nd>@Retry</span><span class=p>()</span>
+    <span class=k>def</span> <span class=nf>fetch</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>current_url</span><span class=p>,</span> <span class=o>*</span><span class=p>,</span> <span class=n>charsets</span><span class=o>=</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>,</span> <span class=p>),</span>
+              <span class=n>user_agent</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>proxies</span><span class=o>=</span><span class=kc>None</span><span class=p>):</span>
+        <span class=n>thread_name</span> <span class=o>=</span> <span class=n>current_thread</span><span class=p>()</span><span class=o>.</span><span class=n>name</span>
+        <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s1>&#39;[</span><span class=si>{</span><span class=n>thread_name</span><span class=si>}</span><span class=s1>]: </span><span class=si>{</span><span class=n>current_url</span><span class=si>}</span><span class=s1>&#39;</span><span class=p>)</span>
+        <span class=n>headers</span> <span class=o>=</span> <span class=p>{</span><span class=s1>&#39;user-agent&#39;</span><span class=p>:</span> <span class=n>user_agent</span><span class=p>}</span> <span class=k>if</span> <span class=n>user_agent</span> <span class=k>else</span> <span class=p>{}</span>
+        <span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>current_url</span><span class=p>,</span>
+                            <span class=n>headers</span><span class=o>=</span><span class=n>headers</span><span class=p>,</span> <span class=n>proxies</span><span class=o>=</span><span class=n>proxies</span><span class=p>)</span>
+        <span class=k>return</span> <span class=n>decode_page</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>content</span><span class=p>,</span> <span class=n>charsets</span><span class=p>)</span> \
+            <span class=k>if</span> <span class=n>resp</span><span class=o>.</span><span class=n>status_code</span> <span class=o>==</span> <span class=mi>200</span> <span class=k>else</span> <span class=kc>None</span>
+
+    <span class=k>def</span> <span class=nf>parse</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>html_page</span><span class=p>,</span> <span class=o>*</span><span class=p>,</span> <span class=n>domain</span><span class=o>=</span><span class=s1>&#39;m.sohu.com&#39;</span><span class=p>):</span>
+        <span class=n>soup</span> <span class=o>=</span> <span class=n>BeautifulSoup</span><span class=p>(</span><span class=n>html_page</span><span class=p>,</span> <span class=s1>&#39;lxml&#39;</span><span class=p>)</span>
+        <span class=k>for</span> <span class=n>a_tag</span> <span class=ow>in</span> <span class=n>soup</span><span class=o>.</span><span class=n>body</span><span class=o>.</span><span class=n>select</span><span class=p>(</span><span class=s1>&#39;a[href]&#39;</span><span class=p>):</span>
+            <span class=n>parser</span> <span class=o>=</span> <span class=n>urlparse</span><span class=p>(</span><span class=n>a_tag</span><span class=o>.</span><span class=n>attrs</span><span class=p>[</span><span class=s1>&#39;href&#39;</span><span class=p>])</span>
+            <span class=n>scheme</span> <span class=o>=</span> <span class=n>parser</span><span class=o>.</span><span class=n>scheme</span> <span class=ow>or</span> <span class=s1>&#39;http&#39;</span>
+            <span class=n>netloc</span> <span class=o>=</span> <span class=n>parser</span><span class=o>.</span><span class=n>netloc</span> <span class=ow>or</span> <span class=n>domain</span>
+            <span class=k>if</span> <span class=n>scheme</span> <span class=o>!=</span> <span class=s1>&#39;javascript&#39;</span> <span class=ow>and</span> <span class=n>netloc</span> <span class=o>==</span> <span class=n>domain</span><span class=p>:</span>
+                <span class=n>path</span> <span class=o>=</span> <span class=n>parser</span><span class=o>.</span><span class=n>path</span>
+                <span class=n>query</span> <span class=o>=</span> <span class=s1>&#39;?&#39;</span> <span class=o>+</span> <span class=n>parser</span><span class=o>.</span><span class=n>query</span> <span class=k>if</span> <span class=n>parser</span><span class=o>.</span><span class=n>query</span> <span class=k>else</span> <span class=s1>&#39;&#39;</span>
+                <span class=n>full_url</span> <span class=o>=</span> <span class=sa>f</span><span class=s1>&#39;</span><span class=si>{</span><span class=n>scheme</span><span class=si>}</span><span class=s1>://</span><span class=si>{</span><span class=n>netloc</span><span class=si>}{</span><span class=n>path</span><span class=si>}{</span><span class=n>query</span><span class=si>}</span><span class=s1>&#39;</span>
+                <span class=n>redis_client</span> <span class=o>=</span> <span class=n>thread_local</span><span class=o>.</span><span class=n>redis_client</span>
+                <span class=k>if</span> <span class=ow>not</span> <span class=n>redis_client</span><span class=o>.</span><span class=n>sismember</span><span class=p>(</span><span class=s1>&#39;visited_urls&#39;</span><span class=p>,</span> <span class=n>full_url</span><span class=p>):</span>
+                    <span class=n>redis_client</span><span class=o>.</span><span class=n>rpush</span><span class=p>(</span><span class=s1>&#39;m_sohu_task&#39;</span><span class=p>,</span> <span class=n>full_url</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>extract</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>html_page</span><span class=p>):</span>
+        <span class=k>pass</span>
+
+    <span class=k>def</span> <span class=nf>store</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>data_dict</span><span class=p>):</span>
+        <span class=c1># redis_client = thread_local.redis_client</span>
+        <span class=c1># mongo_db = thread_local.mongo_db</span>
+        <span class=k>pass</span>
+
+
+<span class=k>class</span> <span class=nc>SpiderThread</span><span class=p>(</span><span class=n>Thread</span><span class=p>):</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>spider</span><span class=p>):</span>
+        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>name</span><span class=o>=</span><span class=n>name</span><span class=p>,</span> <span class=n>daemon</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>spider</span> <span class=o>=</span> <span class=n>spider</span>
+
+    <span class=k>def</span> <span class=nf>run</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=n>redis_client</span> <span class=o>=</span> <span class=n>redis</span><span class=o>.</span><span class=n>Redis</span><span class=p>(</span><span class=n>host</span><span class=o>=</span><span class=s1>&#39;1.2.3.4&#39;</span><span class=p>,</span> <span class=n>port</span><span class=o>=</span><span class=mi>6379</span><span class=p>,</span> <span class=n>password</span><span class=o>=</span><span class=s1>&#39;1qaz2wsx&#39;</span><span class=p>)</span>
+        <span class=n>mongo_client</span> <span class=o>=</span> <span class=n>pymongo</span><span class=o>.</span><span class=n>MongoClient</span><span class=p>(</span><span class=n>host</span><span class=o>=</span><span class=s1>&#39;1.2.3.4&#39;</span><span class=p>,</span> <span class=n>port</span><span class=o>=</span><span class=mi>27017</span><span class=p>)</span>
+        <span class=n>thread_local</span><span class=o>.</span><span class=n>redis_client</span> <span class=o>=</span> <span class=n>redis_client</span>
+        <span class=n>thread_local</span><span class=o>.</span><span class=n>mongo_db</span> <span class=o>=</span> <span class=n>mongo_client</span><span class=o>.</span><span class=n>msohu</span> 
+        <span class=k>while</span> <span class=kc>True</span><span class=p>:</span>
+            <span class=n>current_url</span> <span class=o>=</span> <span class=n>redis_client</span><span class=o>.</span><span class=n>lpop</span><span class=p>(</span><span class=s1>&#39;m_sohu_task&#39;</span><span class=p>)</span>
+            <span class=k>while</span> <span class=ow>not</span> <span class=n>current_url</span><span class=p>:</span>
+                <span class=n>current_url</span> <span class=o>=</span> <span class=n>redis_client</span><span class=o>.</span><span class=n>lpop</span><span class=p>(</span><span class=s1>&#39;m_sohu_task&#39;</span><span class=p>)</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>spider</span><span class=o>.</span><span class=n>status</span> <span class=o>=</span> <span class=n>SpiderStatus</span><span class=o>.</span><span class=n>WORKING</span>
+            <span class=n>current_url</span> <span class=o>=</span> <span class=n>current_url</span><span class=o>.</span><span class=n>decode</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+            <span class=k>if</span> <span class=ow>not</span> <span class=n>redis_client</span><span class=o>.</span><span class=n>sismember</span><span class=p>(</span><span class=s1>&#39;visited_urls&#39;</span><span class=p>,</span> <span class=n>current_url</span><span class=p>):</span>
+                <span class=n>redis_client</span><span class=o>.</span><span class=n>sadd</span><span class=p>(</span><span class=s1>&#39;visited_urls&#39;</span><span class=p>,</span> <span class=n>current_url</span><span class=p>)</span>
+                <span class=n>html_page</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>spider</span><span class=o>.</span><span class=n>fetch</span><span class=p>(</span><span class=n>current_url</span><span class=p>)</span>
+                <span class=k>if</span> <span class=n>html_page</span> <span class=ow>not</span> <span class=ow>in</span> <span class=p>[</span><span class=kc>None</span><span class=p>,</span> <span class=s1>&#39;&#39;</span><span class=p>]:</span>
+                    <span class=n>hasher</span> <span class=o>=</span> <span class=n>hasher_proto</span><span class=o>.</span><span class=n>copy</span><span class=p>()</span>
+                    <span class=n>hasher</span><span class=o>.</span><span class=n>update</span><span class=p>(</span><span class=n>current_url</span><span class=o>.</span><span class=n>encode</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>))</span>
+                    <span class=n>doc_id</span> <span class=o>=</span> <span class=n>hasher</span><span class=o>.</span><span class=n>hexdigest</span><span class=p>()</span>
+                    <span class=n>sohu_data_coll</span> <span class=o>=</span> <span class=n>mongo_client</span><span class=o>.</span><span class=n>msohu</span><span class=o>.</span><span class=n>webpages</span>
+                    <span class=k>if</span> <span class=ow>not</span> <span class=n>sohu_data_coll</span><span class=o>.</span><span class=n>find_one</span><span class=p>({</span><span class=s1>&#39;_id&#39;</span><span class=p>:</span> <span class=n>doc_id</span><span class=p>}):</span>
+                        <span class=n>sohu_data_coll</span><span class=o>.</span><span class=n>insert_one</span><span class=p>({</span>
+                            <span class=s1>&#39;_id&#39;</span><span class=p>:</span> <span class=n>doc_id</span><span class=p>,</span>
+                            <span class=s1>&#39;url&#39;</span><span class=p>:</span> <span class=n>current_url</span><span class=p>,</span>
+                            <span class=s1>&#39;page&#39;</span><span class=p>:</span> <span class=n>Binary</span><span class=p>(</span><span class=n>zlib</span><span class=o>.</span><span class=n>compress</span><span class=p>(</span><span class=n>pickle</span><span class=o>.</span><span class=n>dumps</span><span class=p>(</span><span class=n>html_page</span><span class=p>)))</span>
+                        <span class=p>})</span>
+                    <span class=bp>self</span><span class=o>.</span><span class=n>spider</span><span class=o>.</span><span class=n>parse</span><span class=p>(</span><span class=n>html_page</span><span class=p>)</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>spider</span><span class=o>.</span><span class=n>status</span> <span class=o>=</span> <span class=n>SpiderStatus</span><span class=o>.</span><span class=n>IDLE</span>
+
+
+<span class=k>def</span> <span class=nf>is_any_alive</span><span class=p>(</span><span class=n>spider_threads</span><span class=p>):</span>
+    <span class=k>return</span> <span class=nb>any</span><span class=p>([</span><span class=n>spider_thread</span><span class=o>.</span><span class=n>spider</span><span class=o>.</span><span class=n>status</span> <span class=o>==</span> <span class=n>SpiderStatus</span><span class=o>.</span><span class=n>WORKING</span>
+                <span class=k>for</span> <span class=n>spider_thread</span> <span class=ow>in</span> <span class=n>spider_threads</span><span class=p>])</span>
+
+
+<span class=n>thread_local</span> <span class=o>=</span> <span class=n>local</span><span class=p>()</span>
+<span class=n>hasher_proto</span> <span class=o>=</span> <span class=n>sha1</span><span class=p>()</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>redis_client</span> <span class=o>=</span> <span class=n>redis</span><span class=o>.</span><span class=n>Redis</span><span class=p>(</span><span class=n>host</span><span class=o>=</span><span class=s1>&#39;1.2.3.4&#39;</span><span class=p>,</span> <span class=n>port</span><span class=o>=</span><span class=mi>6379</span><span class=p>,</span> <span class=n>password</span><span class=o>=</span><span class=s1>&#39;1qaz2wsx&#39;</span><span class=p>)</span>
+    <span class=k>if</span> <span class=ow>not</span> <span class=n>redis_client</span><span class=o>.</span><span class=n>exists</span><span class=p>(</span><span class=s1>&#39;m_sohu_task&#39;</span><span class=p>):</span>
+        <span class=n>redis_client</span><span class=o>.</span><span class=n>rpush</span><span class=p>(</span><span class=s1>&#39;m_sohu_task&#39;</span><span class=p>,</span> <span class=s1>&#39;http://m.sohu.com/&#39;</span><span class=p>)</span>
+
+    <span class=n>spider_threads</span> <span class=o>=</span> <span class=p>[</span><span class=n>SpiderThread</span><span class=p>(</span><span class=s1>&#39;thread-</span><span class=si>%d</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=n>i</span><span class=p>,</span> <span class=n>Spider</span><span class=p>())</span>
+                      <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>10</span><span class=p>)]</span>
+    <span class=k>for</span> <span class=n>spider_thread</span> <span class=ow>in</span> <span class=n>spider_threads</span><span class=p>:</span>
+        <span class=n>spider_thread</span><span class=o>.</span><span class=n>start</span><span class=p>()</span>
+
+    <span class=k>while</span> <span class=n>redis_client</span><span class=o>.</span><span class=n>exists</span><span class=p>(</span><span class=s1>&#39;m_sohu_task&#39;</span><span class=p>)</span> <span class=ow>or</span> <span class=n>is_any_alive</span><span class=p>(</span><span class=n>spider_threads</span><span class=p>):</span>
+        <span class=n>sleep</span><span class=p>(</span><span class=mi>5</span><span class=p>)</span>
+
+    <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;Over!&#39;</span><span class=p>)</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div></div><ul class=post-copyright><li class="copyright-item author"><span class=copyright-item-text>作者</span>：<span class="p-author h-card">骆昊</span></li><li class="copyright-item link"><span class=copyright-item-text>链接</span>：<a href=https://github.com/jackfrued/Python-100-Days target=_blank rel=noopener>https://github.com/jackfrued/Python-100-Days</a></li><li class="copyright-item license"><span class=copyright-item-text>许可</span>：本文采用<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>「CC BY-NC-SA 4.0」</a>协议，转载请注明出处。</li></ul></article><div class=related-posts><h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2><ul class=related-list><li class=related-item><a href=/python/01.%E5%88%9D%E8%AF%86python/ class=related-link>01.初识Python</a></li><li class=related-item><a href=/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/ class=related-link>02.语言元素</a></li><li class=related-item><a href=/python/03.%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84/ class=related-link>03.分支结构</a></li><li class=related-item><a href=/python/04.%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84/ class=related-link>04.循环结构</a></li><li class=related-item><a href=/python/05.%E6%9E%84%E9%80%A0%E7%A8%8B%E5%BA%8F%E9%80%BB%E8%BE%91/ class=related-link>05.构造程序逻辑</a></li></ul></div><div class=post-tags><a href=/tags/python/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>python</a></div></div></main><div id=back-to-top class=back-to-top><a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a></div><footer id=footer class=footer><div class=footer-inner><div class=site-info>©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;hanxin</div><script src=https://sdk.jinrishici.com/v2/browser/jinrishici.js></script>
+<text class=poem_sentence></text>
+<text class=poem_info></text>
+<script type=text/javascript>jinrishici.load(function(a){var b=document.querySelector(".poem_sentence"),c=document.querySelector(".poem_info");b.innerHTML=a.data.content,c.innerHTML='——'+a.data.origin.author})</script></div></footer></div><script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script><script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script></body></html>

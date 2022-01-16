@@ -1,0 +1,165 @@
+<!doctype html><html lang=zh-cn><head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"><meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=theme-color content="#16171d"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=format-detection content="telephone=no, date=no, address=no, email=no"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><title>12.字符串和正则表达式 | Hanxin</title><link rel=stylesheet href=/css/meme.min.88c90dc75021618344ec926f4ed6ac307f30ba48911294816b16370a41e5f137.css><script src=/js/meme.min.f460a174bb100a60a7e275913695161f1e09aab1378fe99cfd30cde14da70888.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap" media=print onload="this.media='all'"><noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap"></noscript><meta name=author content="骆昊"><meta name=description content="使用正则表达式 正则表达式相关知识 在编写处理字符串的程序或网页时，经常会有查找符合某些……"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=mask-icon href=/icons/safari-pinned-tab.svg color=#2a6df4><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-title content="Hanxin"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=mobile-web-app-capable content="yes"><meta name=application-name content="Hanxin"><meta name=msapplication-starturl content="../../"><meta name=msapplication-TileColor content="#fff"><meta name=msapplication-TileImage content="../../icons/mstile-150x150.png"><link rel=manifest href=/manifest.json><link rel=canonical href=/python/12.%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/><script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2021-08-23T17:34:52+08:00","dateModified":"2022-01-16T09:24:35+00:00","url":"/python/12.%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/","name":"12.字符串和正则表达式","description":"使用正则表达式 正则表达式相关知识 在编写处理字符串的程序或网页时，经常会有查找符合某些……","image":"/icons/apple-touch-icon.png","license":"本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。","publisher":{"@type":"Organization","name":"Hanxin","logo":{"@type":"ImageObject","url":"/icons/apple-touch-icon.png"},"url":"/"},"mainEntityOfPage":{"@type":"WebSite","@id":"/"}}</script><meta name=twitter:card content="summary"><meta property="og:title" content="12.字符串和正则表达式"><meta property="og:description" content="使用正则表达式 正则表达式相关知识 在编写处理字符串的程序或网页时，经常会有查找符合某些……"><meta property="og:url" content="/python/12.%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><meta property="og:site_name" content="Hanxin"><meta property="og:locale" content="zh"><meta property="og:image" content="/icons/apple-touch-icon.png"><meta property="og:type" content="website"></head><body><div class=container><header class=header><div class=header-wrapper><div class="header-inner single"><div class=site-brand><a href=/ class=brand>Hanxin</a></div><nav class=nav><ul class=menu id=menu><li class=menu-item><a href=/life/><span class=menu-item-name>生活</span></a></li><li class=menu-item><a href=/tech/><span class=menu-item-name>技术</span></a></li><li class=menu-item><a href=/tags/><span class=menu-item-name>标签</span></a></li><li class=menu-item><a href=/about/><span class=menu-item-name>关于</span></a></li><li class=menu-item><a href=/blogroll/><span class=menu-item-name>友链</span></a></li><li class=menu-item><a href=/python/><span class=menu-item-name>Python-100天</span></a></li><li class=menu-item><a id=theme-switcher href=#><span class="icon theme-icon-light">🌞</span><span class="icon theme-icon-dark">🌙</span></a></li></ul></nav></div></div><input type=checkbox id=nav-toggle aria-hidden=true>
+<label for=nav-toggle class=nav-toggle></label>
+<label for=nav-toggle class=nav-curtain></label></header><main class="main single" id=main><div class=main-inner><article class="content post h-entry" data-align=justify data-type=python data-toc-num=true><h1 class="post-title p-name">12.字符串和正则表达式</h1><div class=post-meta><time datetime=2021-08-23T17:34:52+08:00 class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;2021.8.23</time>
+<time datetime=2022-01-16T09:24:35+00:00 class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M4e2 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H48C21.49 64 0 85.49.0 112v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 4e2H54a6 6 0 01-6-6V160h352v298a6 6 0 01-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.1.16</time>
+<span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;3847</span>
+<span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;8&nbsp;分钟</span></div><div class="post-body e-content"><h2 id=使用正则表达式><a href=#使用正则表达式 class=anchor-link>#</a>使用正则表达式</h2><h3 id=正则表达式相关知识><a href=#正则表达式相关知识 class=anchor-link>#</a>正则表达式相关知识</h3><p>在编写处理字符串的程序或网页时，经常会有查找符合某些复杂规则的字符串的需要，正则表达式就是用于描述这些规则的工具，换句话说正则表达式是一种工具，它定义了字符串的匹配模式（如何检查一个字符串是否有跟某种模式匹配的部分或者从一个字符串中将与模式匹配的部分提取出来或者替换掉）。如果你在Windows操作系统中使用过文件查找并且在指定文件名时使用过通配符（*和?），那么正则表达式也是与之类似的用来进行文本匹配的工具，只不过比起通配符正则表达式更强大，它能更精确地描述你的需求（当然你付出的代价是书写一个正则表达式比打出一个通配符要复杂得多，要知道任何给你带来好处的东西都是有代价的，就如同学习一门编程语言一样），比如你可以编写一个正则表达式，用来查找所有以0开头，后面跟着2-3个数字，然后是一个连字号“-”，最后是7或8位数字的字符串（像028-12345678或0813-7654321），这不就是国内的座机号码吗。最初计算机是为了做数学运算而诞生的，处理的信息基本上都是数值，而今天我们在日常工作中处理的信息基本上都是文本数据，我们希望计算机能够识别和处理符合某些模式的文本，正则表达式就显得非常重要了。今天几乎所有的编程语言都提供了对正则表达式操作的支持，Python通过标准库中的re模块来支持正则表达式操作。</p><p>我们可以考虑下面一个问题：我们从某个地方（可能是一个文本文件，也可能是网络上的一则新闻）获得了一个字符串，希望在字符串中找出手机号和座机号。当然我们可以设定手机号是11位的数字（注意并不是随机的11位数字，因为你没有见过“25012345678”这样的手机号吧）而座机号跟上一段中描述的模式相同，如果不使用正则表达式要完成这个任务就会很麻烦。</p><p>关于正则表达式的相关知识，大家可以阅读一篇非常有名的博客叫<a href=https://deerchao.net/tutorials/regex/regex.htm target=_blank rel=noopener>《正则表达式30分钟入门教程》</a>，读完这篇文章后你就可以看懂下面的表格，这是我们对正则表达式中的一些基本符号进行的扼要总结。</p><div class=table-container><table><thead><tr><th>符号</th><th>解释</th><th>示例</th><th>说明</th></tr></thead><tbody><tr><td>.</td><td>匹配任意字符</td><td>b.t</td><td>可以匹配bat / but / b#t / b1t等</td></tr><tr><td>\w</td><td>匹配字母/数字/下划线</td><td>b\wt</td><td>可以匹配bat / b1t / b_t等<br>但不能匹配b#t</td></tr><tr><td>\s</td><td>匹配空白字符（包括\r、\n、\t等）</td><td>love\syou</td><td>可以匹配love you</td></tr><tr><td>\d</td><td>匹配数字</td><td>\d\d</td><td>可以匹配01 / 23 / 99等</td></tr><tr><td>\b</td><td>匹配单词的边界</td><td>\bThe\b</td><td></td></tr><tr><td>^</td><td>匹配字符串的开始</td><td>^The</td><td>可以匹配The开头的字符串</td></tr><tr><td>$</td><td>匹配字符串的结束</td><td>.exe$</td><td>可以匹配.exe结尾的字符串</td></tr><tr><td>\W</td><td>匹配非字母/数字/下划线</td><td>b\Wt</td><td>可以匹配b#t / b@t等<br>但不能匹配but / b1t / b_t等</td></tr><tr><td>\S</td><td>匹配非空白字符</td><td>love\Syou</td><td>可以匹配love#you等<br>但不能匹配love you</td></tr><tr><td>\D</td><td>匹配非数字</td><td>\d\D</td><td>可以匹配9a / 3# / 0F等</td></tr><tr><td>\B</td><td>匹配非单词边界</td><td>\Bio\B</td><td></td></tr><tr><td>[]</td><td>匹配来自字符集的任意单一字符</td><td>[aeiou]</td><td>可以匹配任一元音字母字符</td></tr><tr><td>[^]</td><td>匹配不在字符集中的任意单一字符</td><td>[^aeiou]</td><td>可以匹配任一非元音字母字符</td></tr><tr><td>*</td><td>匹配0次或多次</td><td>\w*</td><td></td></tr><tr><td>+</td><td>匹配1次或多次</td><td>\w+</td><td></td></tr><tr><td>?</td><td>匹配0次或1次</td><td>\w?</td><td></td></tr><tr><td>{N}</td><td>匹配N次</td><td>\w{3}</td><td></td></tr><tr><td>{M,}</td><td>匹配至少M次</td><td>\w{3,}</td><td></td></tr><tr><td>{M,N}</td><td>匹配至少M次至多N次</td><td>\w{3,6}</td><td></td></tr><tr><td>|</td><td>分支</td><td>foo|bar</td><td>可以匹配foo或者bar</td></tr><tr><td>(?#)</td><td>注释</td><td></td><td></td></tr><tr><td>(exp)</td><td>匹配exp并捕获到自动命名的组中</td><td></td><td></td></tr><tr><td>(?&lt;name>exp)</td><td>匹配exp并捕获到名为name的组中</td><td></td><td></td></tr><tr><td>(?:exp)</td><td>匹配exp但是不捕获匹配的文本</td><td></td><td></td></tr><tr><td>(?=exp)</td><td>匹配exp前面的位置</td><td>\b\w+(?=ing)</td><td>可以匹配I'm dancing中的danc</td></tr><tr><td>(?&lt;=exp)</td><td>匹配exp后面的位置</td><td>(?&lt;=\bdanc)\w+\b</td><td>可以匹配I love dancing and reading中的第一个ing</td></tr><tr><td>(?!exp)</td><td>匹配后面不是exp的位置</td><td></td><td></td></tr><tr><td>(?&lt;!exp)</td><td>匹配前面不是exp的位置</td><td></td><td></td></tr><tr><td>*?</td><td>重复任意次，但尽可能少重复</td><td>a.*b<br>a.*?b</td><td>将正则表达式应用于aabab，前者会匹配整个字符串aabab，后者会匹配aab和ab两个字符串</td></tr><tr><td>+?</td><td>重复1次或多次，但尽可能少重复</td><td></td><td></td></tr><tr><td>??</td><td>重复0次或1次，但尽可能少重复</td><td></td><td></td></tr><tr><td>{M,N}?</td><td>重复M到N次，但尽可能少重复</td><td></td><td></td></tr><tr><td>{M,}?</td><td>重复M次以上，但尽可能少重复</td><td></td><td></td></tr></tbody></table></div><blockquote><p><strong>说明：</strong> 如果需要匹配的字符是正则表达式中的特殊字符，那么可以使用\进行转义处理，例如想匹配小数点可以写成\.就可以了，因为直接写.会匹配任意字符；同理，想匹配圆括号必须写成\(和\)，否则圆括号被视为正则表达式中的分组。</p></blockquote><h3 id=python对正则表达式的支持><a href=#python对正则表达式的支持 class=anchor-link>#</a>Python对正则表达式的支持</h3><p>Python提供了re模块来支持正则表达式相关操作，下面是re模块中的核心函数。</p><div class=table-container><table><thead><tr><th>函数</th><th>说明</th></tr></thead><tbody><tr><td>compile(pattern, flags=0)</td><td>编译正则表达式返回正则表达式对象</td></tr><tr><td>match(pattern, string, flags=0)</td><td>用正则表达式匹配字符串 成功返回匹配对象 否则返回None</td></tr><tr><td>search(pattern, string, flags=0)</td><td>搜索字符串中第一次出现正则表达式的模式 成功返回匹配对象 否则返回None</td></tr><tr><td>split(pattern, string, maxsplit=0, flags=0)</td><td>用正则表达式指定的模式分隔符拆分字符串 返回列表</td></tr><tr><td>sub(pattern, repl, string, count=0, flags=0)</td><td>用指定的字符串替换原字符串中与正则表达式匹配的模式 可以用count指定替换的次数</td></tr><tr><td>fullmatch(pattern, string, flags=0)</td><td>match函数的完全匹配（从字符串开头到结尾）版本</td></tr><tr><td>findall(pattern, string, flags=0)</td><td>查找字符串所有与正则表达式匹配的模式 返回字符串的列表</td></tr><tr><td>finditer(pattern, string, flags=0)</td><td>查找字符串所有与正则表达式匹配的模式 返回一个迭代器</td></tr><tr><td>purge()</td><td>清除隐式编译的正则表达式的缓存</td></tr><tr><td>re.I / re.IGNORECASE</td><td>忽略大小写匹配标记</td></tr><tr><td>re.M / re.MULTILINE</td><td>多行匹配标记</td></tr></tbody></table></div><blockquote><p><strong>说明：</strong> 上面提到的re模块中的这些函数，实际开发中也可以用正则表达式对象的方法替代对这些函数的使用，如果一个正则表达式需要重复的使用，那么先通过compile函数编译正则表达式并创建出正则表达式对象无疑是更为明智的选择。</p></blockquote><p>下面我们通过一系列的例子来告诉大家在Python中如何使用正则表达式。</p><h4 id=例子1验证输入用户名和qq号是否有效并给出对应的提示信息><a href=#例子1验证输入用户名和qq号是否有效并给出对应的提示信息 class=anchor-link>#</a>例子1：验证输入用户名和QQ号是否有效并给出对应的提示信息。</h4><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=s2>&#34;&#34;&#34;
+</span><span class=s2>验证输入用户名和QQ号是否有效并给出对应的提示信息
+</span><span class=s2>
+</span><span class=s2>要求：用户名必须由字母、数字或下划线构成且长度在6~20个字符之间，QQ号是5~12的数字且首位不能为0
+</span><span class=s2>&#34;&#34;&#34;</span>
+<span class=kn>import</span> <span class=nn>re</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>username</span> <span class=o>=</span> <span class=nb>input</span><span class=p>(</span><span class=s1>&#39;请输入用户名: &#39;</span><span class=p>)</span>
+    <span class=n>qq</span> <span class=o>=</span> <span class=nb>input</span><span class=p>(</span><span class=s1>&#39;请输入QQ号: &#39;</span><span class=p>)</span>
+    <span class=c1># match函数的第一个参数是正则表达式字符串或正则表达式对象</span>
+    <span class=c1># 第二个参数是要跟正则表达式做匹配的字符串对象</span>
+    <span class=n>m1</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>match</span><span class=p>(</span><span class=sa>r</span><span class=s1>&#39;^[0-9a-zA-Z_]{6,20}$&#39;</span><span class=p>,</span> <span class=n>username</span><span class=p>)</span>
+    <span class=k>if</span> <span class=ow>not</span> <span class=n>m1</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;请输入有效的用户名.&#39;</span><span class=p>)</span>
+    <span class=n>m2</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>match</span><span class=p>(</span><span class=sa>r</span><span class=s1>&#39;^[1-9]\d{4,11}$&#39;</span><span class=p>,</span> <span class=n>qq</span><span class=p>)</span>
+    <span class=k>if</span> <span class=ow>not</span> <span class=n>m2</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;请输入有效的QQ号.&#39;</span><span class=p>)</span>
+    <span class=k>if</span> <span class=n>m1</span> <span class=ow>and</span> <span class=n>m2</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;你输入的信息是有效的!&#39;</span><span class=p>)</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>提示：</strong> 上面在书写正则表达式时使用了“原始字符串”的写法（在字符串前面加上了r），所谓“原始字符串”就是字符串中的每个字符都是它原始的意义，说得更直接一点就是字符串中没有所谓的转义字符啦。因为正则表达式中有很多元字符和需要进行转义的地方，如果不使用原始字符串就需要将反斜杠写作\\，例如表示数字的\d得书写成\\d，这样不仅写起来不方便，阅读的时候也会很吃力。</p></blockquote><h4 id=例子2从一段文字中提取出国内手机号码><a href=#例子2从一段文字中提取出国内手机号码 class=anchor-link>#</a>例子2：从一段文字中提取出国内手机号码。</h4><p>下面这张图是截止到2017年底，国内三家运营商推出的手机号段。</p><p><img src=/res/tel-start-number.png alt></p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>re</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=c1># 创建正则表达式对象 使用了前瞻和回顾来保证手机号前后不应该出现数字</span>
+    <span class=n>pattern</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>compile</span><span class=p>(</span><span class=sa>r</span><span class=s1>&#39;(?&lt;=\D)1[34578]\d</span><span class=si>{9}</span><span class=s1>(?=\D)&#39;</span><span class=p>)</span>
+    <span class=n>sentence</span> <span class=o>=</span> <span class=s1>&#39;&#39;&#39;
+</span><span class=s1>    重要的事情说8130123456789遍，我的手机号是13512346789这个靓号，
+</span><span class=s1>    不是15600998765，也是110或119，王大锤的手机号才是15600998765。
+</span><span class=s1>    &#39;&#39;&#39;</span>
+    <span class=c1># 查找所有匹配并保存到一个列表中</span>
+    <span class=n>mylist</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>findall</span><span class=p>(</span><span class=n>pattern</span><span class=p>,</span> <span class=n>sentence</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>mylist</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;--------华丽的分隔线--------&#39;</span><span class=p>)</span>
+    <span class=c1># 通过迭代器取出匹配对象并获得匹配的内容</span>
+    <span class=k>for</span> <span class=n>temp</span> <span class=ow>in</span> <span class=n>pattern</span><span class=o>.</span><span class=n>finditer</span><span class=p>(</span><span class=n>sentence</span><span class=p>):</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>temp</span><span class=o>.</span><span class=n>group</span><span class=p>())</span>
+    <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;--------华丽的分隔线--------&#39;</span><span class=p>)</span>
+    <span class=c1># 通过search函数指定搜索位置找出所有匹配</span>
+    <span class=n>m</span> <span class=o>=</span> <span class=n>pattern</span><span class=o>.</span><span class=n>search</span><span class=p>(</span><span class=n>sentence</span><span class=p>)</span>
+    <span class=k>while</span> <span class=n>m</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>m</span><span class=o>.</span><span class=n>group</span><span class=p>())</span>
+        <span class=n>m</span> <span class=o>=</span> <span class=n>pattern</span><span class=o>.</span><span class=n>search</span><span class=p>(</span><span class=n>sentence</span><span class=p>,</span> <span class=n>m</span><span class=o>.</span><span class=n>end</span><span class=p>())</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明：</strong> 上面匹配国内手机号的正则表达式并不够好，因为像14开头的号码只有145或147，而上面的正则表达式并没有考虑这种情况，要匹配国内手机号，更好的正则表达式的写法是：<code>(?&lt;=\D)(1[38]\d{9}|14[57]\d{8}|15[0-35-9]\d{8}|17[678]\d{8})(?=\D)</code>，国内最近好像有19和16开头的手机号了，但是这个暂时不在我们考虑之列。</p></blockquote><h4 id=例子3替换字符串中的不良内容><a href=#例子3替换字符串中的不良内容 class=anchor-link>#</a>例子3：替换字符串中的不良内容</h4><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>re</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>sentence</span> <span class=o>=</span> <span class=s1>&#39;你丫是傻叉吗? 我操你大爷的. Fuck you.&#39;</span>
+    <span class=n>purified</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>sub</span><span class=p>(</span><span class=s1>&#39;[操肏艹]|fuck|shit|傻[比屄逼叉缺吊屌]|煞笔&#39;</span><span class=p>,</span>
+                      <span class=s1>&#39;*&#39;</span><span class=p>,</span> <span class=n>sentence</span><span class=p>,</span> <span class=n>flags</span><span class=o>=</span><span class=n>re</span><span class=o>.</span><span class=n>IGNORECASE</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>purified</span><span class=p>)</span>  <span class=c1># 你丫是*吗? 我*你大爷的. * you.</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明：</strong> re模块的正则表达式相关函数中都有一个flags参数，它代表了正则表达式的匹配标记，可以通过该标记来指定匹配时是否忽略大小写、是否进行多行匹配、是否显示调试信息等。如果需要为flags参数指定多个值，可以使用<a href=http://www.runoob.com/python/python-operators.html#ysf5 target=_blank rel=noopener>按位或运算符</a>进行叠加，如<code>flags=re.I | re.M</code>。</p></blockquote><h4 id=例子4拆分长字符串><a href=#例子4拆分长字符串 class=anchor-link>#</a>例子4：拆分长字符串</h4><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>re</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>poem</span> <span class=o>=</span> <span class=s1>&#39;窗前明月光，疑是地上霜。举头望明月，低头思故乡。&#39;</span>
+    <span class=n>sentence_list</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>split</span><span class=p>(</span><span class=sa>r</span><span class=s1>&#39;[，。, .]&#39;</span><span class=p>,</span> <span class=n>poem</span><span class=p>)</span>
+    <span class=k>while</span> <span class=s1>&#39;&#39;</span> <span class=ow>in</span> <span class=n>sentence_list</span><span class=p>:</span>
+        <span class=n>sentence_list</span><span class=o>.</span><span class=n>remove</span><span class=p>(</span><span class=s1>&#39;&#39;</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>sentence_list</span><span class=p>)</span>  <span class=c1># [&#39;窗前明月光&#39;, &#39;疑是地上霜&#39;, &#39;举头望明月&#39;, &#39;低头思故乡&#39;]</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><h3 id=后话><a href=#后话 class=anchor-link>#</a>后话</h3><p>如果要从事爬虫类应用的开发，那么正则表达式一定是一个非常好的助手，因为它可以帮助我们迅速的从网页代码中发现某种我们指定的模式并提取出我们需要的信息，当然对于初学者来收，要编写一个正确的适当的正则表达式可能并不是一件容易的事情（当然有些常用的正则表达式可以直接在网上找找），所以实际开发爬虫应用的时候，有很多人会选择<a href=https://www.crummy.com/software/BeautifulSoup/ target=_blank rel=noopener>Beautiful Soup</a>或<a href=http://lxml.de/ target=_blank rel=noopener>Lxml</a>来进行匹配和信息的提取，前者简单方便但是性能较差，后者既好用性能也好，但是安装稍嫌麻烦，这些内容我们会在后期的爬虫专题中为大家介绍。</p></div><ul class=post-copyright><li class="copyright-item author"><span class=copyright-item-text>作者</span>：<span class="p-author h-card">骆昊</span></li><li class="copyright-item link"><span class=copyright-item-text>链接</span>：<a href=https://github.com/jackfrued/Python-100-Days target=_blank rel=noopener>https://github.com/jackfrued/Python-100-Days</a></li><li class="copyright-item license"><span class=copyright-item-text>许可</span>：本文采用<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>「CC BY-NC-SA 4.0」</a>协议，转载请注明出处。</li></ul></article><div class=related-posts><h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2><ul class=related-list><li class=related-item><a href=/python/01.%E5%88%9D%E8%AF%86python/ class=related-link>01.初识Python</a></li><li class=related-item><a href=/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/ class=related-link>02.语言元素</a></li><li class=related-item><a href=/python/03.%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84/ class=related-link>03.分支结构</a></li><li class=related-item><a href=/python/04.%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84/ class=related-link>04.循环结构</a></li><li class=related-item><a href=/python/05.%E6%9E%84%E9%80%A0%E7%A8%8B%E5%BA%8F%E9%80%BB%E8%BE%91/ class=related-link>05.构造程序逻辑</a></li></ul></div><div class=post-tags><a href=/tags/python/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>python</a></div></div></main><div id=back-to-top class=back-to-top><a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a></div><footer id=footer class=footer><div class=footer-inner><div class=site-info>©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;hanxin</div><script src=https://sdk.jinrishici.com/v2/browser/jinrishici.js></script>
+<text class=poem_sentence></text>
+<text class=poem_info></text>
+<script type=text/javascript>jinrishici.load(function(a){var b=document.querySelector(".poem_sentence"),c=document.querySelector(".poem_info");b.innerHTML=a.data.content,c.innerHTML='——'+a.data.origin.author})</script></div></footer></div><script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script><script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script></body></html>

@@ -1,0 +1,1341 @@
+<!doctype html><html lang=zh-cn><head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"><meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=theme-color content="#16171d"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=format-detection content="telephone=no, date=no, address=no, email=no"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><title>09.面向对象进阶 | Hanxin</title><link rel=stylesheet href=/css/meme.min.88c90dc75021618344ec926f4ed6ac307f30ba48911294816b16370a41e5f137.css><script src=/js/meme.min.f460a174bb100a60a7e275913695161f1e09aab1378fe99cfd30cde14da70888.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap" media=print onload="this.media='all'"><noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap"></noscript><meta name=author content="骆昊"><meta name=description content="面向对象进阶 在前面的章节我们已经了解了面向对象的入门知识，知道了如何定义类，如何创建……"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=mask-icon href=/icons/safari-pinned-tab.svg color=#2a6df4><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-title content="Hanxin"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=mobile-web-app-capable content="yes"><meta name=application-name content="Hanxin"><meta name=msapplication-starturl content="../../"><meta name=msapplication-TileColor content="#fff"><meta name=msapplication-TileImage content="../../icons/mstile-150x150.png"><link rel=manifest href=/manifest.json><link rel=canonical href=/python/09.%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%BF%9B%E9%98%B6/><script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2021-08-23T17:34:56+08:00","dateModified":"2022-01-16T09:24:35+00:00","url":"/python/09.%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%BF%9B%E9%98%B6/","name":"09.面向对象进阶","description":"面向对象进阶 在前面的章节我们已经了解了面向对象的入门知识，知道了如何定义类，如何创建……","image":"/icons/apple-touch-icon.png","license":"本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。","publisher":{"@type":"Organization","name":"Hanxin","logo":{"@type":"ImageObject","url":"/icons/apple-touch-icon.png"},"url":"/"},"mainEntityOfPage":{"@type":"WebSite","@id":"/"}}</script><meta name=twitter:card content="summary"><meta property="og:title" content="09.面向对象进阶"><meta property="og:description" content="面向对象进阶 在前面的章节我们已经了解了面向对象的入门知识，知道了如何定义类，如何创建……"><meta property="og:url" content="/python/09.%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%BF%9B%E9%98%B6/"><meta property="og:site_name" content="Hanxin"><meta property="og:locale" content="zh"><meta property="og:image" content="/icons/apple-touch-icon.png"><meta property="og:type" content="website"></head><body><div class=container><header class=header><div class=header-wrapper><div class="header-inner single"><div class=site-brand><a href=/ class=brand>Hanxin</a></div><nav class=nav><ul class=menu id=menu><li class=menu-item><a href=/life/><span class=menu-item-name>生活</span></a></li><li class=menu-item><a href=/tech/><span class=menu-item-name>技术</span></a></li><li class=menu-item><a href=/tags/><span class=menu-item-name>标签</span></a></li><li class=menu-item><a href=/about/><span class=menu-item-name>关于</span></a></li><li class=menu-item><a href=/blogroll/><span class=menu-item-name>友链</span></a></li><li class=menu-item><a href=/python/><span class=menu-item-name>Python-100天</span></a></li><li class=menu-item><a id=theme-switcher href=#><span class="icon theme-icon-light">🌞</span><span class="icon theme-icon-dark">🌙</span></a></li></ul></nav></div></div><input type=checkbox id=nav-toggle aria-hidden=true>
+<label for=nav-toggle class=nav-toggle></label>
+<label for=nav-toggle class=nav-curtain></label></header><main class="main single" id=main><div class=main-inner><article class="content post h-entry" data-align=justify data-type=python data-toc-num=true><h1 class="post-title p-name">09.面向对象进阶</h1><div class=post-meta><time datetime=2021-08-23T17:34:56+08:00 class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;2021.8.23</time>
+<time datetime=2022-01-16T09:24:35+00:00 class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M4e2 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H48C21.49 64 0 85.49.0 112v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 4e2H54a6 6 0 01-6-6V160h352v298a6 6 0 01-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.1.16</time>
+<span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;7123</span>
+<span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;15&nbsp;分钟</span></div><div class="post-body e-content"><h2 id=面向对象进阶><a href=#面向对象进阶 class=anchor-link>#</a>面向对象进阶</h2><p>在前面的章节我们已经了解了面向对象的入门知识，知道了如何定义类，如何创建对象以及如何给对象发消息。为了能够更好的使用面向对象编程思想进行程序开发，我们还需要对Python中的面向对象编程进行更为深入的了解。</p><h3 id=property装饰器><a href=#property装饰器 class=anchor-link>#</a>@property装饰器</h3><p>之前我们讨论过Python中属性和方法访问权限的问题，虽然我们不建议将属性设置为私有的，但是如果直接将属性暴露给外界也是有问题的，比如我们没有办法检查赋给属性的值是否有效。我们之前的建议是将属性命名以单下划线开头，通过这种方式来暗示属性是受保护的，不建议外界直接访问，那么如果想访问属性可以通过属性的getter（访问器）和setter（修改器）方法进行对应的操作。如果要做到这点，就可以考虑使用@property包装器来包装getter和setter方法，使得对属性的访问既安全又方便，代码如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>class</span> <span class=nc>Person</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>age</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_name</span> <span class=o>=</span> <span class=n>name</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_age</span> <span class=o>=</span> <span class=n>age</span>
+
+    <span class=c1># 访问器 - getter方法</span>
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>name</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span>
+
+    <span class=c1># 访问器 - getter方法</span>
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>age</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_age</span>
+
+    <span class=c1># 修改器 - setter方法</span>
+    <span class=nd>@age</span><span class=o>.</span><span class=n>setter</span>
+    <span class=k>def</span> <span class=nf>age</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>age</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_age</span> <span class=o>=</span> <span class=n>age</span>
+
+    <span class=k>def</span> <span class=nf>play</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_age</span> <span class=o>&lt;=</span> <span class=mi>16</span><span class=p>:</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>正在玩飞行棋.&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span><span class=p>)</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>正在玩斗地主.&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>person</span> <span class=o>=</span> <span class=n>Person</span><span class=p>(</span><span class=s1>&#39;王大锤&#39;</span><span class=p>,</span> <span class=mi>12</span><span class=p>)</span>
+    <span class=n>person</span><span class=o>.</span><span class=n>play</span><span class=p>()</span>
+    <span class=n>person</span><span class=o>.</span><span class=n>age</span> <span class=o>=</span> <span class=mi>22</span>
+    <span class=n>person</span><span class=o>.</span><span class=n>play</span><span class=p>()</span>
+    <span class=c1># person.name = &#39;白元芳&#39;  # AttributeError: can&#39;t set attribute</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><h3 id=__slots__魔法><a href=#__slots__魔法 class=anchor-link>#</a>__slots__魔法</h3><p>我们讲到这里，不知道大家是否已经意识到，Python是一门<a href=https://zh.wikipedia.org/wiki/%E5%8A%A8%E6%80%81%E8%AF%AD%E8%A8%80 target=_blank rel=noopener>动态语言</a>。通常，动态语言允许我们在程序运行时给对象绑定新的属性或方法，当然也可以对已经绑定的属性和方法进行解绑定。但是如果我们需要限定自定义类型的对象只能绑定某些属性，可以通过在类中定义__slots__变量来进行限定。需要注意的是__slots__的限定只对当前类的对象生效，对子类并不起任何作用。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>class</span> <span class=nc>Person</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+
+    <span class=c1># 限定Person对象只能绑定_name, _age和_gender属性</span>
+    <span class=vm>__slots__</span> <span class=o>=</span> <span class=p>(</span><span class=s1>&#39;_name&#39;</span><span class=p>,</span> <span class=s1>&#39;_age&#39;</span><span class=p>,</span> <span class=s1>&#39;_gender&#39;</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>age</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_name</span> <span class=o>=</span> <span class=n>name</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_age</span> <span class=o>=</span> <span class=n>age</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>name</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>age</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_age</span>
+
+    <span class=nd>@age</span><span class=o>.</span><span class=n>setter</span>
+    <span class=k>def</span> <span class=nf>age</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>age</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_age</span> <span class=o>=</span> <span class=n>age</span>
+
+    <span class=k>def</span> <span class=nf>play</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_age</span> <span class=o>&lt;=</span> <span class=mi>16</span><span class=p>:</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>正在玩飞行棋.&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span><span class=p>)</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>正在玩斗地主.&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>person</span> <span class=o>=</span> <span class=n>Person</span><span class=p>(</span><span class=s1>&#39;王大锤&#39;</span><span class=p>,</span> <span class=mi>22</span><span class=p>)</span>
+    <span class=n>person</span><span class=o>.</span><span class=n>play</span><span class=p>()</span>
+    <span class=n>person</span><span class=o>.</span><span class=n>_gender</span> <span class=o>=</span> <span class=s1>&#39;男&#39;</span>
+    <span class=c1># AttributeError: &#39;Person&#39; object has no attribute &#39;_is_gay&#39;</span>
+    <span class=c1># person._is_gay = True</span>
+</code></pre></td></tr></table></div></div></div><h3 id=静态方法和类方法><a href=#静态方法和类方法 class=anchor-link>#</a>静态方法和类方法</h3><p>之前，我们在类中定义的方法都是对象方法，也就是说这些方法都是发送给对象的消息。实际上，我们写在类中的方法并不需要都是对象方法，例如我们定义一个“三角形”类，通过传入三条边长来构造三角形，并提供计算周长和面积的方法，但是传入的三条边长未必能构造出三角形对象，因此我们可以先写一个方法来验证三条边长是否可以构成三角形，这个方法很显然就不是对象方法，因为在调用这个方法时三角形对象尚未创建出来（因为都不知道三条边能不能构成三角形），所以这个方法是属于三角形类而并不属于三角形对象的。我们可以使用静态方法来解决这类问题，代码如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>math</span> <span class=kn>import</span> <span class=n>sqrt</span>
+
+
+<span class=k>class</span> <span class=nc>Triangle</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>c</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_a</span> <span class=o>=</span> <span class=n>a</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_b</span> <span class=o>=</span> <span class=n>b</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_c</span> <span class=o>=</span> <span class=n>c</span>
+
+    <span class=nd>@staticmethod</span>
+    <span class=k>def</span> <span class=nf>is_valid</span><span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>c</span><span class=p>):</span>
+        <span class=k>return</span> <span class=n>a</span> <span class=o>+</span> <span class=n>b</span> <span class=o>&gt;</span> <span class=n>c</span> <span class=ow>and</span> <span class=n>b</span> <span class=o>+</span> <span class=n>c</span> <span class=o>&gt;</span> <span class=n>a</span> <span class=ow>and</span> <span class=n>a</span> <span class=o>+</span> <span class=n>c</span> <span class=o>&gt;</span> <span class=n>b</span>
+
+    <span class=k>def</span> <span class=nf>perimeter</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_a</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>_b</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>_c</span>
+
+    <span class=k>def</span> <span class=nf>area</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=n>half</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>perimeter</span><span class=p>()</span> <span class=o>/</span> <span class=mi>2</span>
+        <span class=k>return</span> <span class=n>sqrt</span><span class=p>(</span><span class=n>half</span> <span class=o>*</span> <span class=p>(</span><span class=n>half</span> <span class=o>-</span> <span class=bp>self</span><span class=o>.</span><span class=n>_a</span><span class=p>)</span> <span class=o>*</span>
+                    <span class=p>(</span><span class=n>half</span> <span class=o>-</span> <span class=bp>self</span><span class=o>.</span><span class=n>_b</span><span class=p>)</span> <span class=o>*</span> <span class=p>(</span><span class=n>half</span> <span class=o>-</span> <span class=bp>self</span><span class=o>.</span><span class=n>_c</span><span class=p>))</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>c</span> <span class=o>=</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>5</span>
+    <span class=c1># 静态方法和类方法都是通过给类发消息来调用的</span>
+    <span class=k>if</span> <span class=n>Triangle</span><span class=o>.</span><span class=n>is_valid</span><span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>c</span><span class=p>):</span>
+        <span class=n>t</span> <span class=o>=</span> <span class=n>Triangle</span><span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>c</span><span class=p>)</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>t</span><span class=o>.</span><span class=n>perimeter</span><span class=p>())</span>
+        <span class=c1># 也可以通过给类发消息来调用对象方法但是要传入接收消息的对象作为参数</span>
+        <span class=c1># print(Triangle.perimeter(t))</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>t</span><span class=o>.</span><span class=n>area</span><span class=p>())</span>
+        <span class=c1># print(Triangle.area(t))</span>
+    <span class=k>else</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;无法构成三角形.&#39;</span><span class=p>)</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>和静态方法比较类似，Python还可以在类中定义类方法，类方法的第一个参数约定名为cls，它代表的是当前类相关的信息的对象（类本身也是一个对象，有的地方也称之为类的元数据对象），通过这个参数我们可以获取和类相关的信息并且可以创建出类的对象，代码如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>time</span> <span class=kn>import</span> <span class=n>time</span><span class=p>,</span> <span class=n>localtime</span><span class=p>,</span> <span class=n>sleep</span>
+
+
+<span class=k>class</span> <span class=nc>Clock</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;数字时钟&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>hour</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>minute</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>second</span><span class=o>=</span><span class=mi>0</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_hour</span> <span class=o>=</span> <span class=n>hour</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_minute</span> <span class=o>=</span> <span class=n>minute</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_second</span> <span class=o>=</span> <span class=n>second</span>
+
+    <span class=nd>@classmethod</span>
+    <span class=k>def</span> <span class=nf>now</span><span class=p>(</span><span class=bp>cls</span><span class=p>):</span>
+        <span class=n>ctime</span> <span class=o>=</span> <span class=n>localtime</span><span class=p>(</span><span class=n>time</span><span class=p>())</span>
+        <span class=k>return</span> <span class=bp>cls</span><span class=p>(</span><span class=n>ctime</span><span class=o>.</span><span class=n>tm_hour</span><span class=p>,</span> <span class=n>ctime</span><span class=o>.</span><span class=n>tm_min</span><span class=p>,</span> <span class=n>ctime</span><span class=o>.</span><span class=n>tm_sec</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>run</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;走字&#34;&#34;&#34;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_second</span> <span class=o>+=</span> <span class=mi>1</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_second</span> <span class=o>==</span> <span class=mi>60</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_second</span> <span class=o>=</span> <span class=mi>0</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_minute</span> <span class=o>+=</span> <span class=mi>1</span>
+            <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_minute</span> <span class=o>==</span> <span class=mi>60</span><span class=p>:</span>
+                <span class=bp>self</span><span class=o>.</span><span class=n>_minute</span> <span class=o>=</span> <span class=mi>0</span>
+                <span class=bp>self</span><span class=o>.</span><span class=n>_hour</span> <span class=o>+=</span> <span class=mi>1</span>
+                <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_hour</span> <span class=o>==</span> <span class=mi>24</span><span class=p>:</span>
+                    <span class=bp>self</span><span class=o>.</span><span class=n>_hour</span> <span class=o>=</span> <span class=mi>0</span>
+
+    <span class=k>def</span> <span class=nf>show</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;显示时间&#34;&#34;&#34;</span>
+        <span class=k>return</span> <span class=s1>&#39;</span><span class=si>%02d</span><span class=s1>:</span><span class=si>%02d</span><span class=s1>:</span><span class=si>%02d</span><span class=s1>&#39;</span> <span class=o>%</span> \
+               <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_hour</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_minute</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_second</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=c1># 通过类方法创建对象并获取系统时间</span>
+    <span class=n>clock</span> <span class=o>=</span> <span class=n>Clock</span><span class=o>.</span><span class=n>now</span><span class=p>()</span>
+    <span class=k>while</span> <span class=kc>True</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>clock</span><span class=o>.</span><span class=n>show</span><span class=p>())</span>
+        <span class=n>sleep</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>
+        <span class=n>clock</span><span class=o>.</span><span class=n>run</span><span class=p>()</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><h3 id=类之间的关系><a href=#类之间的关系 class=anchor-link>#</a>类之间的关系</h3><p>简单的说，类和类之间的关系有三种：is-a、has-a和use-a关系。</p><ul><li>is-a关系也叫继承或泛化，比如学生和人的关系、手机和电子产品的关系都属于继承关系。</li><li>has-a关系通常称之为关联，比如部门和员工的关系，汽车和引擎的关系都属于关联关系；关联关系如果是整体和部分的关联，那么我们称之为聚合关系；如果整体进一步负责了部分的生命周期（整体和部分是不可分割的，同时同在也同时消亡），那么这种就是最强的关联关系，我们称之为合成关系。</li><li>use-a关系通常称之为依赖，比如司机有一个驾驶的行为（方法），其中（的参数）使用到了汽车，那么司机和汽车的关系就是依赖关系。</li></ul><p>我们可以使用一种叫做<a href=https://zh.wikipedia.org/wiki/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80 target=_blank rel=noopener>UML</a>（统一建模语言）的东西来进行面向对象建模，其中一项重要的工作就是把类和类之间的关系用标准化的图形符号描述出来。关于UML我们在这里不做详细的介绍，有兴趣的读者可以自行阅读<a href=https://e.jd.com/30392949.html target=_blank rel=noopener>《UML面向对象设计基础》</a>一书。</p><p><img src=/res/uml-components.png alt></p><p><img src=/res/uml-example.png alt></p><p>利用类之间的这些关系，我们可以在已有类的基础上来完成某些操作，也可以在已有类的基础上创建新的类，这些都是实现代码复用的重要手段。复用现有的代码不仅可以减少开发的工作量，也有利于代码的管理和维护，这是我们在日常工作中都会使用到的技术手段。</p><h3 id=继承和多态><a href=#继承和多态 class=anchor-link>#</a>继承和多态</h3><p>刚才我们提到了，可以在已有类的基础上创建新类，这其中的一种做法就是让一个类从另一个类那里将属性和方法直接继承下来，从而减少重复代码的编写。提供继承信息的我们称之为父类，也叫超类或基类；得到继承信息的我们称之为子类，也叫派生类或衍生类。子类除了继承父类提供的属性和方法，还可以定义自己特有的属性和方法，所以子类比父类拥有的更多的能力，在实际开发中，我们经常会用子类对象去替换掉一个父类对象，这是面向对象编程中一个常见的行为，对应的原则称之为<a href=https://zh.wikipedia.org/wiki/%E9%87%8C%E6%B0%8F%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%88%99 target=_blank rel=noopener>里氏替换原则</a>。下面我们先看一个继承的例子。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>class</span> <span class=nc>Person</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;人&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>age</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_name</span> <span class=o>=</span> <span class=n>name</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_age</span> <span class=o>=</span> <span class=n>age</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>name</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>age</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_age</span>
+
+    <span class=nd>@age</span><span class=o>.</span><span class=n>setter</span>
+    <span class=k>def</span> <span class=nf>age</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>age</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_age</span> <span class=o>=</span> <span class=n>age</span>
+
+    <span class=k>def</span> <span class=nf>play</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>正在愉快的玩耍.&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>watch_av</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_age</span> <span class=o>&gt;=</span> <span class=mi>18</span><span class=p>:</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>正在观看爱情动作片.&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span><span class=p>)</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>只能观看《熊出没》.&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span><span class=p>)</span>
+
+
+<span class=k>class</span> <span class=nc>Student</span><span class=p>(</span><span class=n>Person</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;学生&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>age</span><span class=p>,</span> <span class=n>grade</span><span class=p>):</span>
+        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>age</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_grade</span> <span class=o>=</span> <span class=n>grade</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>grade</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_grade</span>
+
+    <span class=nd>@grade</span><span class=o>.</span><span class=n>setter</span>
+    <span class=k>def</span> <span class=nf>grade</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>grade</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_grade</span> <span class=o>=</span> <span class=n>grade</span>
+
+    <span class=k>def</span> <span class=nf>study</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>course</span><span class=p>):</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>的</span><span class=si>%s</span><span class=s1>正在学习</span><span class=si>%s</span><span class=s1>.&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_grade</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span><span class=p>,</span> <span class=n>course</span><span class=p>))</span>
+
+
+<span class=k>class</span> <span class=nc>Teacher</span><span class=p>(</span><span class=n>Person</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;老师&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>age</span><span class=p>,</span> <span class=n>title</span><span class=p>):</span>
+        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>age</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_title</span> <span class=o>=</span> <span class=n>title</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>title</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_title</span>
+
+    <span class=nd>@title</span><span class=o>.</span><span class=n>setter</span>
+    <span class=k>def</span> <span class=nf>title</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>title</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_title</span> <span class=o>=</span> <span class=n>title</span>
+
+    <span class=k>def</span> <span class=nf>teach</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>course</span><span class=p>):</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s%s</span><span class=s1>正在讲</span><span class=si>%s</span><span class=s1>.&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_name</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>_title</span><span class=p>,</span> <span class=n>course</span><span class=p>))</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>stu</span> <span class=o>=</span> <span class=n>Student</span><span class=p>(</span><span class=s1>&#39;王大锤&#39;</span><span class=p>,</span> <span class=mi>15</span><span class=p>,</span> <span class=s1>&#39;初三&#39;</span><span class=p>)</span>
+    <span class=n>stu</span><span class=o>.</span><span class=n>study</span><span class=p>(</span><span class=s1>&#39;数学&#39;</span><span class=p>)</span>
+    <span class=n>stu</span><span class=o>.</span><span class=n>watch_av</span><span class=p>()</span>
+    <span class=n>t</span> <span class=o>=</span> <span class=n>Teacher</span><span class=p>(</span><span class=s1>&#39;骆昊&#39;</span><span class=p>,</span> <span class=mi>38</span><span class=p>,</span> <span class=s1>&#39;砖家&#39;</span><span class=p>)</span>
+    <span class=n>t</span><span class=o>.</span><span class=n>teach</span><span class=p>(</span><span class=s1>&#39;Python程序设计&#39;</span><span class=p>)</span>
+    <span class=n>t</span><span class=o>.</span><span class=n>watch_av</span><span class=p>()</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>子类在继承了父类的方法后，可以对父类已有的方法给出新的实现版本，这个动作称之为方法重写（override）。通过方法重写我们可以让父类的同一个行为在子类中拥有不同的实现版本，当我们调用这个经过子类重写的方法时，不同的子类对象会表现出不同的行为，这个就是多态（poly-morphism）。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>abc</span> <span class=kn>import</span> <span class=n>ABCMeta</span><span class=p>,</span> <span class=n>abstractmethod</span>
+
+
+<span class=k>class</span> <span class=nc>Pet</span><span class=p>(</span><span class=nb>object</span><span class=p>,</span> <span class=n>metaclass</span><span class=o>=</span><span class=n>ABCMeta</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;宠物&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>nickname</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_nickname</span> <span class=o>=</span> <span class=n>nickname</span>
+
+    <span class=nd>@abstractmethod</span>
+    <span class=k>def</span> <span class=nf>make_voice</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;发出声音&#34;&#34;&#34;</span>
+        <span class=k>pass</span>
+
+
+<span class=k>class</span> <span class=nc>Dog</span><span class=p>(</span><span class=n>Pet</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;狗&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=nf>make_voice</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>: 汪汪汪...&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_nickname</span><span class=p>)</span>
+
+
+<span class=k>class</span> <span class=nc>Cat</span><span class=p>(</span><span class=n>Pet</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;猫&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=nf>make_voice</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>: 喵...喵...&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_nickname</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>pets</span> <span class=o>=</span> <span class=p>[</span><span class=n>Dog</span><span class=p>(</span><span class=s1>&#39;旺财&#39;</span><span class=p>),</span> <span class=n>Cat</span><span class=p>(</span><span class=s1>&#39;凯蒂&#39;</span><span class=p>),</span> <span class=n>Dog</span><span class=p>(</span><span class=s1>&#39;大黄&#39;</span><span class=p>)]</span>
+    <span class=k>for</span> <span class=n>pet</span> <span class=ow>in</span> <span class=n>pets</span><span class=p>:</span>
+        <span class=n>pet</span><span class=o>.</span><span class=n>make_voice</span><span class=p>()</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>在上面的代码中，我们将<code>Pet</code>类处理成了一个抽象类，所谓抽象类就是不能够创建对象的类，这种类的存在就是专门为了让其他类去继承它。Python从语法层面并没有像Java或C#那样提供对抽象类的支持，但是我们可以通过<code>abc</code>模块的<code>ABCMeta</code>元类和<code>abstractmethod</code>包装器来达到抽象类的效果，如果一个类中存在抽象方法那么这个类就不能够实例化（创建对象）。上面的代码中，<code>Dog</code>和<code>Cat</code>两个子类分别对<code>Pet</code>类中的<code>make_voice</code>抽象方法进行了重写并给出了不同的实现版本，当我们在<code>main</code>函数中调用该方法时，这个方法就表现出了多态行为（同样的方法做了不同的事情）。</p><h3 id=综合案例><a href=#综合案例 class=anchor-link>#</a>综合案例</h3><h4 id=案例1奥特曼打小怪兽><a href=#案例1奥特曼打小怪兽 class=anchor-link>#</a>案例1：奥特曼打小怪兽。</h4><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span><span class=lnt>178
+</span><span class=lnt>179
+</span><span class=lnt>180
+</span><span class=lnt>181
+</span><span class=lnt>182
+</span><span class=lnt>183
+</span><span class=lnt>184
+</span><span class=lnt>185
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>abc</span> <span class=kn>import</span> <span class=n>ABCMeta</span><span class=p>,</span> <span class=n>abstractmethod</span>
+<span class=kn>from</span> <span class=nn>random</span> <span class=kn>import</span> <span class=n>randint</span><span class=p>,</span> <span class=n>randrange</span>
+
+
+<span class=k>class</span> <span class=nc>Fighter</span><span class=p>(</span><span class=nb>object</span><span class=p>,</span> <span class=n>metaclass</span><span class=o>=</span><span class=n>ABCMeta</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;战斗者&#34;&#34;&#34;</span>
+
+    <span class=c1># 通过__slots__魔法限定对象可以绑定的成员变量</span>
+    <span class=vm>__slots__</span> <span class=o>=</span> <span class=p>(</span><span class=s1>&#39;_name&#39;</span><span class=p>,</span> <span class=s1>&#39;_hp&#39;</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>hp</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;初始化方法
+</span><span class=s2>
+</span><span class=s2>        :param name: 名字
+</span><span class=s2>        :param hp: 生命值
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_name</span> <span class=o>=</span> <span class=n>name</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_hp</span> <span class=o>=</span> <span class=n>hp</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>name</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>hp</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_hp</span>
+
+    <span class=nd>@hp</span><span class=o>.</span><span class=n>setter</span>
+    <span class=k>def</span> <span class=nf>hp</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>hp</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_hp</span> <span class=o>=</span> <span class=n>hp</span> <span class=k>if</span> <span class=n>hp</span> <span class=o>&gt;=</span> <span class=mi>0</span> <span class=k>else</span> <span class=mi>0</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>alive</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_hp</span> <span class=o>&gt;</span> <span class=mi>0</span>
+
+    <span class=nd>@abstractmethod</span>
+    <span class=k>def</span> <span class=nf>attack</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;攻击
+</span><span class=s2>
+</span><span class=s2>        :param other: 被攻击的对象
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=k>pass</span>
+
+
+<span class=k>class</span> <span class=nc>Ultraman</span><span class=p>(</span><span class=n>Fighter</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;奥特曼&#34;&#34;&#34;</span>
+
+    <span class=vm>__slots__</span> <span class=o>=</span> <span class=p>(</span><span class=s1>&#39;_name&#39;</span><span class=p>,</span> <span class=s1>&#39;_hp&#39;</span><span class=p>,</span> <span class=s1>&#39;_mp&#39;</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>hp</span><span class=p>,</span> <span class=n>mp</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;初始化方法
+</span><span class=s2>
+</span><span class=s2>        :param name: 名字
+</span><span class=s2>        :param hp: 生命值
+</span><span class=s2>        :param mp: 魔法值
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>hp</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_mp</span> <span class=o>=</span> <span class=n>mp</span>
+
+    <span class=k>def</span> <span class=nf>attack</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
+        <span class=n>other</span><span class=o>.</span><span class=n>hp</span> <span class=o>-=</span> <span class=n>randint</span><span class=p>(</span><span class=mi>15</span><span class=p>,</span> <span class=mi>25</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>huge_attack</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;究极必杀技(打掉对方至少50点或四分之三的血)
+</span><span class=s2>
+</span><span class=s2>        :param other: 被攻击的对象
+</span><span class=s2>
+</span><span class=s2>        :return: 使用成功返回True否则返回False
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_mp</span> <span class=o>&gt;=</span> <span class=mi>50</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_mp</span> <span class=o>-=</span> <span class=mi>50</span>
+            <span class=n>injury</span> <span class=o>=</span> <span class=n>other</span><span class=o>.</span><span class=n>hp</span> <span class=o>*</span> <span class=mi>3</span> <span class=o>//</span> <span class=mi>4</span>
+            <span class=n>injury</span> <span class=o>=</span> <span class=n>injury</span> <span class=k>if</span> <span class=n>injury</span> <span class=o>&gt;=</span> <span class=mi>50</span> <span class=k>else</span> <span class=mi>50</span>
+            <span class=n>other</span><span class=o>.</span><span class=n>hp</span> <span class=o>-=</span> <span class=n>injury</span>
+            <span class=k>return</span> <span class=kc>True</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>attack</span><span class=p>(</span><span class=n>other</span><span class=p>)</span>
+            <span class=k>return</span> <span class=kc>False</span>
+
+    <span class=k>def</span> <span class=nf>magic_attack</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>others</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;魔法攻击
+</span><span class=s2>
+</span><span class=s2>        :param others: 被攻击的群体
+</span><span class=s2>
+</span><span class=s2>        :return: 使用魔法成功返回True否则返回False
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_mp</span> <span class=o>&gt;=</span> <span class=mi>20</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>_mp</span> <span class=o>-=</span> <span class=mi>20</span>
+            <span class=k>for</span> <span class=n>temp</span> <span class=ow>in</span> <span class=n>others</span><span class=p>:</span>
+                <span class=k>if</span> <span class=n>temp</span><span class=o>.</span><span class=n>alive</span><span class=p>:</span>
+                    <span class=n>temp</span><span class=o>.</span><span class=n>hp</span> <span class=o>-=</span> <span class=n>randint</span><span class=p>(</span><span class=mi>10</span><span class=p>,</span> <span class=mi>15</span><span class=p>)</span>
+            <span class=k>return</span> <span class=kc>True</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=k>return</span> <span class=kc>False</span>
+
+    <span class=k>def</span> <span class=nf>resume</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;恢复魔法值&#34;&#34;&#34;</span>
+        <span class=n>incr_point</span> <span class=o>=</span> <span class=n>randint</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>10</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_mp</span> <span class=o>+=</span> <span class=n>incr_point</span>
+        <span class=k>return</span> <span class=n>incr_point</span>
+
+    <span class=k>def</span> <span class=fm>__str__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=s1>&#39;~~~</span><span class=si>%s</span><span class=s1>奥特曼~~~</span><span class=se>\n</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span> <span class=o>+</span> \
+            <span class=s1>&#39;生命值: </span><span class=si>%d</span><span class=se>\n</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_hp</span> <span class=o>+</span> \
+            <span class=s1>&#39;魔法值: </span><span class=si>%d</span><span class=se>\n</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_mp</span>
+
+
+<span class=k>class</span> <span class=nc>Monster</span><span class=p>(</span><span class=n>Fighter</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;小怪兽&#34;&#34;&#34;</span>
+
+    <span class=vm>__slots__</span> <span class=o>=</span> <span class=p>(</span><span class=s1>&#39;_name&#39;</span><span class=p>,</span> <span class=s1>&#39;_hp&#39;</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>attack</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span>
+        <span class=n>other</span><span class=o>.</span><span class=n>hp</span> <span class=o>-=</span> <span class=n>randint</span><span class=p>(</span><span class=mi>10</span><span class=p>,</span> <span class=mi>20</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=fm>__str__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=s1>&#39;~~~</span><span class=si>%s</span><span class=s1>小怪兽~~~</span><span class=se>\n</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span> <span class=o>+</span> \
+            <span class=s1>&#39;生命值: </span><span class=si>%d</span><span class=se>\n</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=bp>self</span><span class=o>.</span><span class=n>_hp</span>
+
+
+<span class=k>def</span> <span class=nf>is_any_alive</span><span class=p>(</span><span class=n>monsters</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;判断有没有小怪兽是活着的&#34;&#34;&#34;</span>
+    <span class=k>for</span> <span class=n>monster</span> <span class=ow>in</span> <span class=n>monsters</span><span class=p>:</span>
+        <span class=k>if</span> <span class=n>monster</span><span class=o>.</span><span class=n>alive</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>:</span>
+            <span class=k>return</span> <span class=kc>True</span>
+    <span class=k>return</span> <span class=kc>False</span>
+
+
+<span class=k>def</span> <span class=nf>select_alive_one</span><span class=p>(</span><span class=n>monsters</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;选中一只活着的小怪兽&#34;&#34;&#34;</span>
+    <span class=n>monsters_len</span> <span class=o>=</span> <span class=nb>len</span><span class=p>(</span><span class=n>monsters</span><span class=p>)</span>
+    <span class=k>while</span> <span class=kc>True</span><span class=p>:</span>
+        <span class=n>index</span> <span class=o>=</span> <span class=n>randrange</span><span class=p>(</span><span class=n>monsters_len</span><span class=p>)</span>
+        <span class=n>monster</span> <span class=o>=</span> <span class=n>monsters</span><span class=p>[</span><span class=n>index</span><span class=p>]</span>
+        <span class=k>if</span> <span class=n>monster</span><span class=o>.</span><span class=n>alive</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>:</span>
+            <span class=k>return</span> <span class=n>monster</span>
+
+
+<span class=k>def</span> <span class=nf>display_info</span><span class=p>(</span><span class=n>ultraman</span><span class=p>,</span> <span class=n>monsters</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;显示奥特曼和小怪兽的信息&#34;&#34;&#34;</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>ultraman</span><span class=p>)</span>
+    <span class=k>for</span> <span class=n>monster</span> <span class=ow>in</span> <span class=n>monsters</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>monster</span><span class=p>,</span> <span class=n>end</span><span class=o>=</span><span class=s1>&#39;&#39;</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>u</span> <span class=o>=</span> <span class=n>Ultraman</span><span class=p>(</span><span class=s1>&#39;骆昊&#39;</span><span class=p>,</span> <span class=mi>1000</span><span class=p>,</span> <span class=mi>120</span><span class=p>)</span>
+    <span class=n>m1</span> <span class=o>=</span> <span class=n>Monster</span><span class=p>(</span><span class=s1>&#39;狄仁杰&#39;</span><span class=p>,</span> <span class=mi>250</span><span class=p>)</span>
+    <span class=n>m2</span> <span class=o>=</span> <span class=n>Monster</span><span class=p>(</span><span class=s1>&#39;白元芳&#39;</span><span class=p>,</span> <span class=mi>500</span><span class=p>)</span>
+    <span class=n>m3</span> <span class=o>=</span> <span class=n>Monster</span><span class=p>(</span><span class=s1>&#39;王大锤&#39;</span><span class=p>,</span> <span class=mi>750</span><span class=p>)</span>
+    <span class=n>ms</span> <span class=o>=</span> <span class=p>[</span><span class=n>m1</span><span class=p>,</span> <span class=n>m2</span><span class=p>,</span> <span class=n>m3</span><span class=p>]</span>
+    <span class=n>fight_round</span> <span class=o>=</span> <span class=mi>1</span>
+    <span class=k>while</span> <span class=n>u</span><span class=o>.</span><span class=n>alive</span> <span class=ow>and</span> <span class=n>is_any_alive</span><span class=p>(</span><span class=n>ms</span><span class=p>):</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;========第</span><span class=si>%02d</span><span class=s1>回合========&#39;</span> <span class=o>%</span> <span class=n>fight_round</span><span class=p>)</span>
+        <span class=n>m</span> <span class=o>=</span> <span class=n>select_alive_one</span><span class=p>(</span><span class=n>ms</span><span class=p>)</span>  <span class=c1># 选中一只小怪兽</span>
+        <span class=n>skill</span> <span class=o>=</span> <span class=n>randint</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>10</span><span class=p>)</span>   <span class=c1># 通过随机数选择使用哪种技能</span>
+        <span class=k>if</span> <span class=n>skill</span> <span class=o>&lt;=</span> <span class=mi>6</span><span class=p>:</span>  <span class=c1># 60%的概率使用普通攻击</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>使用普通攻击打了</span><span class=si>%s</span><span class=s1>.&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>u</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>m</span><span class=o>.</span><span class=n>name</span><span class=p>))</span>
+            <span class=n>u</span><span class=o>.</span><span class=n>attack</span><span class=p>(</span><span class=n>m</span><span class=p>)</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>的魔法值恢复了</span><span class=si>%d</span><span class=s1>点.&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>u</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>u</span><span class=o>.</span><span class=n>resume</span><span class=p>()))</span>
+        <span class=k>elif</span> <span class=n>skill</span> <span class=o>&lt;=</span> <span class=mi>9</span><span class=p>:</span>  <span class=c1># 30%的概率使用魔法攻击(可能因魔法值不足而失败)</span>
+            <span class=k>if</span> <span class=n>u</span><span class=o>.</span><span class=n>magic_attack</span><span class=p>(</span><span class=n>ms</span><span class=p>):</span>
+                <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>使用了魔法攻击.&#39;</span> <span class=o>%</span> <span class=n>u</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+            <span class=k>else</span><span class=p>:</span>
+                <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>使用魔法失败.&#39;</span> <span class=o>%</span> <span class=n>u</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+        <span class=k>else</span><span class=p>:</span>  <span class=c1># 10%的概率使用究极必杀技(如果魔法值不足则使用普通攻击)</span>
+            <span class=k>if</span> <span class=n>u</span><span class=o>.</span><span class=n>huge_attack</span><span class=p>(</span><span class=n>m</span><span class=p>):</span>
+                <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>使用究极必杀技虐了</span><span class=si>%s</span><span class=s1>.&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>u</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>m</span><span class=o>.</span><span class=n>name</span><span class=p>))</span>
+            <span class=k>else</span><span class=p>:</span>
+                <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>使用普通攻击打了</span><span class=si>%s</span><span class=s1>.&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>u</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>m</span><span class=o>.</span><span class=n>name</span><span class=p>))</span>
+                <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>的魔法值恢复了</span><span class=si>%d</span><span class=s1>点.&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>u</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>u</span><span class=o>.</span><span class=n>resume</span><span class=p>()))</span>
+        <span class=k>if</span> <span class=n>m</span><span class=o>.</span><span class=n>alive</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>:</span>  <span class=c1># 如果选中的小怪兽没有死就回击奥特曼</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>回击了</span><span class=si>%s</span><span class=s1>.&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>m</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>u</span><span class=o>.</span><span class=n>name</span><span class=p>))</span>
+            <span class=n>m</span><span class=o>.</span><span class=n>attack</span><span class=p>(</span><span class=n>u</span><span class=p>)</span>
+        <span class=n>display_info</span><span class=p>(</span><span class=n>u</span><span class=p>,</span> <span class=n>ms</span><span class=p>)</span>  <span class=c1># 每个回合结束后显示奥特曼和小怪兽的信息</span>
+        <span class=n>fight_round</span> <span class=o>+=</span> <span class=mi>1</span>
+    <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=se>\n</span><span class=s1>========战斗结束!========</span><span class=se>\n</span><span class=s1>&#39;</span><span class=p>)</span>
+    <span class=k>if</span> <span class=n>u</span><span class=o>.</span><span class=n>alive</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>奥特曼胜利!&#39;</span> <span class=o>%</span> <span class=n>u</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+    <span class=k>else</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;小怪兽胜利!&#39;</span><span class=p>)</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><h4 id=案例2扑克游戏><a href=#案例2扑克游戏 class=anchor-link>#</a>案例2：扑克游戏。</h4><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>random</span>
+
+
+<span class=k>class</span> <span class=nc>Card</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;一张牌&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>suite</span><span class=p>,</span> <span class=n>face</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_suite</span> <span class=o>=</span> <span class=n>suite</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_face</span> <span class=o>=</span> <span class=n>face</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>face</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_face</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>suite</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_suite</span>
+
+    <span class=k>def</span> <span class=fm>__str__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_face</span> <span class=o>==</span> <span class=mi>1</span><span class=p>:</span>
+            <span class=n>face_str</span> <span class=o>=</span> <span class=s1>&#39;A&#39;</span>
+        <span class=k>elif</span> <span class=bp>self</span><span class=o>.</span><span class=n>_face</span> <span class=o>==</span> <span class=mi>11</span><span class=p>:</span>
+            <span class=n>face_str</span> <span class=o>=</span> <span class=s1>&#39;J&#39;</span>
+        <span class=k>elif</span> <span class=bp>self</span><span class=o>.</span><span class=n>_face</span> <span class=o>==</span> <span class=mi>12</span><span class=p>:</span>
+            <span class=n>face_str</span> <span class=o>=</span> <span class=s1>&#39;Q&#39;</span>
+        <span class=k>elif</span> <span class=bp>self</span><span class=o>.</span><span class=n>_face</span> <span class=o>==</span> <span class=mi>13</span><span class=p>:</span>
+            <span class=n>face_str</span> <span class=o>=</span> <span class=s1>&#39;K&#39;</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=n>face_str</span> <span class=o>=</span> <span class=nb>str</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_face</span><span class=p>)</span>
+        <span class=k>return</span> <span class=s1>&#39;</span><span class=si>%s%s</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_suite</span><span class=p>,</span> <span class=n>face_str</span><span class=p>)</span>
+    
+    <span class=k>def</span> <span class=fm>__repr__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=fm>__str__</span><span class=p>()</span>
+
+
+<span class=k>class</span> <span class=nc>Poker</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;一副牌&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_cards</span> <span class=o>=</span> <span class=p>[</span><span class=n>Card</span><span class=p>(</span><span class=n>suite</span><span class=p>,</span> <span class=n>face</span><span class=p>)</span> 
+                       <span class=k>for</span> <span class=n>suite</span> <span class=ow>in</span> <span class=s1>&#39;♠♥♣♦&#39;</span>
+                       <span class=k>for</span> <span class=n>face</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>14</span><span class=p>)]</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_current</span> <span class=o>=</span> <span class=mi>0</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>cards</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_cards</span>
+
+    <span class=k>def</span> <span class=nf>shuffle</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;洗牌(随机乱序)&#34;&#34;&#34;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_current</span> <span class=o>=</span> <span class=mi>0</span>
+        <span class=n>random</span><span class=o>.</span><span class=n>shuffle</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_cards</span><span class=p>)</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>next</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;发牌&#34;&#34;&#34;</span>
+        <span class=n>card</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_cards</span><span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>_current</span><span class=p>]</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_current</span> <span class=o>+=</span> <span class=mi>1</span>
+        <span class=k>return</span> <span class=n>card</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>has_next</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;还有没有牌&#34;&#34;&#34;</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_current</span> <span class=o>&lt;</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_cards</span><span class=p>)</span>
+
+
+<span class=k>class</span> <span class=nc>Player</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;玩家&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_name</span> <span class=o>=</span> <span class=n>name</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_cards_on_hand</span> <span class=o>=</span> <span class=p>[]</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>name</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>cards_on_hand</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_cards_on_hand</span>
+
+    <span class=k>def</span> <span class=nf>get</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>card</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;摸牌&#34;&#34;&#34;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_cards_on_hand</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>card</span><span class=p>)</span>
+
+    <span class=k>def</span> <span class=nf>arrange</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>card_key</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;玩家整理手上的牌&#34;&#34;&#34;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_cards_on_hand</span><span class=o>.</span><span class=n>sort</span><span class=p>(</span><span class=n>key</span><span class=o>=</span><span class=n>card_key</span><span class=p>)</span>
+
+
+<span class=c1># 排序规则-先根据花色再根据点数排序</span>
+<span class=k>def</span> <span class=nf>get_key</span><span class=p>(</span><span class=n>card</span><span class=p>):</span>
+    <span class=k>return</span> <span class=p>(</span><span class=n>card</span><span class=o>.</span><span class=n>suite</span><span class=p>,</span> <span class=n>card</span><span class=o>.</span><span class=n>face</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>p</span> <span class=o>=</span> <span class=n>Poker</span><span class=p>()</span>
+    <span class=n>p</span><span class=o>.</span><span class=n>shuffle</span><span class=p>()</span>
+    <span class=n>players</span> <span class=o>=</span> <span class=p>[</span><span class=n>Player</span><span class=p>(</span><span class=s1>&#39;东邪&#39;</span><span class=p>),</span> <span class=n>Player</span><span class=p>(</span><span class=s1>&#39;西毒&#39;</span><span class=p>),</span> <span class=n>Player</span><span class=p>(</span><span class=s1>&#39;南帝&#39;</span><span class=p>),</span> <span class=n>Player</span><span class=p>(</span><span class=s1>&#39;北丐&#39;</span><span class=p>)]</span>
+    <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>13</span><span class=p>):</span>
+        <span class=k>for</span> <span class=n>player</span> <span class=ow>in</span> <span class=n>players</span><span class=p>:</span>
+            <span class=n>player</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>p</span><span class=o>.</span><span class=n>next</span><span class=p>)</span>
+    <span class=k>for</span> <span class=n>player</span> <span class=ow>in</span> <span class=n>players</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>player</span><span class=o>.</span><span class=n>name</span> <span class=o>+</span> <span class=s1>&#39;:&#39;</span><span class=p>,</span> <span class=n>end</span><span class=o>=</span><span class=s1>&#39; &#39;</span><span class=p>)</span>
+        <span class=n>player</span><span class=o>.</span><span class=n>arrange</span><span class=p>(</span><span class=n>get_key</span><span class=p>)</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>player</span><span class=o>.</span><span class=n>cards_on_hand</span><span class=p>)</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明：</strong> 大家可以自己尝试在上面代码的基础上写一个简单的扑克游戏，例如21点(Black Jack)，游戏的规则可以自己在网上找一找。</p></blockquote><h4 id=案例3工资结算系统><a href=#案例3工资结算系统 class=anchor-link>#</a>案例3：工资结算系统。</h4><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span><span class=lnt>92
+</span><span class=lnt>93
+</span><span class=lnt>94
+</span><span class=lnt>95
+</span><span class=lnt>96
+</span><span class=lnt>97
+</span><span class=lnt>98
+</span><span class=lnt>99
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=s2>&#34;&#34;&#34;
+</span><span class=s2>某公司有三种类型的员工 分别是部门经理、程序员和销售员
+</span><span class=s2>需要设计一个工资结算系统 根据提供的员工信息来计算月薪
+</span><span class=s2>部门经理的月薪是每月固定15000元
+</span><span class=s2>程序员的月薪按本月工作时间计算 每小时150元
+</span><span class=s2>销售员的月薪是1200元的底薪加上销售额5%的提成
+</span><span class=s2>&#34;&#34;&#34;</span>
+<span class=kn>from</span> <span class=nn>abc</span> <span class=kn>import</span> <span class=n>ABCMeta</span><span class=p>,</span> <span class=n>abstractmethod</span>
+
+
+<span class=k>class</span> <span class=nc>Employee</span><span class=p>(</span><span class=nb>object</span><span class=p>,</span> <span class=n>metaclass</span><span class=o>=</span><span class=n>ABCMeta</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;员工&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>        初始化方法
+</span><span class=s2>
+</span><span class=s2>        :param name: 姓名
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_name</span> <span class=o>=</span> <span class=n>name</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>name</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_name</span>
+
+    <span class=nd>@abstractmethod</span>
+    <span class=k>def</span> <span class=nf>get_salary</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>        获得月薪
+</span><span class=s2>
+</span><span class=s2>        :return: 月薪
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=k>pass</span>
+
+
+<span class=k>class</span> <span class=nc>Manager</span><span class=p>(</span><span class=n>Employee</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;部门经理&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=nf>get_salary</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=mf>15000.0</span>
+
+
+<span class=k>class</span> <span class=nc>Programmer</span><span class=p>(</span><span class=n>Employee</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;程序员&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>working_hour</span><span class=o>=</span><span class=mi>0</span><span class=p>):</span>
+        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>name</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_working_hour</span> <span class=o>=</span> <span class=n>working_hour</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>working_hour</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_working_hour</span>
+
+    <span class=nd>@working_hour</span><span class=o>.</span><span class=n>setter</span>
+    <span class=k>def</span> <span class=nf>working_hour</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>working_hour</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_working_hour</span> <span class=o>=</span> <span class=n>working_hour</span> <span class=k>if</span> <span class=n>working_hour</span> <span class=o>&gt;</span> <span class=mi>0</span> <span class=k>else</span> <span class=mi>0</span>
+
+    <span class=k>def</span> <span class=nf>get_salary</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=mf>150.0</span> <span class=o>*</span> <span class=bp>self</span><span class=o>.</span><span class=n>_working_hour</span>
+
+
+<span class=k>class</span> <span class=nc>Salesman</span><span class=p>(</span><span class=n>Employee</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;销售员&#34;&#34;&#34;</span>
+
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>sales</span><span class=o>=</span><span class=mi>0</span><span class=p>):</span>
+        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>(</span><span class=n>name</span><span class=p>)</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_sales</span> <span class=o>=</span> <span class=n>sales</span>
+
+    <span class=nd>@property</span>
+    <span class=k>def</span> <span class=nf>sales</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>_sales</span>
+
+    <span class=nd>@sales</span><span class=o>.</span><span class=n>setter</span>
+    <span class=k>def</span> <span class=nf>sales</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>sales</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_sales</span> <span class=o>=</span> <span class=n>sales</span> <span class=k>if</span> <span class=n>sales</span> <span class=o>&gt;</span> <span class=mi>0</span> <span class=k>else</span> <span class=mi>0</span>
+
+    <span class=k>def</span> <span class=nf>get_salary</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+        <span class=k>return</span> <span class=mf>1200.0</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>_sales</span> <span class=o>*</span> <span class=mf>0.05</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>emps</span> <span class=o>=</span> <span class=p>[</span>
+        <span class=n>Manager</span><span class=p>(</span><span class=s1>&#39;刘备&#39;</span><span class=p>),</span> <span class=n>Programmer</span><span class=p>(</span><span class=s1>&#39;诸葛亮&#39;</span><span class=p>),</span>
+        <span class=n>Manager</span><span class=p>(</span><span class=s1>&#39;曹操&#39;</span><span class=p>),</span> <span class=n>Salesman</span><span class=p>(</span><span class=s1>&#39;荀彧&#39;</span><span class=p>),</span>
+        <span class=n>Salesman</span><span class=p>(</span><span class=s1>&#39;吕布&#39;</span><span class=p>),</span> <span class=n>Programmer</span><span class=p>(</span><span class=s1>&#39;张辽&#39;</span><span class=p>),</span>
+        <span class=n>Programmer</span><span class=p>(</span><span class=s1>&#39;赵云&#39;</span><span class=p>)</span>
+    <span class=p>]</span>
+    <span class=k>for</span> <span class=n>emp</span> <span class=ow>in</span> <span class=n>emps</span><span class=p>:</span>
+        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>emp</span><span class=p>,</span> <span class=n>Programmer</span><span class=p>):</span>
+            <span class=n>emp</span><span class=o>.</span><span class=n>working_hour</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=nb>input</span><span class=p>(</span><span class=s1>&#39;请输入</span><span class=si>%s</span><span class=s1>本月工作时间: &#39;</span> <span class=o>%</span> <span class=n>emp</span><span class=o>.</span><span class=n>name</span><span class=p>))</span>
+        <span class=k>elif</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>emp</span><span class=p>,</span> <span class=n>Salesman</span><span class=p>):</span>
+            <span class=n>emp</span><span class=o>.</span><span class=n>sales</span> <span class=o>=</span> <span class=nb>float</span><span class=p>(</span><span class=nb>input</span><span class=p>(</span><span class=s1>&#39;请输入</span><span class=si>%s</span><span class=s1>本月销售额: &#39;</span> <span class=o>%</span> <span class=n>emp</span><span class=o>.</span><span class=n>name</span><span class=p>))</span>
+        <span class=c1># 同样是接收get_salary这个消息但是不同的员工表现出了不同的行为(多态)</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%s</span><span class=s1>本月工资为: ￥</span><span class=si>%s</span><span class=s1>元&#39;</span> <span class=o>%</span>
+              <span class=p>(</span><span class=n>emp</span><span class=o>.</span><span class=n>name</span><span class=p>,</span> <span class=n>emp</span><span class=o>.</span><span class=n>get_salary</span><span class=p>()))</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div></div><ul class=post-copyright><li class="copyright-item author"><span class=copyright-item-text>作者</span>：<span class="p-author h-card">骆昊</span></li><li class="copyright-item link"><span class=copyright-item-text>链接</span>：<a href=https://github.com/jackfrued/Python-100-Days target=_blank rel=noopener>https://github.com/jackfrued/Python-100-Days</a></li><li class="copyright-item license"><span class=copyright-item-text>许可</span>：本文采用<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>「CC BY-NC-SA 4.0」</a>协议，转载请注明出处。</li></ul></article><div class=related-posts><h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2><ul class=related-list><li class=related-item><a href=/python/01.%E5%88%9D%E8%AF%86python/ class=related-link>01.初识Python</a></li><li class=related-item><a href=/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/ class=related-link>02.语言元素</a></li><li class=related-item><a href=/python/03.%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84/ class=related-link>03.分支结构</a></li><li class=related-item><a href=/python/04.%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84/ class=related-link>04.循环结构</a></li><li class=related-item><a href=/python/05.%E6%9E%84%E9%80%A0%E7%A8%8B%E5%BA%8F%E9%80%BB%E8%BE%91/ class=related-link>05.构造程序逻辑</a></li></ul></div><div class=post-tags><a href=/tags/python/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>python</a></div></div></main><div id=back-to-top class=back-to-top><a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a></div><footer id=footer class=footer><div class=footer-inner><div class=site-info>©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;hanxin</div><script src=https://sdk.jinrishici.com/v2/browser/jinrishici.js></script>
+<text class=poem_sentence></text>
+<text class=poem_info></text>
+<script type=text/javascript>jinrishici.load(function(a){var b=document.querySelector(".poem_sentence"),c=document.querySelector(".poem_info");b.innerHTML=a.data.content,c.innerHTML='——'+a.data.origin.author})</script></div></footer></div><script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script><script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script></body></html>

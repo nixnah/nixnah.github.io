@@ -1,0 +1,143 @@
+<!doctype html><html lang=zh-cn><head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"><meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=theme-color content="#16171d"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=format-detection content="telephone=no, date=no, address=no, email=no"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><title>51.使用缓存 | Hanxin</title><link rel=stylesheet href=/css/meme.min.88c90dc75021618344ec926f4ed6ac307f30ba48911294816b16370a41e5f137.css><script src=/js/meme.min.f460a174bb100a60a7e275913695161f1e09aab1378fe99cfd30cde14da70888.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap" media=print onload="this.media='all'"><noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap"></noscript><meta name=author content="骆昊"><meta name=description content="使用缓存 通常情况下，Web应用的性能瓶颈都会出现在关系型数据库上，当并发访问量较大时……"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=mask-icon href=/icons/safari-pinned-tab.svg color=#2a6df4><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-title content="Hanxin"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=mobile-web-app-capable content="yes"><meta name=application-name content="Hanxin"><meta name=msapplication-starturl content="../../"><meta name=msapplication-TileColor content="#fff"><meta name=msapplication-TileImage content="../../icons/mstile-150x150.png"><link rel=manifest href=/manifest.json><link rel=canonical href=/python/51.%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98/><script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2021-08-23T17:34:33+08:00","dateModified":"2022-01-16T09:24:35+00:00","url":"/python/51.%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98/","name":"51.使用缓存","description":"使用缓存 通常情况下，Web应用的性能瓶颈都会出现在关系型数据库上，当并发访问量较大时……","image":"/icons/apple-touch-icon.png","license":"本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。","publisher":{"@type":"Organization","name":"Hanxin","logo":{"@type":"ImageObject","url":"/icons/apple-touch-icon.png"},"url":"/"},"mainEntityOfPage":{"@type":"WebSite","@id":"/"}}</script><meta name=twitter:card content="summary"><meta property="og:title" content="51.使用缓存"><meta property="og:description" content="使用缓存 通常情况下，Web应用的性能瓶颈都会出现在关系型数据库上，当并发访问量较大时……"><meta property="og:url" content="/python/51.%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98/"><meta property="og:site_name" content="Hanxin"><meta property="og:locale" content="zh"><meta property="og:image" content="/icons/apple-touch-icon.png"><meta property="og:type" content="website"></head><body><div class=container><header class=header><div class=header-wrapper><div class="header-inner single"><div class=site-brand><a href=/ class=brand>Hanxin</a></div><nav class=nav><ul class=menu id=menu><li class=menu-item><a href=/life/><span class=menu-item-name>生活</span></a></li><li class=menu-item><a href=/tech/><span class=menu-item-name>技术</span></a></li><li class=menu-item><a href=/tags/><span class=menu-item-name>标签</span></a></li><li class=menu-item><a href=/about/><span class=menu-item-name>关于</span></a></li><li class=menu-item><a href=/blogroll/><span class=menu-item-name>友链</span></a></li><li class=menu-item><a href=/python/><span class=menu-item-name>Python-100天</span></a></li><li class=menu-item><a id=theme-switcher href=#><span class="icon theme-icon-light">🌞</span><span class="icon theme-icon-dark">🌙</span></a></li></ul></nav></div></div><input type=checkbox id=nav-toggle aria-hidden=true>
+<label for=nav-toggle class=nav-toggle></label>
+<label for=nav-toggle class=nav-curtain></label></header><main class="main single" id=main><div class=main-inner><article class="content post h-entry" data-align=justify data-type=python data-toc-num=true><h1 class="post-title p-name">51.使用缓存</h1><div class=post-meta><time datetime=2021-08-23T17:34:33+08:00 class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;2021.8.23</time>
+<time datetime=2022-01-16T09:24:35+00:00 class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M4e2 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H48C21.49 64 0 85.49.0 112v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 4e2H54a6 6 0 01-6-6V160h352v298a6 6 0 01-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.1.16</time>
+<span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;4105</span>
+<span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;9&nbsp;分钟</span></div><div class="post-body e-content"><h2 id=使用缓存><a href=#使用缓存 class=anchor-link>#</a>使用缓存</h2><p>通常情况下，Web应用的性能瓶颈都会出现在关系型数据库上，当并发访问量较大时，如果所有的请求都需要通过关系型数据库完成数据持久化操作，那么数据库一定会不堪重负。优化Web应用性能最为重要的一点就是使用缓存，把那些数据体量不大但访问频率非常高的数据提前加载到缓存服务器中，这又是典型的空间换时间的方法。通常缓存服务器都是直接将数据置于内存中而且使用了非常高效的数据存取策略（哈希存储、键值对方式等），在读写性能上远远优于关系型数据库的，因此我们可以让Web应用接入缓存服务器来优化其性能，其中一个非常好的选择就是使用Redis。</p><p>Web应用的缓存架构大致如下图所示。</p><p><img src=/res/redis-cache-service.png alt></p><h3 id=django项目接入redis><a href=#django项目接入redis class=anchor-link>#</a>Django项目接入Redis</h3><p>在此前的课程中，我们介绍过Redis的安装和使用，此处不再进行赘述。如果需要在Django项目中接入Redis，可以使用三方库<code>django-redis</code>，这个三方库又依赖了一个名为<code>redis</code> 的三方库，它封装了对Redis的各种操作。</p><p>安装<code>django-redis</code>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Bash data-lang=Bash>pip install django-redis
+</code></pre></td></tr></table></div></div></div><p>修改Django配置文件中关于缓存的配置。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>CACHES</span> <span class=o>=</span> <span class=p>{</span>
+    <span class=s1>&#39;default&#39;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=c1># 指定通过django-redis接入Redis服务</span>
+        <span class=s1>&#39;BACKEND&#39;</span><span class=p>:</span> <span class=s1>&#39;django_redis.cache.RedisCache&#39;</span><span class=p>,</span>
+        <span class=c1># Redis服务器的URL</span>
+        <span class=s1>&#39;LOCATION&#39;</span><span class=p>:</span> <span class=p>[</span><span class=s1>&#39;redis://1.2.3.4:6379/0&#39;</span><span class=p>,</span> <span class=p>],</span>
+        <span class=c1># Redis中键的前缀（解决命名冲突）</span>
+        <span class=s1>&#39;KEY_PREFIX&#39;</span><span class=p>:</span> <span class=s1>&#39;vote&#39;</span><span class=p>,</span>
+        <span class=c1># 其他的配置选项</span>
+        <span class=s1>&#39;OPTIONS&#39;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=s1>&#39;CLIENT_CLASS&#39;</span><span class=p>:</span> <span class=s1>&#39;django_redis.client.DefaultClient&#39;</span><span class=p>,</span>
+            <span class=c1># 连接池（预置若干备用的Redis连接）参数</span>
+            <span class=s1>&#39;CONNECTION_POOL_KWARGS&#39;</span><span class=p>:</span> <span class=p>{</span>
+                <span class=c1># 最大连接数</span>
+                <span class=s1>&#39;max_connections&#39;</span><span class=p>:</span> <span class=mi>512</span><span class=p>,</span>
+            <span class=p>},</span>
+            <span class=c1># 连接Redis的用户口令</span>
+            <span class=s1>&#39;PASSWORD&#39;</span><span class=p>:</span> <span class=s1>&#39;foobared&#39;</span><span class=p>,</span>
+        <span class=p>}</span>
+    <span class=p>},</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div></div><p>至此，我们的Django项目已经可以接入Redis，接下来我们修改项目代码，用Redis为之写的获取学科数据的接口提供缓存服务。</p><h3 id=为视图提供缓存服务><a href=#为视图提供缓存服务 class=anchor-link>#</a>为视图提供缓存服务</h3><h4 id=声明式缓存><a href=#声明式缓存 class=anchor-link>#</a>声明式缓存</h4><p>所谓声明式缓存是指不修改原来的代码，通过Python中的装饰器（代理）为原有的代码增加缓存功能。对于FBV，代码如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>django.views.decorators.cache</span> <span class=kn>import</span> <span class=n>cache_page</span>
+
+
+<span class=nd>@api_view</span><span class=p>((</span><span class=s1>&#39;GET&#39;</span><span class=p>,</span> <span class=p>))</span>
+<span class=nd>@cache_page</span><span class=p>(</span><span class=n>timeout</span><span class=o>=</span><span class=mi>86400</span><span class=p>,</span> <span class=n>cache</span><span class=o>=</span><span class=s1>&#39;default&#39;</span><span class=p>)</span>
+<span class=k>def</span> <span class=nf>show_subjects</span><span class=p>(</span><span class=n>request</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;获取学科数据&#34;&#34;&#34;</span>
+    <span class=n>queryset</span> <span class=o>=</span> <span class=n>Subject</span><span class=o>.</span><span class=n>objects</span><span class=o>.</span><span class=n>all</span><span class=p>()</span>
+    <span class=n>data</span> <span class=o>=</span> <span class=n>SubjectSerializer</span><span class=p>(</span><span class=n>queryset</span><span class=p>,</span> <span class=n>many</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span><span class=o>.</span><span class=n>data</span>
+    <span class=k>return</span> <span class=n>Response</span><span class=p>({</span><span class=s1>&#39;code&#39;</span><span class=p>:</span> <span class=mi>20000</span><span class=p>,</span> <span class=s1>&#39;subjects&#39;</span><span class=p>:</span> <span class=n>data</span><span class=p>})</span>
+</code></pre></td></tr></table></div></div></div><p>上面的代码通过Django封装的<code>cache_page</code>装饰器缓存了视图函数的返回值（响应对象），<code>cache_page</code>的本意是缓存视图函数渲染的页面，对于返回JSON数据的视图函数，相当于是缓存了JSON数据。在使用<code>cache_page</code>装饰器时，可以传入<code>timeout</code>参数来指定缓存过期时间，还可以使用<code>cache</code>参数来指定需要使用哪一组缓存服务来缓存数据。Django项目允许在配置文件中配置多组缓存服务，上面的<code>cache='default'</code>指定了使用默认的缓存服务（因为之前的配置文件中我们也只配置了名为<code>default</code>的缓存服务）。视图函数的返回值会被序列化成字节串放到Redis中（Redis中的str类型可以接收字节串），缓存数据的序列化和反序列化也不需要我们自己处理，因为<code>cache_page</code>装饰器会调用<code>django-redis</code>库中的<code>RedisCache</code>来对接Redis，该类使用了<code>DefaultClient</code>来连接Redis并使用了<a href=https://python3-cookbook.readthedocs.io/zh_CN/latest/c05/p21_serializing_python_objects.html target=_blank rel=noopener>pickle序列化</a>，<code>django_redis.serializers.pickle.PickleSerializer</code>是默认的序列化类。</p><p>如果缓存中没有学科的数据，那么通过接口访问学科数据时，我们的视图函数会通过执行<code>Subject.objects.all()</code>向数据库发出SQL语句来获得数据，视图函数的返回值会被缓存，因此下次请求该视图函数如果缓存没有过期，可以直接从缓存中获取视图函数的返回值，无需再次查询数据库。如果想了解缓存的使用情况，可以配置数据库日志或者使用Django-Debug-Toolbar来查看，第一次访问学科数据接口时会看到查询学科数据的SQL语句，再次获取学科数据时，不会再向数据库发出SQL语句，因为可以直接从缓存中获取数据。</p><p>对于CBV，可以利用Django中名为<code>method_decorator</code>的装饰器将<code>cache_page</code>这个装饰函数的装饰器放到类中的方法上，效果跟上面的代码是一样的。需要提醒大家注意的是，<code>cache_page</code>装饰器不能直接放在类上，因为它是装饰函数的装饰器，所以Django框架才提供了<code>method_decorator</code>来解决这个问题，很显然，<code>method_decorator</code>是一个装饰类的装饰器。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>django.utils.decorators</span> <span class=kn>import</span> <span class=n>method_decorator</span>
+<span class=kn>from</span> <span class=nn>django.views.decorators.cache</span> <span class=kn>import</span> <span class=n>cache_page</span>
+
+
+<span class=nd>@method_decorator</span><span class=p>(</span><span class=n>decorator</span><span class=o>=</span><span class=n>cache_page</span><span class=p>(</span><span class=n>timeout</span><span class=o>=</span><span class=mi>86400</span><span class=p>,</span> <span class=n>cache</span><span class=o>=</span><span class=s1>&#39;default&#39;</span><span class=p>),</span> <span class=n>name</span><span class=o>=</span><span class=s1>&#39;get&#39;</span><span class=p>)</span>
+<span class=k>class</span> <span class=nc>SubjectView</span><span class=p>(</span><span class=n>ListAPIView</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;获取学科数据的视图类&#34;&#34;&#34;</span>
+    <span class=n>queryset</span> <span class=o>=</span> <span class=n>Subject</span><span class=o>.</span><span class=n>objects</span><span class=o>.</span><span class=n>all</span><span class=p>()</span>
+    <span class=n>serializer_class</span> <span class=o>=</span> <span class=n>SubjectSerializer</span>
+</code></pre></td></tr></table></div></div></div><h4 id=编程式缓存><a href=#编程式缓存 class=anchor-link>#</a>编程式缓存</h4><p>所谓编程式缓存是指通过自己编写的代码来使用缓存服务，这种方式虽然代码量会稍微大一些，但是相较于声明式缓存，它对缓存的操作和使用更加灵活，在实际开发中使用得更多。下面的代码去掉了之前使用的<code>cache_page</code>装饰器，通过<code>django-redis</code>提供的<code>get_redis_connection</code>函数直接获取Redis连接来操作Redis。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>def</span> <span class=nf>show_subjects</span><span class=p>(</span><span class=n>request</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;获取学科数据&#34;&#34;&#34;</span>
+    <span class=n>redis_cli</span> <span class=o>=</span> <span class=n>get_redis_connection</span><span class=p>()</span>
+    <span class=c1># 先尝试从缓存中获取学科数据</span>
+    <span class=n>data</span> <span class=o>=</span> <span class=n>redis_cli</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;vote:polls:subjects&#39;</span><span class=p>)</span>
+    <span class=k>if</span> <span class=n>data</span><span class=p>:</span>
+        <span class=c1># 如果获取到学科数据就进行反序列化操作</span>
+        <span class=n>data</span> <span class=o>=</span> <span class=n>json</span><span class=o>.</span><span class=n>loads</span><span class=p>(</span><span class=n>data</span><span class=p>)</span>
+    <span class=k>else</span><span class=p>:</span>
+        <span class=c1># 如果缓存中没有获取到学科数据就查询数据库</span>
+        <span class=n>queryset</span> <span class=o>=</span> <span class=n>Subject</span><span class=o>.</span><span class=n>objects</span><span class=o>.</span><span class=n>all</span><span class=p>()</span>
+        <span class=n>data</span> <span class=o>=</span> <span class=n>SubjectSerializer</span><span class=p>(</span><span class=n>queryset</span><span class=p>,</span> <span class=n>many</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span><span class=o>.</span><span class=n>data</span>
+        <span class=c1># 将查到的学科数据序列化后放到缓存中</span>
+        <span class=n>redis_cli</span><span class=o>.</span><span class=n>set</span><span class=p>(</span><span class=s1>&#39;vote:polls:subjects&#39;</span><span class=p>,</span> <span class=n>json</span><span class=o>.</span><span class=n>dumps</span><span class=p>(</span><span class=n>data</span><span class=p>),</span> <span class=n>ex</span><span class=o>=</span><span class=mi>86400</span><span class=p>)</span>
+    <span class=k>return</span> <span class=n>Response</span><span class=p>({</span><span class=s1>&#39;code&#39;</span><span class=p>:</span> <span class=mi>20000</span><span class=p>,</span> <span class=s1>&#39;subjects&#39;</span><span class=p>:</span> <span class=n>data</span><span class=p>})</span>
+</code></pre></td></tr></table></div></div></div><p>需要说明的是，Django框架提供了<code>cache</code>和<code>caches</code>两个现成的变量来支持缓存操作，前者访问的是默认的缓存（名为<code>default</code>的缓存），后者可以通过索引运算获取指定的缓存服务（例如：<code>caches['default']</code>）。向<code>cache</code>对象发送<code>get</code>和<code>set</code>消息就可以实现对缓存的读和写操作，但是这种方式能做的操作有限，不如上面代码中使用的方式灵活。还有一个值得注意的地方，由于可以通过<code>get_redis_connection</code>函数获得的Redis连接对象向Redis发起各种操作，包括<code>FLUSHDB</code>、<code>SHUTDOWN</code>等危险的操作，所以在实际商业项目开发中，一般都会对<code>django-redis</code>再做一次封装，例如封装一个工具类，其中只提供了项目需要用到的缓存操作的方法，从而避免了直接使用<code>get_redis_connection</code>的潜在风险。当然，自己封装对缓存的操作还可以使用“Read Through”和“Write Through”的方式实现对缓存的更新，这个在下面会介绍到。</p><h3 id=缓存相关问题><a href=#缓存相关问题 class=anchor-link>#</a>缓存相关问题</h3><h4 id=缓存数据的更新><a href=#缓存数据的更新 class=anchor-link>#</a>缓存数据的更新</h4><p>在使用缓存时，一个必须搞清楚的问题就是，当数据改变时，如何更新缓存中的数据。通常更新缓存有如下几种套路，分别是：</p><ol><li>Cache Aside Pattern</li><li>Read/Write Through Pattern</li><li>Write Behind Caching Pattern</li></ol><p>第1种方式的具体做法就是，当数据更新时，先更新数据库，再删除缓存。注意，不能够使用先更新数据库再更新缓存的方式，也不能够使用先删除缓存再更新数据库的方式，大家可以自己想一想为什么（考虑一下有并发的读操作和写操作的场景）。当然，先更新数据库再删除缓存的做法在理论上也存在风险，但是发生问题的概率是极低的，所以不少的项目都使用了这种方式。</p><p>第1种方式相当于编写业务代码的开发者要自己负责对两套存储系统（缓存和关系型数据库）的操作，代码写起来非常的繁琐。第2种方式的主旨是将后端的存储系统变成一套代码，对缓存的维护封装在这套代码中。其中，Read Through指在查询操作中更新缓存，也就是说，当缓存失效的时候，由缓存服务自己负责对数据的加载，从而对应用方是透明的；而Write Through是指在更新数据时，如果没有命中缓存，直接更新数据库，然后返回。如果命中了缓存，则更新缓存，然后再由缓存服务自己更新数据库（同步更新）。刚才我们说过，如果自己对项目中的Redis操作再做一次封装，就可以实现“Read Through”和“Write Through”模式，这样做虽然会增加工作量，但无疑是一件“一劳永逸”且“功在千秋”的事情。</p><p>第3种方式是在更新数据的时候，只更新缓存，不更新数据库，而缓存服务这边会<strong>异步的批量更新</strong>数据库。这种做法会大幅度提升性能，但代价是牺牲数据的<strong>强一致性</strong>。第3种方式的实现逻辑比较复杂，因为他需要追踪有哪数据是被更新了的，然后再批量的刷新到持久层上。</p><h4 id=缓存穿透><a href=#缓存穿透 class=anchor-link>#</a>缓存穿透</h4><p>缓存是为了缓解数据库压力而添加的一个中间层，如果恶意的访问者频繁的访问缓存中没有的数据，那么缓存就失去了存在的意义，瞬间所有请求的压力都落在了数据库上，这样会导致数据库承载着巨大的压力甚至连接异常，类似于分布式拒绝服务攻击（DDoS）的做法。解决缓存穿透的一个办法是约定如果查询返回为空值，把这个空值也缓存起来，但是需要为这个空值的缓存设置一个较短的超时时间，毕竟缓存这样的值就是对缓存空间的浪费。另一个解决缓存穿透的办法是使用布隆过滤器，具体的做法大家可以自行了解。</p><h4 id=缓存击穿><a href=#缓存击穿 class=anchor-link>#</a>缓存击穿</h4><p>在实际的项目中，可能存在某个缓存的key某个时间点过期，但恰好在这个时间点对有对该key的大量的并发请求过来，这些请求没有从缓存中找到key对应的数据，就会直接从数据库中获取数据并写回到缓存，这个时候大并发的请求可能会瞬间把数据库压垮，这种现象称为缓存击穿。比较常见的解决缓存击穿的办法是使用互斥锁，简单的说就是在缓存失效的时候，不是立即去数据库加载数据，而是先设置互斥锁（例如：Redis中的setnx），只有设置互斥锁的操作成功的请求，才能执行查询从数据库中加载数据并写入缓存，其他设置互斥锁失败的请求，可以先执行一个短暂的休眠，然后尝试重新从缓存中获取数据，如果缓存还没有数据，则重复刚才的设置互斥锁的操作，大致的参考代码如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>data</span> <span class=o>=</span> <span class=n>redis_cli</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>key</span><span class=p>)</span>
+<span class=k>while</span> <span class=ow>not</span> <span class=n>data</span><span class=p>:</span>
+    <span class=k>if</span> <span class=n>redis_cli</span><span class=o>.</span><span class=n>setnx</span><span class=p>(</span><span class=s1>&#39;mutex&#39;</span><span class=p>,</span> <span class=s1>&#39;x&#39;</span><span class=p>):</span>
+        <span class=n>redis</span><span class=o>.</span><span class=n>expire</span><span class=p>(</span><span class=s1>&#39;mutex&#39;</span><span class=p>,</span> <span class=n>timeout</span><span class=p>)</span>
+        <span class=n>data</span> <span class=o>=</span> <span class=n>db</span><span class=o>.</span><span class=n>query</span><span class=p>(</span><span class=o>...</span><span class=p>)</span>
+        <span class=n>redis</span><span class=o>.</span><span class=n>set</span><span class=p>(</span><span class=n>key</span><span class=p>,</span> <span class=n>data</span><span class=p>)</span>
+        <span class=n>redis</span><span class=o>.</span><span class=n>delete</span><span class=p>(</span><span class=s1>&#39;mutex&#39;</span><span class=p>)</span>
+    <span class=k>else</span><span class=p>:</span>
+        <span class=n>time</span><span class=o>.</span><span class=n>sleep</span><span class=p>(</span><span class=mf>0.1</span><span class=p>)</span>
+        <span class=n>data</span> <span class=o>=</span> <span class=n>redis_cli</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>key</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><h4 id=缓存雪崩><a href=#缓存雪崩 class=anchor-link>#</a>缓存雪崩</h4><p>缓存雪崩是指在将数据放入缓存时采用了相同的过期时间，这样就导致缓存在某一时刻同时失效，请求全部转发到数据库，导致数据库瞬时压力过大而崩溃。解决缓存雪崩问题的方法也比较简单，可以在既定的缓存过期时间上加一个随机时间，这样可以从一定程度上避免不同的key在同一时间集体失效。还有一种办法就是使用多级缓存，每一级缓存的过期时间都不一样，这样的话即便某个级别的缓存集体失效，但是其他级别的缓存还能够提供数据，避免所有的请求都落到数据库上。</p></div><ul class=post-copyright><li class="copyright-item author"><span class=copyright-item-text>作者</span>：<span class="p-author h-card">骆昊</span></li><li class="copyright-item link"><span class=copyright-item-text>链接</span>：<a href=https://github.com/jackfrued/Python-100-Days target=_blank rel=noopener>https://github.com/jackfrued/Python-100-Days</a></li><li class="copyright-item license"><span class=copyright-item-text>许可</span>：本文采用<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>「CC BY-NC-SA 4.0」</a>协议，转载请注明出处。</li></ul></article><div class=related-posts><h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2><ul class=related-list><li class=related-item><a href=/python/01.%E5%88%9D%E8%AF%86python/ class=related-link>01.初识Python</a></li><li class=related-item><a href=/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/ class=related-link>02.语言元素</a></li><li class=related-item><a href=/python/03.%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84/ class=related-link>03.分支结构</a></li><li class=related-item><a href=/python/04.%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84/ class=related-link>04.循环结构</a></li><li class=related-item><a href=/python/05.%E6%9E%84%E9%80%A0%E7%A8%8B%E5%BA%8F%E9%80%BB%E8%BE%91/ class=related-link>05.构造程序逻辑</a></li></ul></div><div class=post-tags><a href=/tags/python/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>python</a></div></div></main><div id=back-to-top class=back-to-top><a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a></div><footer id=footer class=footer><div class=footer-inner><div class=site-info>©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;hanxin</div><script src=https://sdk.jinrishici.com/v2/browser/jinrishici.js></script>
+<text class=poem_sentence></text>
+<text class=poem_info></text>
+<script type=text/javascript>jinrishici.load(function(a){var b=document.querySelector(".poem_sentence"),c=document.querySelector(".poem_info");b.innerHTML=a.data.content,c.innerHTML='——'+a.data.origin.author})</script></div></footer></div><script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script><script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script></body></html>

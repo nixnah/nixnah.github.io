@@ -1,0 +1,541 @@
+<!doctype html><html lang=zh-cn><head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"><meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=theme-color content="#16171d"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=format-detection content="telephone=no, date=no, address=no, email=no"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><title>68.Pandas的应用 | Hanxin</title><link rel=stylesheet href=/css/meme.min.88c90dc75021618344ec926f4ed6ac307f30ba48911294816b16370a41e5f137.css><script src=/js/meme.min.f460a174bb100a60a7e275913695161f1e09aab1378fe99cfd30cde14da70888.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap" media=print onload="this.media='all'"><noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap"></noscript><meta name=author content="骆昊"><meta name=description content="Pandas的应用 Pandas是Wes McKinney在2008年开发的一个强大的分……"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=mask-icon href=/icons/safari-pinned-tab.svg color=#2a6df4><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-title content="Hanxin"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=mobile-web-app-capable content="yes"><meta name=application-name content="Hanxin"><meta name=msapplication-starturl content="../../"><meta name=msapplication-TileColor content="#fff"><meta name=msapplication-TileImage content="../../icons/mstile-150x150.png"><link rel=manifest href=/manifest.json><link rel=canonical href=/python/68.pandas%E7%9A%84%E5%BA%94%E7%94%A8/><script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2021-08-23T17:34:20+08:00","dateModified":"2022-01-16T09:24:35+00:00","url":"/python/68.pandas%E7%9A%84%E5%BA%94%E7%94%A8/","name":"68.Pandas的应用","description":"Pandas的应用 Pandas是Wes McKinney在2008年开发的一个强大的分……","image":"/icons/apple-touch-icon.png","license":"本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。","publisher":{"@type":"Organization","name":"Hanxin","logo":{"@type":"ImageObject","url":"/icons/apple-touch-icon.png"},"url":"/"},"mainEntityOfPage":{"@type":"WebSite","@id":"/"}}</script><meta name=twitter:card content="summary"><meta property="og:title" content="68.Pandas的应用"><meta property="og:description" content="Pandas的应用 Pandas是Wes McKinney在2008年开发的一个强大的分……"><meta property="og:url" content="/python/68.pandas%E7%9A%84%E5%BA%94%E7%94%A8/"><meta property="og:site_name" content="Hanxin"><meta property="og:locale" content="zh"><meta property="og:image" content="/icons/apple-touch-icon.png"><meta property="og:type" content="website"></head><body><div class=container><header class=header><div class=header-wrapper><div class="header-inner single"><div class=site-brand><a href=/ class=brand>Hanxin</a></div><nav class=nav><ul class=menu id=menu><li class=menu-item><a href=/life/><span class=menu-item-name>生活</span></a></li><li class=menu-item><a href=/tech/><span class=menu-item-name>技术</span></a></li><li class=menu-item><a href=/tags/><span class=menu-item-name>标签</span></a></li><li class=menu-item><a href=/about/><span class=menu-item-name>关于</span></a></li><li class=menu-item><a href=/blogroll/><span class=menu-item-name>友链</span></a></li><li class=menu-item><a href=/python/><span class=menu-item-name>Python-100天</span></a></li><li class=menu-item><a id=theme-switcher href=#><span class="icon theme-icon-light">🌞</span><span class="icon theme-icon-dark">🌙</span></a></li></ul></nav></div></div><input type=checkbox id=nav-toggle aria-hidden=true>
+<label for=nav-toggle class=nav-toggle></label>
+<label for=nav-toggle class=nav-curtain></label></header><main class="main single" id=main><div class=main-inner><article class="content post h-entry" data-align=justify data-type=python data-toc-num=true><h1 class="post-title p-name">68.Pandas的应用</h1><div class=post-meta><time datetime=2021-08-23T17:34:20+08:00 class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;2021.8.23</time>
+<time datetime=2022-01-16T09:24:35+00:00 class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M4e2 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H48C21.49 64 0 85.49.0 112v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 4e2H54a6 6 0 01-6-6V160h352v298a6 6 0 01-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.1.16</time>
+<span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;6762</span>
+<span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;14&nbsp;分钟</span></div><div class="post-body e-content"><h2 id=pandas的应用><a href=#pandas的应用 class=anchor-link>#</a>Pandas的应用</h2><p>Pandas是Wes McKinney在2008年开发的一个强大的<strong>分析结构化数据</strong>的工具集。Pandas以NumPy为基础（数据表示和运算），提供了用于数据处理的函数和方法，对数据分析和数据挖掘提供了很好的支持；同时Pandas还可以跟数据可视化工具Matplotlib很好的整合在一起，非常轻松愉快的实现数据的可视化展示。</p><p>Pandas核心的数据类型是<code>Series</code>（数据系列）、<code>DataFrame</code>（数据表/数据框），分别用于处理一维和二维的数据，除此之外还有一个名为<code>Index</code>的类型及其子类型，它为<code>Series</code>和<code>DataFrame</code>提供了索引功能。日常工作中以<code>DataFrame</code>使用最为广泛，因为二维的数据本质就是一个有行有列的表格（想一想Excel电子表格和关系型数据库中的二维表）。上述这些类型都提供了大量的处理数据的方法，数据分析师可以以此为基础实现对数据的各种常规处理。</p><h3 id=series的应用><a href=#series的应用 class=anchor-link>#</a>Series的应用</h3><p>Pandas库中的<code>Series</code>对象可以用来表示一维数据结构，跟数组非常类似，但是多了一些额外的功能。<code>Series</code>的内部结构包含了两个数组，其中一个用来保存数据，另一个用来保存数据的索引。</p><h4 id=创建series对象><a href=#创建series对象 class=anchor-link>#</a>创建Series对象</h4><blockquote><p><strong>提示</strong>：在执行下面的代码之前，请先导入<code>pandas</code>以及相关的库文件，具体的做法可以参考上一章。</p></blockquote><ul><li><p>方法1：通过列表或数组创建Series对象。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=c1># data参数表示数据，index参数表示数据的索引（标签）</span>
+<span class=c1># 如果没有指定index属性，默认使用数字索引</span>
+<span class=n>ser1</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>Series</span><span class=p>(</span><span class=n>data</span><span class=o>=</span><span class=p>[</span><span class=mi>320</span><span class=p>,</span> <span class=mi>180</span><span class=p>,</span> <span class=mi>300</span><span class=p>,</span> <span class=mi>405</span><span class=p>],</span> <span class=n>index</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;一季度&#39;</span><span class=p>,</span> <span class=s1>&#39;二季度&#39;</span><span class=p>,</span> <span class=s1>&#39;三季度&#39;</span><span class=p>,</span> <span class=s1>&#39;四季度&#39;</span><span class=p>])</span>
+<span class=n>ser1</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>一季度    320
+二季度    180
+三季度    300
+四季度    405
+dtype: int64
+</code></pre></li><li><p>方法2：通过字典创建Series对象。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=c1># 字典中的键就是数据的索引（标签），字典中的值就是数据</span>
+<span class=n>ser2</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>Series</span><span class=p>({</span><span class=s1>&#39;一季度&#39;</span><span class=p>:</span> <span class=mi>320</span><span class=p>,</span> <span class=s1>&#39;二季度&#39;</span><span class=p>:</span> <span class=mi>180</span><span class=p>,</span> <span class=s1>&#39;三季度&#39;</span><span class=p>:</span> <span class=mi>300</span><span class=p>,</span> <span class=s1>&#39;四季度&#39;</span><span class=p>:</span> <span class=mi>405</span><span class=p>})</span>
+<span class=n>ser2</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>一季度    320
+二季度    180
+三季度    300
+四季度    405
+dtype: int64
+</code></pre></li></ul><h4 id=索引和切片><a href=#索引和切片 class=anchor-link>#</a>索引和切片</h4><p>跟数组一样，Series对象也可以进行索引和切片操作，不同的是Series对象因为内部维护了一个保存索引的数组，所以除了可以使用整数索引通过位置检索数据外，还可以通过自己设置的索引标签获取对应的数据。</p><ul><li><p>使用整数索引</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=n>ser</span><span class=p>[</span><span class=mi>1</span><span class=p>],</span> <span class=n>ser</span><span class=p>[</span><span class=mi>2</span><span class=p>],</span> <span class=n>ser</span><span class=p>[</span><span class=mi>3</span><span class=p>])</span>
+<span class=n>ser2</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=n>ser2</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span> <span class=o>=</span> <span class=mi>350</span><span class=p>,</span> <span class=mi>360</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>320 180 300 405
+一季度    350
+二季度    180
+三季度    300
+四季度    360
+dtype: int64
+</code></pre><blockquote><p><strong>提示</strong>：如果要使用负向索引，必须在创建<code>Series</code>对象时通过<code>index</code>属性指定非数值类型的标签。</p></blockquote></li><li><p>使用自定义的标签索引</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=p>[</span><span class=s1>&#39;一季度&#39;</span><span class=p>],</span> <span class=n>ser2</span><span class=p>[</span><span class=s1>&#39;三季度&#39;</span><span class=p>])</span>
+<span class=n>ser2</span><span class=p>[</span><span class=s1>&#39;一季度&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=mi>380</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>350 300
+一季度    380
+二季度    180
+三季度    300
+四季度    360
+dtype: int64
+</code></pre></li><li><p>切片操作</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=p>[</span><span class=mi>1</span><span class=p>:</span><span class=mi>3</span><span class=p>])</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=p>[</span><span class=s1>&#39;二季度&#39;</span><span class=p>:</span><span class=s1>&#39;四季度&#39;</span><span class=p>])</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>二季度    180
+三季度    300
+dtype: int64
+二季度    500
+三季度    500
+四季度    520
+dtype: int64
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser2</span><span class=p>[</span><span class=mi>1</span><span class=p>:</span><span class=mi>3</span><span class=p>]</span> <span class=o>=</span> <span class=mi>400</span><span class=p>,</span> <span class=mi>500</span>
+<span class=n>ser2</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>一季度    380
+二季度    400
+三季度    500
+四季度    360
+dtype: int64
+</code></pre></li><li><p>花式索引</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=p>[[</span><span class=s1>&#39;二季度&#39;</span><span class=p>,</span> <span class=s1>&#39;四季度&#39;</span><span class=p>]])</span>
+<span class=n>ser2</span><span class=p>[[</span><span class=s1>&#39;二季度&#39;</span><span class=p>,</span> <span class=s1>&#39;四季度&#39;</span><span class=p>]]</span> <span class=o>=</span> <span class=mi>500</span><span class=p>,</span> <span class=mi>520</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>二季度    400
+四季度    360
+dtype: int64
+一季度    380
+二季度    500
+三季度    500
+四季度    520
+dtype: int64
+</code></pre></li><li><p>布尔索引</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser2</span><span class=p>[</span><span class=n>ser2</span> <span class=o>&gt;=</span> <span class=mi>500</span><span class=p>]</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>二季度    500
+三季度    500
+四季度    520
+dtype: int64
+</code></pre></li></ul><p>####属性和方法</p><p>Series对象的常用属性如下表所示。</p><div class=table-container><table><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><code>dtype</code> / <code>dtypes</code></td><td>返回<code>Series</code>对象的数据类型</td></tr><tr><td><code>hasnans</code></td><td>判断<code>Series</code>对象中有没有空值</td></tr><tr><td><code>at</code> / <code>iat</code></td><td>通过索引访问<code>Series</code>对象中的单个值</td></tr><tr><td><code>loc</code> / <code>iloc</code></td><td>通过一组索引访问<code>Series</code>对象中的一组值</td></tr><tr><td><code>index</code></td><td>返回<code>Series</code>对象的索引</td></tr><tr><td><code>is_monotonic</code></td><td>判断<code>Series</code>对象中的数据是否单调</td></tr><tr><td><code>is_monotonic_increasing</code></td><td>判断<code>Series</code>对象中的数据是否单调递增</td></tr><tr><td><code>is_monotonic_decreasing</code></td><td>判断<code>Series</code>对象中的数据是否单调递减</td></tr><tr><td><code>is_unique</code></td><td>判断<code>Series</code>对象中的数据是否独一无二</td></tr><tr><td><code>size</code></td><td>返回<code>Series</code>对象中元素的个数</td></tr><tr><td><code>values</code></td><td>以<code>ndarray</code>的方式返回<code>Series</code>对象中的值</td></tr></tbody></table></div><p><code>Series</code>对象的方法很多，我们通过下面的代码为大家介绍一些常用的方法。</p><ul><li><p>统计相关的方法</p><p><code>Series</code>对象支持各种获取描述性统计信息的方法。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=c1># 求和</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=o>.</span><span class=n>sum</span><span class=p>())</span>
+<span class=c1># 求均值</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=o>.</span><span class=n>mean</span><span class=p>())</span>
+<span class=c1># 求最大</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=o>.</span><span class=n>max</span><span class=p>())</span>
+<span class=c1># 求最小</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=o>.</span><span class=n>min</span><span class=p>())</span>
+<span class=c1># 计数</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=o>.</span><span class=n>count</span><span class=p>())</span>
+<span class=c1># 求标准差</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=o>.</span><span class=n>std</span><span class=p>())</span>
+<span class=c1># 求方差</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=o>.</span><span class=n>var</span><span class=p>())</span>
+<span class=c1># 求中位数</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>ser2</span><span class=o>.</span><span class=n>median</span><span class=p>())</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>1900
+475.0
+520
+380
+4
+64.03124237432849
+4100.0
+500.0
+</code></pre><p><code>Series</code>对象还有一个名为<code>describe()</code>的方法，可以获得上述所有的描述性统计信息，如下所示。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser2</span><span class=o>.</span><span class=n>describe</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>count      4.000000
+mean     475.000000
+std       64.031242
+min      380.000000
+25%      470.000000
+50%      500.000000
+75%      505.000000
+max      520.000000
+dtype: float64
+</code></pre><blockquote><p><strong>提示</strong>：因为<code>describe()</code>返回的也是一个<code>Series</code>对象，所以也可以用<code>ser2.describe()['mean']</code>来获取平均值。</p></blockquote><p>如果<code>Series</code>对象有重复的值，我们可以使用<code>unique()</code>方法获得去重之后的<code>Series</code>对象；可以使用<code>nunique()</code>方法统计不重复值的数量；如果想要统计每个值重复的次数，可以使用<code>value_counts()</code>方法，这个方法会返回一个<code>Series</code>对象，它的索引就是原来的<code>Series</code>对象中的值，而每个值出现的次数就是返回的<code>Series</code>对象中的数据，在默认情况下会按照出现次数做降序排列。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser3</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>Series</span><span class=p>(</span><span class=n>data</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;apple&#39;</span><span class=p>,</span> <span class=s1>&#39;banana&#39;</span><span class=p>,</span> <span class=s1>&#39;apple&#39;</span><span class=p>,</span> <span class=s1>&#39;pitaya&#39;</span><span class=p>,</span> <span class=s1>&#39;apple&#39;</span><span class=p>,</span> <span class=s1>&#39;pitaya&#39;</span><span class=p>,</span> <span class=s1>&#39;durian&#39;</span><span class=p>])</span>
+<span class=n>ser3</span><span class=o>.</span><span class=n>value_counts</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>apple     3
+pitaya    2
+durian    1
+banana    1
+dtype: int64
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser3</span><span class=o>.</span><span class=n>nunique</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>4
+</code></pre></li><li><p>数据处理的方法</p><p><code>Series</code>对象的<code>isnull()</code>和<code>notnull()</code>方法可以用于空值的判断，代码如下所示。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser4</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>Series</span><span class=p>(</span><span class=n>data</span><span class=o>=</span><span class=p>[</span><span class=mi>10</span><span class=p>,</span> <span class=mi>20</span><span class=p>,</span> <span class=n>np</span><span class=o>.</span><span class=n>NaN</span><span class=p>,</span> <span class=mi>30</span><span class=p>,</span> <span class=n>np</span><span class=o>.</span><span class=n>NaN</span><span class=p>])</span>
+<span class=n>ser4</span><span class=o>.</span><span class=n>isnull</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0    False
+1    False
+2     True
+3    False
+4     True
+dtype: bool
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser4</span><span class=o>.</span><span class=n>notnull</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0     True
+1     True
+2    False
+3     True
+4    False
+dtype: bool
+</code></pre><p><code>Series</code>对象的<code>dropna()</code>和<code>fillna()</code>方法分别用来删除空值和填充空值，具体的用法如下所示。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser4</span><span class=o>.</span><span class=n>dropna</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0    10.0
+1    20.0
+3    30.0
+dtype: float64
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=c1># 将空值填充为40</span>
+<span class=n>ser4</span><span class=o>.</span><span class=n>fillna</span><span class=p>(</span><span class=n>value</span><span class=o>=</span><span class=mi>40</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0    10.0
+1    20.0
+2    40.0
+3    30.0
+4    40.0
+dtype: float64
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=c1># backfill或bfill表示用后一个元素的值填充空值</span>
+<span class=c1># ffill或pad表示用前一个元素的值填充空值</span>
+<span class=n>ser4</span><span class=o>.</span><span class=n>fillna</span><span class=p>(</span><span class=n>method</span><span class=o>=</span><span class=s1>&#39;ffill&#39;</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0    10.0
+1    20.0
+2    20.0
+3    30.0
+4    30.0
+dtype: float64
+</code></pre><p>需要提醒大家注意的是，<code>dropna()</code>和<code>fillna()</code>方法都有一个名为<code>inplace</code>的参数，它的默认值是<code>False</code>，表示删除空值或填充空值不会修改原来的<code>Series</code>对象，而是返回一个新的<code>Series</code>对象来表示删除或填充空值后的数据系列，如果将<code>inplace</code>参数的值修改为<code>True</code>，那么删除或填充空值会就地操作，直接修改原来的<code>Series</code>对象，那么方法的返回值是<code>None</code>。后面我们会接触到的很多方法，包括<code>DataFrame</code>对象的很多方法都会有这个参数，它们的意义跟这里是一样的。</p><p><code>Series</code>对象的<code>mask()</code>和<code>where()</code>方法可以将满足或不满足条件的值进行替换，如下所示。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser5</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>Series</span><span class=p>(</span><span class=nb>range</span><span class=p>(</span><span class=mi>5</span><span class=p>))</span>
+<span class=n>ser5</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>ser5</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0    NaN
+1    1.0
+2    2.0
+3    3.0
+4    4.0
+dtype: float64
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser5</span><span class=o>.</span><span class=n>where</span><span class=p>(</span><span class=n>ser5</span> <span class=o>&gt;</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>10</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0    10
+1    10
+2     2
+3     3
+4     4
+dtype: int64
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser5</span><span class=o>.</span><span class=n>mask</span><span class=p>(</span><span class=n>ser5</span> <span class=o>&gt;</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>10</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0     0
+1     1
+2    10
+3    10
+4    10
+dtype: int64
+</code></pre><p><code>Series</code>对象的<code>duplicated()</code>方法可以帮助我们找出重复的数据，而<code>drop_duplicates()</code>方法可以帮我们删除重复数据。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser3</span><span class=o>.</span><span class=n>duplicated</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0    False
+1    False
+2     True
+3    False
+4     True
+5     True
+6    False
+dtype: bool
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser3</span><span class=o>.</span><span class=n>drop_duplicates</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0     apple
+1    banana
+3    pitaya
+6    durian
+dtype: object
+</code></pre><p><code>Series</code>对象的<code>apply()</code>和<code>map()</code>方法非常重要，它们可以用于数据处理，把数据映射或转换成我们期望的样子，这个操作在数据分析的数据准备阶段非常重要。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser6</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>Series</span><span class=p>([</span><span class=s1>&#39;cat&#39;</span><span class=p>,</span> <span class=s1>&#39;dog&#39;</span><span class=p>,</span> <span class=n>np</span><span class=o>.</span><span class=n>nan</span><span class=p>,</span> <span class=s1>&#39;rabbit&#39;</span><span class=p>])</span>
+<span class=n>ser6</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0       cat
+1       dog
+2       NaN
+3    rabbit
+dtype: object
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser6</span><span class=o>.</span><span class=n>map</span><span class=p>({</span><span class=s1>&#39;cat&#39;</span><span class=p>:</span> <span class=s1>&#39;kitten&#39;</span><span class=p>,</span> <span class=s1>&#39;dog&#39;</span><span class=p>:</span> <span class=s1>&#39;puppy&#39;</span><span class=p>})</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0    kitten
+1     puppy
+2       NaN
+3       NaN
+dtype: object
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser6</span><span class=o>.</span><span class=n>map</span><span class=p>(</span><span class=s1>&#39;I am a </span><span class=si>{}</span><span class=s1>&#39;</span><span class=o>.</span><span class=n>format</span><span class=p>,</span> <span class=n>na_action</span><span class=o>=</span><span class=s1>&#39;ignore&#39;</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>0       I am a cat
+1       I am a dog
+2              NaN
+3    I am a rabbit
+dtype: object
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser7</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>Series</span><span class=p>([</span><span class=mi>20</span><span class=p>,</span> <span class=mi>21</span><span class=p>,</span> <span class=mi>12</span><span class=p>],</span>  <span class=n>index</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;London&#39;</span><span class=p>,</span> <span class=s1>&#39;New York&#39;</span><span class=p>,</span> <span class=s1>&#39;Helsinki&#39;</span><span class=p>])</span>
+<span class=n>ser7</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>London      20
+New York    21
+Helsinki    12
+dtype: int64
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser7</span><span class=o>.</span><span class=n>apply</span><span class=p>(</span><span class=n>np</span><span class=o>.</span><span class=n>square</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>London      400
+New York    441
+Helsinki    144
+dtype: int64
+</code></pre><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser7</span><span class=o>.</span><span class=n>apply</span><span class=p>(</span><span class=k>lambda</span> <span class=n>x</span><span class=p>,</span> <span class=n>value</span><span class=p>:</span> <span class=n>x</span> <span class=o>-</span> <span class=n>value</span><span class=p>,</span> <span class=n>args</span><span class=o>=</span><span class=p>(</span><span class=mi>5</span><span class=p>,</span> <span class=p>))</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>London      15
+New York    16
+Helsinki     7
+dtype: int64
+</code></pre></li><li><p>排序和取头部值的方法</p><p><code>Series</code>对象的<code>sort_index()</code>和<code>sort_values()</code>方法可以用于对索引和数据的排序，排序方法有一个名为<code>ascending</code>的布尔类型参数，该参数用于控制排序的结果是升序还是降序；而名为<code>kind</code>的参数则用来控制排序使用的算法，默认使用了<code>quicksort</code>，也可以选择<code>mergesort</code>或<code>heapsort</code>；如果存在空值，那么可以用<code>na_position</code>参数空值放在最前还是最后，默认是<code>last</code>，代码如下所示。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python></code></pre></td></tr></table></div></div></div></li></ul><p>ser8 = pd.Series(
+data=[35, 96, 12, 57, 25, 89],
+index=['grape', 'banana', 'pitaya', 'apple', 'peach', 'orange']
+)
+# 按值从小到大排序
+ser8.sort_values()
+```</p><pre><code>输出：
+
+```
+pitaya    12
+peach     25
+grape     35
+apple     57
+orange    89
+banana    96
+dtype: int64
+```
+
+代码：
+
+```Python
+# 按索引从大到小排序
+ser8.sort_index(ascending=False)
+```
+
+输出：
+
+```
+pitaya    12
+peach     25
+orange    89
+grape     35
+banana    96
+apple     57
+dtype: int64
+```
+
+如果要从`Series`对象中找出元素中最大或最小的“Top-N”，实际上是不需要对所有的值进行排序的，可以使用`nlargest()`和`nsmallest()`方法来完成，如下所示。
+
+代码：
+
+```Python
+# 值最大的3个
+ser8.nlargest(3)
+```
+
+输出：
+
+```
+banana    96
+orange    89
+apple     57
+dtype: int64
+```
+
+代码：
+
+```Python
+# 值最小的2个
+ser8.nsmallest(2)
+```
+
+输出：
+
+```
+pitaya    12
+peach     25
+dtype: int64
+```
+</code></pre><h4 id=绘制图表><a href=#绘制图表 class=anchor-link>#</a>绘制图表</h4><p>Series对象有一个名为<code>plot</code>的方法可以用来生成图表，如果选择生成折线图、饼图、柱状图等，默认会使用Series对象的索引作为横坐标，使用Series对象的数据作为纵坐标。</p><p>首先导入<code>matplotlib</code>中<code>pyplot</code>模块并进行必要的配置。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>matplotlib.pyplot</span> <span class=k>as</span> <span class=nn>plt</span>
+
+<span class=c1># 配置支持中文的非衬线字体（默认的字体无法显示中文）</span>
+<span class=n>plt</span><span class=o>.</span><span class=n>rcParams</span><span class=p>[</span><span class=s1>&#39;font.sans-serif&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;SimHei&#39;</span><span class=p>,</span> <span class=p>]</span>
+<span class=c1># 使用指定的中文字体时需要下面的配置来避免负号无法显示</span>
+<span class=n>plt</span><span class=o>.</span><span class=n>rcParams</span><span class=p>[</span><span class=s1>&#39;axes.unicode_minus&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=kc>False</span>
+</code></pre></td></tr></table></div></div></div><p>创建<code>Series</code>对象并绘制对应的柱状图。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>ser9</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>Series</span><span class=p>({</span><span class=s1>&#39;一季度&#39;</span><span class=p>:</span> <span class=mi>400</span><span class=p>,</span> <span class=s1>&#39;二季度&#39;</span><span class=p>:</span> <span class=mi>520</span><span class=p>,</span> <span class=s1>&#39;三季度&#39;</span><span class=p>:</span> <span class=mi>180</span><span class=p>,</span> <span class=s1>&#39;四季度&#39;</span><span class=p>:</span> <span class=mi>380</span><span class=p>})</span>
+<span class=c1># 通过Series对象的plot方法绘图（kind=&#39;bar&#39;表示绘制柱状图）</span>
+<span class=n>ser9</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>kind</span><span class=o>=</span><span class=s1>&#39;bar&#39;</span><span class=p>,</span> <span class=n>color</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;r&#39;</span><span class=p>,</span> <span class=s1>&#39;g&#39;</span><span class=p>,</span> <span class=s1>&#39;b&#39;</span><span class=p>,</span> <span class=s1>&#39;y&#39;</span><span class=p>])</span>
+<span class=c1># x轴的坐标旋转到0度（中文水平显示）</span>
+<span class=n>plt</span><span class=o>.</span><span class=n>xticks</span><span class=p>(</span><span class=n>rotation</span><span class=o>=</span><span class=mi>0</span><span class=p>)</span>
+<span class=c1># 在柱状图的柱子上绘制数字</span>
+<span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>4</span><span class=p>):</span>
+    <span class=n>plt</span><span class=o>.</span><span class=n>text</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>ser9</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>+</span> <span class=mi>5</span><span class=p>,</span> <span class=n>ser9</span><span class=p>[</span><span class=n>i</span><span class=p>],</span> <span class=n>ha</span><span class=o>=</span><span class=s1>&#39;center&#39;</span><span class=p>)</span>
+<span class=c1># 显示图像</span>
+<span class=n>plt</span><span class=o>.</span><span class=n>show</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p><img src=/res/series-bar-graph.png alt></p><p>绘制反映每个季度占比的饼图。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=c1># autopct参数可以配置在饼图上显示每块饼的占比</span>
+<span class=n>ser9</span><span class=o>.</span><span class=n>plot</span><span class=p>(</span><span class=n>kind</span><span class=o>=</span><span class=s1>&#39;pie&#39;</span><span class=p>,</span> <span class=n>autopct</span><span class=o>=</span><span class=s1>&#39;</span><span class=si>%.1f%%</span><span class=s1>&#39;</span><span class=p>)</span>
+<span class=c1># 设置y轴的标签（显示在饼图左侧的文字）</span>
+<span class=n>plt</span><span class=o>.</span><span class=n>ylabel</span><span class=p>(</span><span class=s1>&#39;各季度占比&#39;</span><span class=p>)</span>
+<span class=n>plt</span><span class=o>.</span><span class=n>show</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p><img src=/res/series-pie-graph.png alt></p><h3 id=dataframe的应用><a href=#dataframe的应用 class=anchor-link>#</a>DataFrame的应用</h3><h4 id=创建dataframe对象><a href=#创建dataframe对象 class=anchor-link>#</a>创建DataFrame对象</h4><ol><li><p>通过二维数组创建<code>DataFrame</code>对象。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>scores</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>random</span><span class=o>.</span><span class=n>randint</span><span class=p>(</span><span class=mi>60</span><span class=p>,</span> <span class=mi>101</span><span class=p>,</span> <span class=p>(</span><span class=mi>5</span><span class=p>,</span> <span class=mi>3</span><span class=p>))</span>
+<span class=n>courses</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;语文&#39;</span><span class=p>,</span> <span class=s1>&#39;数学&#39;</span><span class=p>,</span> <span class=s1>&#39;英语&#39;</span><span class=p>]</span>
+<span class=n>ids</span> <span class=o>=</span> <span class=p>[</span><span class=mi>1001</span><span class=p>,</span> <span class=mi>1002</span><span class=p>,</span> <span class=mi>1003</span><span class=p>,</span> <span class=mi>1004</span><span class=p>,</span> <span class=mi>1005</span><span class=p>]</span>
+<span class=n>df1</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>DataFrame</span><span class=p>(</span><span class=n>data</span><span class=o>=</span><span class=n>scores</span><span class=p>,</span> <span class=n>columns</span><span class=o>=</span><span class=n>courses</span><span class=p>,</span> <span class=n>index</span><span class=o>=</span><span class=n>ids</span><span class=p>)</span>
+<span class=n>df1</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>		语文	数学	英语
+1001    69    80	79
+1002    71	  60	100
+1003    94    81	93
+1004    88	  88	67
+1005    82	  66    60
+</code></pre></li><li><p>通过字典创建<code>DataFrame</code>对象。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>scores</span> <span class=o>=</span> <span class=p>{</span>
+    <span class=s1>&#39;语文&#39;</span><span class=p>:</span> <span class=p>[</span><span class=mi>62</span><span class=p>,</span> <span class=mi>72</span><span class=p>,</span> <span class=mi>93</span><span class=p>,</span> <span class=mi>88</span><span class=p>,</span> <span class=mi>93</span><span class=p>],</span>
+    <span class=s1>&#39;数学&#39;</span><span class=p>:</span> <span class=p>[</span><span class=mi>95</span><span class=p>,</span> <span class=mi>65</span><span class=p>,</span> <span class=mi>86</span><span class=p>,</span> <span class=mi>66</span><span class=p>,</span> <span class=mi>87</span><span class=p>],</span>
+    <span class=s1>&#39;英语&#39;</span><span class=p>:</span> <span class=p>[</span><span class=mi>66</span><span class=p>,</span> <span class=mi>75</span><span class=p>,</span> <span class=mi>82</span><span class=p>,</span> <span class=mi>69</span><span class=p>,</span> <span class=mi>82</span><span class=p>],</span>
+<span class=p>}</span>
+<span class=n>ids</span> <span class=o>=</span> <span class=p>[</span><span class=mi>1001</span><span class=p>,</span> <span class=mi>1002</span><span class=p>,</span> <span class=mi>1003</span><span class=p>,</span> <span class=mi>1004</span><span class=p>,</span> <span class=mi>1005</span><span class=p>]</span>
+<span class=n>df2</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>DataFrame</span><span class=p>(</span><span class=n>data</span><span class=o>=</span><span class=n>scores</span><span class=p>,</span> <span class=n>index</span><span class=o>=</span><span class=n>ids</span><span class=p>)</span>
+<span class=n>df2</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>		语文	数学	英语
+1001    69    80	79
+1002    71	  60	100
+1003    94    81	93
+1004    88	  88	67
+1005    82	  66    60
+</code></pre></li><li><p>读取CSV文件创建<code>DataFrame</code>对象。</p><p>可以通过<code>pandas</code> 模块的<code>read_csv</code>函数来读取CSV文件，<code>read_csv</code>函数的参数非常多，下面接受几个比较重要的参数。</p><ul><li><code>sep</code> / <code>delimiter</code>：分隔符，默认是<code>,</code>。</li><li><code>header</code>：表头（列索引）的位置，默认值是<code>infer</code>，用第一行的内容作为表头（列索引）。</li><li><code>index_col</code>：用作行索引（标签）的列。</li><li><code>usecols</code>：需要加载的列，可以使用序号或者列名。</li><li><code>true_values</code> / <code>false_values</code>：哪些值被视为布尔值<code>True</code> / <code>False</code>。</li><li><code>skiprows</code>：通过行号、索引或函数指定需要跳过的行。</li><li><code>skipfooter</code>：要跳过的末尾行数。</li><li><code>nrows</code>：需要读取的行数。</li><li><code>na_values</code>：哪些值被视为空值。</li></ul><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>df3</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>read_csv</span><span class=p>(</span><span class=s1>&#39;2018年北京积分落户数据.csv&#39;</span><span class=p>,</span> <span class=n>index_col</span><span class=o>=</span><span class=s1>&#39;id&#39;</span><span class=p>)</span>
+<span class=n>df3</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>     name   birthday    company       score
+id				
+1    杨x    1972-12    北京利德xxxx	  122.59
+2    纪x    1974-12    北京航天xxxx	  121.25
+3    王x    1974-05	  品牌联盟xxxx    118.96
+4    杨x    1975-07	  中科专利xxxx    118.21
+5    张x    1974-11	  北京阿里xxxx    117.79
+...  ...    ...        ...            ...
+6015 孙x    1978-08	  华为海洋xxxx	  90.75
+6016 刘x    1976-11	  福斯流体xxxx    90.75
+6017 周x    1977-10	  赢创德固xxxx    90.75
+6018 赵x	   1979-07	  澳科利耳xxxx    90.75
+6019 贺x	   1981-06	  北京宝洁xxxx    90.75
+6019 rows × 4 columns
+</code></pre><blockquote><p><strong>说明</strong>：如果需要上面例子中的CSV文件，可以通过下面的百度云盘地址进行获取。链接：https://pan.baidu.com/s/1rQujl5RQn9R7PadB2Z5g_g，提取码：e7b4。</p></blockquote></li><li><p>读取Excel文件创建<code>DataFrame</code>对象。</p><p>可以通过<code>pandas</code> 模块的<code>read_excel</code>函数来读取Excel文件，该函数与上面的<code>read_csv</code>非常相近，多了一个<code>sheet_name</code>参数来指定数据表的名称，但是不同于CSV文件，没有<code>sep</code>或<code>delimiter</code>这样的参数。下面的代码中，<code>read_excel</code>函数的<code>skiprows</code>参数是一个Lambda函数，通过该Lambda函数指定只读取Excel文件的表头和其中10%的数据，跳过其他的数据。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>random</span>
+
+<span class=n>df4</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>read_excel</span><span class=p>(</span>
+    <span class=n>io</span><span class=o>=</span><span class=s1>&#39;小宝剑大药房2018年销售数据.xlsx&#39;</span><span class=p>,</span>
+    <span class=n>usecols</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;购药时间&#39;</span><span class=p>,</span> <span class=s1>&#39;社保卡号&#39;</span><span class=p>,</span> <span class=s1>&#39;商品名称&#39;</span><span class=p>,</span> <span class=s1>&#39;销售数量&#39;</span><span class=p>,</span> <span class=s1>&#39;应收金额&#39;</span><span class=p>,</span> <span class=s1>&#39;实收金额&#39;</span><span class=p>],</span>
+    <span class=n>skiprows</span><span class=o>=</span><span class=k>lambda</span> <span class=n>x</span><span class=p>:</span> <span class=n>x</span> <span class=o>&gt;</span> <span class=mi>0</span> <span class=ow>and</span> <span class=n>random</span><span class=o>.</span><span class=n>random</span><span class=p>()</span> <span class=o>&gt;</span> <span class=mf>0.1</span>
+<span class=p>)</span>
+<span class=n>df4</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：如果需要上面例子中的Excel文件，可以通过下面的百度云盘地址进行获取。</p><p>链接：https://pan.baidu.com/s/1rQujl5RQn9R7PadB2Z5g_g，提取码：e7b4。</p></blockquote><p>输出：</p><pre tabindex=0><code>    购药时间			社保卡号	    商品名称    销售数量	应收金额	实收金额
+0	2018-03-23 星期三	10012157328		强力xx片	 1			13.8		13.80
+1	2018-07-12 星期二	108207828	    强力xx片	 1	        13.8		13.80
+2	2018-01-17 星期日	13358228	    清热xx液	 1		    28.0		28.00
+3	2018-07-11 星期一	10031402228		三九xx灵	 5			149.0		130.00
+4	2018-01-20 星期三	10013340328		三九xx灵	 3			84.0		73.92
+...	...					...				...		...			...			...
+618	2018-03-05 星期六	10066059228		开博xx通	 2			56.0		49.28
+619	2018-03-22 星期二	10035514928		开博xx通	 1			28.0		25.00
+620	2018-04-15 星期五	1006668328	    开博xx通	 2			56.0		50.00
+621	2018-04-24 星期日	10073294128		高特xx灵	 1			5.6			5.60
+622	2018-04-24 星期日	10073294128		高特xx灵	 10			56.0		56.0
+623 rows × 6 columns
+</code></pre></li><li><p>通过SQL从数据库读取数据创建<code>DataFrame</code>对象。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>pymysql</span>
+
+<span class=c1># 创建一个MySQL数据库的连接对象</span>
+<span class=n>conn</span> <span class=o>=</span> <span class=n>pymysql</span><span class=o>.</span><span class=n>connect</span><span class=p>(</span>
+    <span class=n>host</span><span class=o>=</span><span class=s1>&#39;47.104.31.138&#39;</span><span class=p>,</span> <span class=n>port</span><span class=o>=</span><span class=mi>3306</span><span class=p>,</span> <span class=n>user</span><span class=o>=</span><span class=s1>&#39;guest&#39;</span><span class=p>,</span>
+    <span class=n>password</span><span class=o>=</span><span class=s1>&#39;Guest.618&#39;</span><span class=p>,</span> <span class=n>database</span><span class=o>=</span><span class=s1>&#39;hrs&#39;</span><span class=p>,</span> <span class=n>charset</span><span class=o>=</span><span class=s1>&#39;utf8mb4&#39;</span>
+<span class=p>)</span>
+<span class=c1># 通过SQL从数据库读取数据创建DataFrame</span>
+<span class=n>df5</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>read_sql</span><span class=p>(</span><span class=s1>&#39;select * from tb_emp&#39;</span><span class=p>,</span> <span class=n>conn</span><span class=p>,</span> <span class=n>index_col</span><span class=o>=</span><span class=s1>&#39;eno&#39;</span><span class=p>)</span>
+<span class=n>df5</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>提示</strong>：执行上面的代码需要先安装<code>pymysql</code>库，如果尚未安装，可以先在Notebook的单元格中先执行<code>!pip install pymysql</code>，然后再运行上面的代码。上面的代码连接的是我部署在阿里云上的MySQL数据库，公网IP地址：<code>47.104.31.138</code>，用户名：<code>guest</code>，密码：<code>Guest.618</code>，数据库：<code>hrs</code>，表名：<code>tb_emp</code>，字符集：<code>utf8mb4</code>。</p></blockquote><p>输出：</p><pre tabindex=0><code>        ename    job    mgr    sal    comm  dno
+eno						
+1359	胡一刀   销售员	3344   1800  200   30
+2056	乔峰	   分析师	 7800   5000  1500	20
+3088	李莫愁	  设计师	2056   3500  800   20
+3211	张无忌	  程序员	2056   3200  NaN   20
+3233	丘处机	  程序员	2056   3400	 NaN   20
+3244	欧阳锋	  程序员	3088   3200	 NaN   20
+3251	张翠山	  程序员	2056   4000	 NaN   20
+3344	黄蓉	   销售主管	7800   3000	 800   30
+3577	杨过	   会计	  5566   2200  NaN	 10
+3588	朱九真	  会计	 5566   2500  NaN	10
+4466	苗人凤	  销售员	3344   2500	 NaN   30
+5234	郭靖	   出纳	  5566   2000  NaN	 10
+5566	宋远桥	  会计师	7800   4000  1000  10
+7800	张三丰	  总裁	 NaN    9000  1200	20
+</code></pre></li></ol><h4 id=基本属性和方法><a href=#基本属性和方法 class=anchor-link>#</a>基本属性和方法</h4><p><code>DataFrame</code>对象的属性如下表所示。</p><div class=table-container><table><thead><tr><th>属性名</th><th>说明</th></tr></thead><tbody><tr><td><code>at</code> / <code>iat</code></td><td>通过标签获取<code>DataFrame</code>中的单个值。</td></tr><tr><td><code>columns</code></td><td><code>DataFrame</code>对象列的索引</td></tr><tr><td><code>dtypes</code></td><td><code>DataFrame</code>对象每一列的数据类型</td></tr><tr><td><code>empty</code></td><td><code>DataFrame</code>对象是否为空</td></tr><tr><td><code>loc</code> / <code>iloc</code></td><td>通过标签获取<code>DataFrame</code>中的一组值。</td></tr><tr><td><code>ndim</code></td><td><code>DataFrame</code>对象的维度</td></tr><tr><td><code>shape</code></td><td><code>DataFrame</code>对象的形状（行数和列数）</td></tr><tr><td><code>size</code></td><td><code>DataFrame</code>对象中元素的个数</td></tr><tr><td><code>values</code></td><td><code>DataFrame</code>对象的数据对应的二维数组</td></tr></tbody></table></div><p>关于<code>DataFrame</code>的方法，首先需要了解的是<code>info()</code>方法，它可以帮助我们了解<code>DataFrame</code>的相关信息，如下所示。</p><p>代码：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>df5</span><span class=o>.</span><span class=n>info</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div><p>输出：</p><pre tabindex=0><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+Int64Index: 14 entries, 1359 to 7800
+Data columns (total 6 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   ename   14 non-null     object 
+ 1   job     14 non-null     object 
+ 2   mgr     13 non-null     float64
+ 3   sal     14 non-null     int64  
+ 4   comm    6 non-null      float64
+ 5   dno     14 non-null     int64  
+dtypes: float64(2), int64(2), object(2)
+memory usage: 1.3+ KB
+</code></pre><p>如果需要查看<code>DataFrame</code>的头部或尾部的数据，可以使用<code>head()</code>或<code>tail()</code>方法，这两个方法的默认参数是<code>5</code>，表示获取<code>DataFrame</code>最前面5行或最后面5行的数据。如果需要获取数据的描述性统计信息，可以使用<code>describe()</code>方法，该方法跟<code>Series</code>对象的<code>describe()</code>方法类似，只是默认会作用到<code>DataFrame</code>所有数值型的列上。</p><h4 id=获取数据><a href=#获取数据 class=anchor-link>#</a>获取数据</h4><ol><li>索引和切片</li><li>数据筛选</li></ol><h4 id=重塑数据><a href=#重塑数据 class=anchor-link>#</a>重塑数据</h4><ol><li><code>concat</code>函数</li><li><code>merge</code>函数</li></ol><h4 id=数据处理><a href=#数据处理 class=anchor-link>#</a>数据处理</h4><ol><li>数据清洗<ul><li>缺失值处理</li><li>重复值处理</li><li>异常值处理</li></ul></li><li>数据转换<ul><li><code>apply</code>和<code>applymap</code>方法</li><li>字符串向量</li><li>时间日期向量</li></ul></li></ol><h4 id=数据分析><a href=#数据分析 class=anchor-link>#</a>数据分析</h4><ol><li>描述性统计信息</li><li>分组聚合操作<ul><li><code>groupby</code>方法</li><li>透视表和交叉表</li><li>数据分箱</li></ul></li></ol><h4 id=数据可视化><a href=#数据可视化 class=anchor-link>#</a>数据可视化</h4><ol><li>用<code>plot</code>方法出图</li><li>其他方法</li></ol><h4 id=其他方法><a href=#其他方法 class=anchor-link>#</a>其他方法</h4><ol><li>独热编码</li><li>窗口计算</li><li>相关性</li></ol><h3 id=index的应用><a href=#index的应用 class=anchor-link>#</a>Index的应用</h3></div><ul class=post-copyright><li class="copyright-item author"><span class=copyright-item-text>作者</span>：<span class="p-author h-card">骆昊</span></li><li class="copyright-item link"><span class=copyright-item-text>链接</span>：<a href=https://github.com/jackfrued/Python-100-Days target=_blank rel=noopener>https://github.com/jackfrued/Python-100-Days</a></li><li class="copyright-item license"><span class=copyright-item-text>许可</span>：本文采用<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>「CC BY-NC-SA 4.0」</a>协议，转载请注明出处。</li></ul></article><div class=related-posts><h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2><ul class=related-list><li class=related-item><a href=/python/01.%E5%88%9D%E8%AF%86python/ class=related-link>01.初识Python</a></li><li class=related-item><a href=/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/ class=related-link>02.语言元素</a></li><li class=related-item><a href=/python/03.%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84/ class=related-link>03.分支结构</a></li><li class=related-item><a href=/python/04.%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84/ class=related-link>04.循环结构</a></li><li class=related-item><a href=/python/05.%E6%9E%84%E9%80%A0%E7%A8%8B%E5%BA%8F%E9%80%BB%E8%BE%91/ class=related-link>05.构造程序逻辑</a></li></ul></div><div class=post-tags><a href=/tags/python/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>python</a></div></div></main><div id=back-to-top class=back-to-top><a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a></div><footer id=footer class=footer><div class=footer-inner><div class=site-info>©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;hanxin</div><script src=https://sdk.jinrishici.com/v2/browser/jinrishici.js></script>
+<text class=poem_sentence></text>
+<text class=poem_info></text>
+<script type=text/javascript>jinrishici.load(function(a){var b=document.querySelector(".poem_sentence"),c=document.querySelector(".poem_info");b.innerHTML=a.data.content,c.innerHTML='——'+a.data.origin.author})</script></div></footer></div><script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script><script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script></body></html>

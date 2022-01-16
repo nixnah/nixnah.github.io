@@ -1,0 +1,1016 @@
+<!doctype html><html lang=zh-cn><head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"><meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=theme-color content="#16171d"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=format-detection content="telephone=no, date=no, address=no, email=no"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><title>98.项目部署上线和性能调优 | Hanxin</title><link rel=stylesheet href=/css/meme.min.88c90dc75021618344ec926f4ed6ac307f30ba48911294816b16370a41e5f137.css><script src=/js/meme.min.f460a174bb100a60a7e275913695161f1e09aab1378fe99cfd30cde14da70888.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap" media=print onload="this.media='all'"><noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap"></noscript><meta name=author content="骆昊"><meta name=description content="项目部署上线指南 准备上线 上线前的检查工作。 1 python manage.py check --deploy 将DEBUG设置为False并配……"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=mask-icon href=/icons/safari-pinned-tab.svg color=#2a6df4><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-title content="Hanxin"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=mobile-web-app-capable content="yes"><meta name=application-name content="Hanxin"><meta name=msapplication-starturl content="../../"><meta name=msapplication-TileColor content="#fff"><meta name=msapplication-TileImage content="../../icons/mstile-150x150.png"><link rel=manifest href=/manifest.json><link rel=canonical href=/python/98.%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF%E5%92%8C%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/><script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2021-08-23T17:33:50+08:00","dateModified":"2022-01-16T09:24:35+00:00","url":"/python/98.%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF%E5%92%8C%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/","name":"98.项目部署上线和性能调优","description":"项目部署上线指南 准备上线 上线前的检查工作。 1 python manage.py check --deploy 将DEBUG设置为False并配……","image":"/icons/apple-touch-icon.png","license":"本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。","publisher":{"@type":"Organization","name":"Hanxin","logo":{"@type":"ImageObject","url":"/icons/apple-touch-icon.png"},"url":"/"},"mainEntityOfPage":{"@type":"WebSite","@id":"/"}}</script><meta name=twitter:card content="summary"><meta property="og:title" content="98.项目部署上线和性能调优"><meta property="og:description" content="项目部署上线指南 准备上线 上线前的检查工作。 1 python manage.py check --deploy 将DEBUG设置为False并配……"><meta property="og:url" content="/python/98.%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF%E5%92%8C%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/"><meta property="og:site_name" content="Hanxin"><meta property="og:locale" content="zh"><meta property="og:image" content="/icons/apple-touch-icon.png"><meta property="og:type" content="website"></head><body><div class=container><header class=header><div class=header-wrapper><div class="header-inner single"><div class=site-brand><a href=/ class=brand>Hanxin</a></div><nav class=nav><ul class=menu id=menu><li class=menu-item><a href=/life/><span class=menu-item-name>生活</span></a></li><li class=menu-item><a href=/tech/><span class=menu-item-name>技术</span></a></li><li class=menu-item><a href=/tags/><span class=menu-item-name>标签</span></a></li><li class=menu-item><a href=/about/><span class=menu-item-name>关于</span></a></li><li class=menu-item><a href=/blogroll/><span class=menu-item-name>友链</span></a></li><li class=menu-item><a href=/python/><span class=menu-item-name>Python-100天</span></a></li><li class=menu-item><a id=theme-switcher href=#><span class="icon theme-icon-light">🌞</span><span class="icon theme-icon-dark">🌙</span></a></li></ul></nav></div></div><input type=checkbox id=nav-toggle aria-hidden=true>
+<label for=nav-toggle class=nav-toggle></label>
+<label for=nav-toggle class=nav-curtain></label></header><main class="main single" id=main><div class=main-inner><article class="content post h-entry" data-align=justify data-type=python data-toc-num=true><h1 class="post-title p-name">98.项目部署上线和性能调优</h1><div class=post-meta><time datetime=2021-08-23T17:33:50+08:00 class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;2021.8.23</time>
+<time datetime=2022-01-16T09:24:35+00:00 class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M4e2 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H48C21.49 64 0 85.49.0 112v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 4e2H54a6 6 0 01-6-6V160h352v298a6 6 0 01-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.1.16</time>
+<span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;5753</span>
+<span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;12&nbsp;分钟</span></div><div class="post-body e-content"><h2 id=项目部署上线指南><a href=#项目部署上线指南 class=anchor-link>#</a>项目部署上线指南</h2><h3 id=准备上线><a href=#准备上线 class=anchor-link>#</a>准备上线</h3><ol><li><p>上线前的检查工作。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>python manage.py check --deploy
+</code></pre></td></tr></table></div></div></div></li><li><p>将DEBUG设置为False并配置ALLOWED_HOSTS。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>DEBUG</span> <span class=o>=</span> <span class=kc>False</span>
+<span class=n>ALLOWED_HOSTS</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;*&#39;</span><span class=p>]</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>安全相关的配置。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=c1># 保持HTTPS连接的时间</span>
+<span class=n>SECURE_HSTS_SECONDS</span> <span class=o>=</span> <span class=mi>3600</span>
+<span class=n>SECURE_HSTS_INCLUDE_SUBDOMAINS</span> <span class=o>=</span> <span class=kc>True</span>
+<span class=n>SECURE_HSTS_PRELOAD</span> <span class=o>=</span> <span class=kc>True</span>
+
+<span class=c1># 自动重定向到安全连接</span>
+<span class=n>SECURE_SSL_REDIRECT</span> <span class=o>=</span> <span class=kc>True</span>
+
+<span class=c1># 避免浏览器自作聪明推断内容类型</span>
+<span class=n>SECURE_CONTENT_TYPE_NOSNIFF</span> <span class=o>=</span> <span class=kc>True</span>
+
+<span class=c1># 避免跨站脚本攻击</span>
+<span class=n>SECURE_BROWSER_XSS_FILTER</span> <span class=o>=</span> <span class=kc>True</span>
+
+<span class=c1># COOKIE只能通过HTTPS进行传输</span>
+<span class=n>SESSION_COOKIE_SECURE</span> <span class=o>=</span> <span class=kc>True</span>
+<span class=n>CSRF_COOKIE_SECURE</span> <span class=o>=</span> <span class=kc>True</span>
+
+<span class=c1># 防止点击劫持攻击手段 - 修改HTTP协议响应头</span>
+<span class=c1># 当前网站是不允许使用&lt;iframe&gt;标签进行加载的</span>
+<span class=n>X_FRAME_OPTIONS</span> <span class=o>=</span> <span class=s1>&#39;DENY&#39;</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>敏感信息放到环境变量或文件中。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>SECRET_KEY</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>environ</span><span class=p>[</span><span class=s1>&#39;SECRET_KEY&#39;</span><span class=p>]</span>
+
+<span class=n>DB_USER</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>environ</span><span class=p>[</span><span class=s1>&#39;DB_USER&#39;</span><span class=p>]</span>
+<span class=n>DB_PASS</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>environ</span><span class=p>[</span><span class=s1>&#39;DB_PASS&#39;</span><span class=p>]</span>
+
+<span class=n>REDIS_AUTH</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>environ</span><span class=p>[</span><span class=s1>&#39;REDIS_AUTH&#39;</span><span class=p>]</span>
+</code></pre></td></tr></table></div></div></div></li></ol><h3 id=更新服务器python环境到3x><a href=#更新服务器python环境到3x class=anchor-link>#</a>更新服务器Python环境到3.x</h3><blockquote><p>说明：如果需要清除之前的安装，就删除对应的文件和文件夹即可</p></blockquote><ol><li><p>安装底层依赖库。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel libdb4-devel libpcap-devel xz-devel libffi-devel libxml2
+</code></pre></td></tr></table></div></div></div></li><li><p>下载Python源代码。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>wget https://www.python.org/ftp/python/3.7.6/Python-3.7.6.tar.xz
+</code></pre></td></tr></table></div></div></div></li><li><p>验证下载文件。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Bash data-lang=Bash>md5sum Python-3.7.6.tar.xz
+</code></pre></td></tr></table></div></div></div></li><li><p>解压缩和解归档。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>xz -d Python-3.7.6.tar.xz
+tar -xvf Python-3.7.6.tar
+</code></pre></td></tr></table></div></div></div></li><li><p>执行安装前的配置（生成Makefile文件）。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=nb>cd</span> Python-3.7.6
+./configure --prefix<span class=o>=</span>/usr/local/python37 --enable-optimizations
+</code></pre></td></tr></table></div></div></div></li><li><p>构建和安装。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>make <span class=o>&amp;&amp;</span> make install
+</code></pre></td></tr></table></div></div></div></li><li><p>配置PATH环境变量（用户或系统环境变量）并激活。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>vim ~/.bash_profile
+vim /etc/profile
+</code></pre></td></tr></table></div></div></div><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-INI data-lang=INI><span class=na>... 此处省略上面的代码...</span>
+
+<span class=na>export PATH</span><span class=o>=</span><span class=s>$PATH:/usr/local/python37/bin</span>
+
+<span class=na>... 此处省略下面的代码...</span>
+</code></pre></td></tr></table></div></div></div><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=nb>source</span> ~/.bash_profile
+<span class=nb>source</span> /etc/profile
+</code></pre></td></tr></table></div></div></div></li><li><p>注册软链接（符号链接）- 这一步不是必须的，但通常会比较有用。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>ln -s /usr/local/python37/bin/python3 /usr/bin/python3
+</code></pre></td></tr></table></div></div></div></li><li><p>测试Python环境是否更新成功（安装Python 3一定不能破坏原来的Python 2）。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>python3 --version
+python --version
+</code></pre></td></tr></table></div></div></div></li></ol><h3 id=项目目录结构><a href=#项目目录结构 class=anchor-link>#</a>项目目录结构</h3><p>假设项目文件夹为<code>project</code>，下面的五个子目录分别是：<code>code</code>、<code>conf</code>、<code>logs</code>、<code>stat</code>和<code>venv</code>分别用来保存项目的代码、配置文件、日志文件、静态资源和虚拟环境。其中，<code>conf</code>目录下的子目录<code>cert</code>中保存了配置HTTPS需要使用的证书和密钥；<code>code</code>目录下的项目代码可以通过版本控制工具从代码仓库中检出；虚拟环境可以通过工具（如：venv、virtualenv、pyenv等）进行创建。</p><pre tabindex=0><code>project
+├── code
+│   └── fangtx
+│       ├── api
+│       ├── common
+│       ├── fangtx
+│       ├── forum
+│       ├── rent
+│       ├── user
+│       ├── manage.py
+│       ├── README.md
+│       ├── static
+│       └── templates
+├── conf
+│   ├── cert
+│   │   ├── 214915882850706.key
+│   │   └── 214915882850706.pem
+│   ├── nginx.conf
+│   └── uwsgi.ini
+├── logs
+│   ├── access.log
+│   ├── error.log
+│   └── uwsgi.log
+├── stat
+│   └── css
+│   └── images
+│   └── js
+└── venv
+    ├── bin
+    │   ├── activate
+    │   ├── activate.csh
+    │   ├── activate.fish
+    │   ├── celery
+    │   ├── celerybeat
+    │   ├── celeryd
+    │   ├── celeryd-multi
+    │   ├── coverage
+    │   ├── coverage3
+    │   ├── coverage-3.7
+    │   ├── django-admin
+    │   ├── django-admin.py
+    │   ├── easy_install
+    │   ├── easy_install-3.7
+    │   ├── pip
+    │   ├── pip3
+    │   ├── pip3.7
+    │   ├── __pycache__
+    │   ├── pyrsa-decrypt
+    │   ├── pyrsa-decrypt-bigfile
+    │   ├── pyrsa-encrypt
+    │   ├── pyrsa-encrypt-bigfile
+    │   ├── pyrsa-keygen
+    │   ├── pyrsa-priv2pub
+    │   ├── pyrsa-sign
+    │   ├── pyrsa-verify
+    │   ├── python -&gt; python3
+    │   ├── python3 -&gt; /usr/bin/python3
+    │   └── uwsgi
+    ├── include
+    ├── lib
+    │   └── python3.7
+    ├── lib64 -&gt; lib
+    ├── pip-selfcheck.json
+    └── pyvenv.cfg
+</code></pre><p>下面以阿里云为例，简单说明如何为项目注册域名、解析域名以及购买权威机构颁发的证书。</p><ol><li><p><a href=https://wanwang.aliyun.com/domain/ target=_blank rel=noopener>注册域名</a>。</p><p><img src=/res/aliyun-domain.png alt></p></li><li><p><a href=https://beian.aliyun.com/ target=_blank rel=noopener>域名备案</a>。</p><p><img src=/res/aliyun-keeprecord.png alt></p></li><li><p><a href=https://dns.console.aliyun.com/#/dns/domainList target=_blank rel=noopener>域名解析</a>。</p><p><img src=/res/aliyun-dnslist.png alt></p><p><img src=/res/aliyun-resolve-settings.png alt></p></li><li><p><a href=https://www.aliyun.com/product/cas target=_blank rel=noopener>购买证书</a>。</p><p><img src=/res/aliyun-certificate.png alt></p></li></ol><p>可以使用类似于sftp的工具将证书上传到<code>conf/cert</code>目录，然后使用git克隆项目代码到<code>code</code>目录。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=nb>cd</span> code
+git clone &lt;url&gt;
+</code></pre></td></tr></table></div></div></div><p>回到项目目录，创建并激活虚拟环境。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>python3 -m venv venv
+<span class=nb>source</span> venv/bin/activate
+</code></pre></td></tr></table></div></div></div><p>重建项目依赖项。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>pip install -r code/teamproject/requirements.txt
+</code></pre></td></tr></table></div></div></div><h3 id=uwsgi的配置><a href=#uwsgi的配置 class=anchor-link>#</a>uWSGI的配置</h3><ol><li><p>安装uWSGI。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>pip install uwsgi
+</code></pre></td></tr></table></div></div></div></li><li><p>修改uWSGI的配置文件（<code>/root/project/conf/uwsgi.ini</code>）。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-INI data-lang=INI><span class=k>[uwsgi]</span>
+<span class=c1># 配置前导路径</span>
+<span class=na>base</span><span class=o>=</span><span class=s>/root/project</span>
+<span class=c1># 配置项目名称</span>
+<span class=na>name</span><span class=o>=</span><span class=s>teamproject</span>
+<span class=c1># 守护进程</span>
+<span class=na>master</span><span class=o>=</span><span class=s>true</span>
+<span class=c1># 进程个数</span>
+<span class=na>processes</span><span class=o>=</span><span class=s>4</span>
+<span class=c1># 虚拟环境</span>
+<span class=na>pythonhome</span><span class=o>=</span><span class=s>%(base)/venv</span>
+<span class=c1># 项目地址</span>
+<span class=na>chdir</span><span class=o>=</span><span class=s>%(base)/code/%(name)</span>
+<span class=c1># 指定python解释器</span>
+<span class=na>pythonpath</span><span class=o>=</span><span class=s>%(pythonhome)/bin/python</span>
+<span class=c1># 指定uwsgi文件</span>
+<span class=na>module</span><span class=o>=</span><span class=s>%(name).wsgi</span>
+<span class=c1># 通信的地址和端口(自己服务器的IP地址和端口)</span>
+<span class=na>socket</span><span class=o>=</span><span class=s>172.18.61.250:8000</span>
+<span class=c1># 日志文件地址</span>
+<span class=na>logto</span><span class=o>=</span><span class=s>%(base)/logs/uwsgi.log</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：可以先将“通信的地址和端口”项等号前面改为http来进行测试，如果没有问题再改回 成socket，然后通过Nginx来实现项目的“动静分离”（静态资源交给Nginx处理，动态内容交给 uWSGI处理）。按照下面的方式可以启动uWSGI服务器。</p></blockquote></li><li><p>启动服务器。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>nohup uwsgi --ini conf/uwsgi.ini <span class=p>&amp;</span>
+</code></pre></td></tr></table></div></div></div></li></ol><h3 id=nginx的配置><a href=#nginx的配置 class=anchor-link>#</a>Nginx的配置</h3><ol><li><p>安装Nginx。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>yum -y install nginx
+</code></pre></td></tr></table></div></div></div></li><li><p>修改全局配置文件（<code>/etc/nginx/nginx.conf</code>）。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Nginx data-lang=Nginx><span class=c1># 配置用户
+</span><span class=c1></span><span class=k>user</span> <span class=s>nginx</span><span class=p>;</span>
+<span class=c1># 工作进程数(建议跟CPU的核数量一致)
+</span><span class=c1></span><span class=k>worker_processes</span> <span class=s>auto</span><span class=p>;</span>
+<span class=c1># 错误日志
+</span><span class=c1></span><span class=k>error_log</span> <span class=s>/var/log/nginx/error.log</span><span class=p>;</span>
+<span class=c1># 进程文件
+</span><span class=c1></span><span class=k>pid</span> <span class=s>/run/nginx.pid</span><span class=p>;</span>
+<span class=c1># 包含其他的配置
+</span><span class=c1></span><span class=k>include</span> <span class=n>/usr/share/nginx/modules/*.conf</span>;
+<span class=c1># 工作模式(多路IO复用方式)和连接上限
+</span><span class=c1></span><span class=k>events</span> <span class=p>{</span>
+    <span class=kn>use</span> <span class=s>epoll</span><span class=p>;</span>
+    <span class=kn>worker_connections</span> <span class=mi>1024</span><span class=p>;</span>
+<span class=p>}</span>
+<span class=c1># HTTP服务器相关配置
+</span><span class=c1></span><span class=k>http</span> <span class=p>{</span>
+    <span class=c1># 日志格式
+</span><span class=c1></span>    <span class=kn>log_format</span>  <span class=s>main</span>  <span class=s>&#39;</span><span class=nv>$remote_addr</span> <span class=s>-</span> <span class=nv>$remote_user</span> <span class=s>[</span><span class=nv>$time_local]</span> <span class=s>&#34;</span><span class=nv>$request&#34;</span> <span class=s>&#39;</span>
+                      <span class=s>&#39;</span><span class=nv>$status</span> <span class=nv>$body_bytes_sent</span> <span class=s>&#34;</span><span class=nv>$http_referer&#34;</span> <span class=s>&#39;</span>
+                      <span class=s>&#39;&#34;</span><span class=nv>$http_user_agent&#34;</span> <span class=s>&#34;</span><span class=nv>$http_x_forwarded_for&#34;&#39;</span><span class=p>;</span>
+    <span class=c1># 访问日志
+</span><span class=c1></span>    <span class=kn>access_log</span>  <span class=s>/var/log/nginx/access.log</span>  <span class=s>main</span><span class=p>;</span>
+    <span class=c1># 开启高效文件传输模式
+</span><span class=c1></span>    <span class=kn>sendfile</span>            <span class=no>on</span><span class=p>;</span>
+    <span class=c1># 用sendfile传输文件时有利于改善性能
+</span><span class=c1></span>    <span class=kn>tcp_nopush</span>          <span class=no>on</span><span class=p>;</span>
+    <span class=c1># 禁用Nagle来解决交互性问题
+</span><span class=c1></span>    <span class=kn>tcp_nodelay</span>         <span class=no>on</span><span class=p>;</span>
+    <span class=c1># 客户端保持连接时间
+</span><span class=c1></span>    <span class=kn>keepalive_timeout</span>   <span class=mi>30</span><span class=p>;</span>
+    <span class=kn>types_hash_max_size</span> <span class=mi>2048</span><span class=p>;</span>
+    <span class=c1># 包含MIME类型的配置
+</span><span class=c1></span>    <span class=kn>include</span>             <span class=s>/etc/nginx/mime.types</span><span class=p>;</span>
+    <span class=c1># 默认使用二进制流格式
+</span><span class=c1></span>    <span class=kn>default_type</span>        <span class=s>application/octet-stream</span><span class=p>;</span>
+    <span class=c1># 包含其他配置文件
+</span><span class=c1></span>    <span class=kn>include</span> <span class=s>/etc/nginx/conf.d/*.conf</span><span class=p>;</span>
+    <span class=c1># 包含项目的Nginx配置文件
+</span><span class=c1></span>    <span class=kn>include</span> <span class=s>/root/project/conf/*.conf</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>编辑局部配置文件（<code>/root/project/conf/nginx.conf</code>）。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Nginx data-lang=Nginx><span class=k>server</span> <span class=p>{</span>
+    <span class=kn>listen</span>      <span class=mi>80</span><span class=p>;</span>
+    <span class=kn>server_name</span> <span class=s>_</span><span class=p>;</span>
+    <span class=kn>access_log</span> <span class=s>/root/project/logs/access.log</span><span class=p>;</span>
+    <span class=kn>error_log</span> <span class=s>/root/project/logs/error.log</span><span class=p>;</span>
+    <span class=kn>location</span> <span class=s>/</span> <span class=p>{</span>
+        <span class=kn>include</span> <span class=s>uwsgi_params</span><span class=p>;</span>
+        <span class=kn>uwsgi_pass</span> <span class=n>172.18.61.250</span><span class=p>:</span><span class=mi>8000</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=kn>location</span> <span class=s>/static/</span> <span class=p>{</span>
+        <span class=kn>alias</span> <span class=s>/root/project/stat/</span><span class=p>;</span>
+        <span class=kn>expires</span> <span class=s>30d</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+<span class=k>server</span> <span class=p>{</span>
+    <span class=kn>listen</span>      <span class=mi>443</span><span class=p>;</span>
+    <span class=kn>server_name</span> <span class=s>_</span><span class=p>;</span>
+    <span class=kn>ssl</span>         <span class=no>on</span><span class=p>;</span>
+    <span class=kn>access_log</span> <span class=s>/root/project/logs/access.log</span><span class=p>;</span>
+    <span class=kn>error_log</span> <span class=s>/root/project/logs/error.log</span><span class=p>;</span>
+    <span class=kn>ssl_certificate</span>     <span class=s>/root/project/conf/cert/214915882850706.pem</span><span class=p>;</span>
+    <span class=kn>ssl_certificate_key</span> <span class=s>/root/project/conf/cert/214915882850706.key</span><span class=p>;</span>
+    <span class=kn>ssl_session_timeout</span> <span class=mi>5m</span><span class=p>;</span>
+    <span class=kn>ssl_ciphers</span> <span class=s>ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4</span><span class=p>;</span>
+    <span class=kn>ssl_protocols</span> <span class=s>TLSv1</span> <span class=s>TLSv1.1</span> <span class=s>TLSv1.2</span><span class=p>;</span>
+    <span class=kn>ssl_prefer_server_ciphers</span> <span class=no>on</span><span class=p>;</span>
+    <span class=kn>location</span> <span class=s>/</span> <span class=p>{</span>
+        <span class=kn>include</span> <span class=s>uwsgi_params</span><span class=p>;</span>
+        <span class=kn>uwsgi_pass</span> <span class=n>172.18.61.250</span><span class=p>:</span><span class=mi>8000</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=kn>location</span> <span class=s>/static/</span> <span class=p>{</span>
+        <span class=kn>alias</span> <span class=s>/root/project/static/</span><span class=p>;</span>
+        <span class=kn>expires</span> <span class=s>30d</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div></div><p>到此为止，我们可以启动Nginx来访问我们的应用程序，HTTP和HTTPS都是没有问题的，如果Nginx已经运行，在修改配置文件后，我们可以用下面的命令重新启动Nginx。</p></li><li><p>重启Nginx服务器。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>nginx -s reload
+</code></pre></td></tr></table></div></div></div><p>或</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>systemctl restart nginx
+</code></pre></td></tr></table></div></div></div></li></ol><blockquote><p>说明：可以对Django项目使用<code>python manage.py collectstatic</code>命令将静态资源收集到指定目录下，要做到这点只需要在项目的配置文件<code>settings.py</code>中添加<code>STATIC_ROOT</code>配置即可。</p></blockquote><h4 id=负载均衡配置><a href=#负载均衡配置 class=anchor-link>#</a>负载均衡配置</h4><p>下面的配置中我们使用Nginx实现负载均衡，为另外的三个Nginx服务器（通过Docker创建）提供反向代理服务。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>docker run -d -p 801:80 --name nginx1 nginx:latest
+docker run -d -p 802:80 --name nginx2 nginx:latest
+docker run -d -p 803:80 --name nginx3 nginx:latest
+</code></pre></td></tr></table></div></div></div><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Nginx data-lang=Nginx><span class=k>user</span> <span class=s>root</span><span class=p>;</span>
+<span class=k>worker_processes</span> <span class=s>auto</span><span class=p>;</span>
+<span class=k>error_log</span> <span class=s>/var/log/nginx/error.log</span><span class=p>;</span>
+<span class=k>pid</span> <span class=s>/run/nginx.pid</span><span class=p>;</span>
+
+<span class=k>include</span> <span class=n>/usr/share/nginx/modules/*.conf</span>;
+
+<span class=k>events</span> <span class=p>{</span>
+    <span class=kn>worker_connections</span> <span class=mi>1024</span><span class=p>;</span>
+<span class=p>}</span>
+
+<span class=c1># 为HTTP服务配置负载均衡
+</span><span class=c1></span><span class=k>http</span> <span class=p>{</span>
+	<span class=kn>upstream</span> <span class=s>xx</span> <span class=p>{</span>
+		<span class=kn>server</span> <span class=mi>192</span><span class=s>.168.1.100</span> <span class=s>weight=2</span><span class=p>;</span>
+		<span class=kn>server</span> <span class=mi>192</span><span class=s>.168.1.101</span> <span class=s>weight=1</span><span class=p>;</span>
+		<span class=kn>server</span> <span class=mi>192</span><span class=s>.168.1.102</span> <span class=s>weight=1</span><span class=p>;</span>
+    <span class=p>}</span>
+
+	<span class=kn>server</span> <span class=p>{</span>
+		<span class=kn>listen</span>       <span class=mi>80</span> <span class=s>default_server</span><span class=p>;</span>
+		<span class=kn>listen</span>       <span class=s>[::]:80</span> <span class=s>default_server</span><span class=p>;</span>
+		<span class=kn>listen</span>       <span class=mi>443</span> <span class=s>ssl</span><span class=p>;</span>
+		<span class=kn>listen</span>       <span class=s>[::]:443</span> <span class=s>ssl</span><span class=p>;</span>
+
+        <span class=kn>ssl</span> <span class=no>on</span><span class=p>;</span>
+		<span class=kn>access_log</span> <span class=s>/root/project/logs/access.log</span><span class=p>;</span>
+		<span class=kn>error_log</span> <span class=s>/root/project/logs/error.log</span><span class=p>;</span>
+		<span class=kn>ssl_certificate</span> <span class=s>/root/project/conf/cert/214915882850706.pem</span><span class=p>;</span>
+		<span class=kn>ssl_certificate_key</span> <span class=s>/root/project/conf/cert/214915882850706.key</span><span class=p>;</span>
+		<span class=kn>ssl_session_timeout</span> <span class=mi>5m</span><span class=p>;</span>
+		<span class=kn>ssl_ciphers</span> <span class=s>ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4</span><span class=p>;</span>
+		<span class=kn>ssl_protocols</span> <span class=s>TLSv1</span> <span class=s>TLSv1.1</span> <span class=s>TLSv1.2</span><span class=p>;</span>
+		<span class=kn>ssl_prefer_server_ciphers</span> <span class=no>on</span><span class=p>;</span>
+
+		<span class=kn>location</span> <span class=s>/</span> <span class=p>{</span>
+			<span class=kn>proxy_set_header</span> <span class=s>Host</span> <span class=nv>$host</span><span class=p>;</span>
+			<span class=kn>proxy_set_header</span> <span class=s>X-Forwarded-For</span> <span class=nv>$remote_addr</span><span class=p>;</span>
+			<span class=c1># proxy_set_header X-Real-IP $remote_addr;
+</span><span class=c1></span>			<span class=c1># proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span><span class=c1></span>			<span class=kn>proxy_buffering</span> <span class=no>off</span><span class=p>;</span>
+			<span class=kn>proxy_pass</span> <span class=s>http://fangtx</span><span class=p>;</span>
+		<span class=p>}</span>
+	<span class=p>}</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：Nginx在配置负载均衡时，默认使用WRR（加权轮询算法），除此之外还支持ip_hash、fair（需要安装upstream_fair模块）和url_hash算法。此外，在配置upstream模块时可以指定服务器的状态值，包括：backup（备份机器，其他服务器不可用时才将请求分配到该机器）、down、fail_timeout（请求失败达到max_fails后的暂停服务时间）、max_fails（允许请求失败的次数）和weight（轮询的权重）。</p></blockquote><h3 id=keepalived><a href=#keepalived class=anchor-link>#</a>Keepalived</h3><p>当使用Nginx进行负载均衡配置时，要考虑负载均衡服务器宕机的情况。为此可以使用Keepalived来实现负载均衡主机和备机的热切换，从而保证系统的高可用性。Keepalived的配置还是比较复杂，通常由专门做运维的人进行配置，一个基本的配置可以参照<a href=https://www.jianshu.com/p/dd93bc6d45f5 target=_blank rel=noopener>《Keepalived的配置和使用》</a>。</p><h3 id=mysql主从复制><a href=#mysql主从复制 class=anchor-link>#</a>MySQL主从复制</h3><p>下面还是基于Docker来演示如何配置MySQL主从复制。我们事先准备好MySQL的配置文件以及保存MySQL数据和运行日志的目录，然后通过Docker的数据卷映射来指定容器的配置、数据和日志文件的位置。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>root
+└── mysql
+    ├── master
+    │   ├── conf
+    <span class=p>|</span>	└── data
+    └── slave-1
+    <span class=p>|</span>	├── conf
+    <span class=p>|</span>	└── data
+    └── slave-2
+    <span class=p>|</span>	├── conf
+    <span class=p>|</span>	└── data
+    └── slave-3
+    	├── conf
+    	└── data
+</code></pre></td></tr></table></div></div></div><ol><li><p>MySQL的配置文件（master和slave的配置文件需要不同的server-id）。</p><pre tabindex=0><code>[mysqld]
+pid-file=/var/run/mysqld/mysqld.pid
+socket=/var/run/mysqld/mysqld.sock
+datadir=/var/lib/mysql
+log-error=/var/log/mysql/error.log
+server-id=1
+log-bin=/var/log/mysql/mysql-bin.log
+expire_logs_days=30
+max_binlog_size=256M
+symbolic-links=0
+# slow_query_log=ON
+# slow_query_log_file=/var/log/mysql/slow.log
+# long_query_time=1
+</code></pre></li><li><p>创建和配置master。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>docker run -d -p 3306:3306 --name mysql-master <span class=se>\
+</span><span class=se></span>-v /root/mysql/master/conf:/etc/mysql/mysql.conf.d <span class=se>\
+</span><span class=se></span>-v /root/mysql/master/data:/var/lib/mysql <span class=se>\
+</span><span class=se></span>-e <span class=nv>MYSQL_ROOT_PASSWORD</span><span class=o>=</span><span class=m>123456</span> mysql:5.7
+
+docker <span class=nb>exec</span> -it mysql-master /bin/bash
+</code></pre></td></tr></table></div></div></div><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with <span class=p>;</span> or <span class=se>\g</span>.
+Your MySQL connection id is <span class=m>1</span>
+Server version: 5.7.23-log MySQL Community Server <span class=o>(</span>GPL<span class=o>)</span>
+Copyright <span class=o>(</span>c<span class=o>)</span> 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type <span class=s1>&#39;help;&#39;</span> or <span class=s1>&#39;\h&#39;</span> <span class=k>for</span> help. Type <span class=s1>&#39;\c&#39;</span> to clear the current input statement.
+
+mysql&gt; grant replication slave on *.* to <span class=s1>&#39;slave&#39;</span>@<span class=s1>&#39;%&#39;</span> identified by <span class=s1>&#39;iamslave&#39;</span><span class=p>;</span>
+Query OK, <span class=m>0</span> rows affected, <span class=m>1</span> warning <span class=o>(</span>0.00 sec<span class=o>)</span>
+
+mysql&gt; flush privileges<span class=p>;</span>
+Query OK, <span class=m>0</span> rows affected <span class=o>(</span>0.00 sec<span class=o>)</span>
+
+mysql&gt; show master status<span class=p>;</span>
++------------------+----------+--------------+------------------+-------------------+
+<span class=p>|</span> File             <span class=p>|</span> Position <span class=p>|</span> Binlog_Do_DB <span class=p>|</span> Binlog_Ignore_DB <span class=p>|</span> Executed_Gtid_Set <span class=p>|</span>
++------------------+----------+--------------+------------------+-------------------+
+<span class=p>|</span> mysql-bin.000003 <span class=p>|</span>      <span class=m>590</span> <span class=p>|</span>              <span class=p>|</span>                  <span class=p>|</span>                   <span class=p>|</span>
++------------------+----------+--------------+------------------+-------------------+
+<span class=m>1</span> row in <span class=nb>set</span> <span class=o>(</span>0.00 sec<span class=o>)</span>
+
+mysql&gt; quit
+Bye
+<span class=nb>exit</span>
+</code></pre></td></tr></table></div></div></div><p>上面创建Docker容器时使用的<code>-v</code>参数（<code>--volume</code>）表示映射数据卷，冒号前是宿主机的目录，冒号后是容器中的目录，这样相当于将宿主机中的目录挂载到了容器中。</p></li><li><p>备份主表中的数据（如果需要的话）。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-SQL data-lang=SQL><span class=n>mysql</span><span class=o>&gt;</span><span class=w> </span><span class=n>flush</span><span class=w> </span><span class=k>table</span><span class=w> </span><span class=k>with</span><span class=w> </span><span class=k>read</span><span class=w> </span><span class=k>lock</span><span class=p>;</span><span class=w>
+</span></code></pre></td></tr></table></div></div></div><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Bash data-lang=Bash>mysqldump -u root -p <span class=m>123456</span> -A -B &gt; /root/backup/mysql/mybak<span class=k>$(</span>date +<span class=s2>&#34;%Y%m%d%H%M%S&#34;</span><span class=k>)</span>.sql
+</code></pre></td></tr></table></div></div></div><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-SQL data-lang=SQL><span class=n>mysql</span><span class=o>&gt;</span><span class=w> </span><span class=n>unlock</span><span class=w> </span><span class=k>table</span><span class=p>;</span><span class=w>
+</span></code></pre></td></tr></table></div></div></div></li><li><p>创建和配置slave。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>docker run -d -p 3308:3306 --name mysql-slave-1 <span class=se>\
+</span><span class=se></span>-v /root/mysql/slave-1/conf:/etc/mysql/mysql.conf.d <span class=se>\
+</span><span class=se></span>-v /root/mysql/slave-1/data:/var/lib/mysql <span class=se>\
+</span><span class=se></span>-e <span class=nv>MYSQL_ROOT_PASSWORD</span><span class=o>=</span><span class=m>123456</span> <span class=se>\
+</span><span class=se></span>--link mysql-master:mysql-master mysql:5.7
+
+docker run -d -p 3309:3306 --name mysql-slave-2 <span class=se>\
+</span><span class=se></span>-v /root/mysql/slave-2/conf:/etc/mysql/mysql.conf.d <span class=se>\
+</span><span class=se></span>-v /root/mysql/slave-2/data:/var/lib/mysql <span class=se>\
+</span><span class=se></span>-e <span class=nv>MYSQL_ROOT_PASSWORD</span><span class=o>=</span><span class=m>123456</span> <span class=se>\
+</span><span class=se></span>--link mysql-master:mysql-master mysql:5.7
+
+docker run -d -p 3310:3306 --name mysql-slave-3 <span class=se>\
+</span><span class=se></span>-v /root/mysql/slave-3/conf:/etc/mysql/mysql.conf.d <span class=se>\
+</span><span class=se></span>-v /root/mysql/slave-3/data:/var/lib/mysql <span class=se>\
+</span><span class=se></span>-e <span class=nv>MYSQL_ROOT_PASSWORD</span><span class=o>=</span><span class=m>123456</span> <span class=se>\
+</span><span class=se></span>--link mysql-master:mysql-master mysql:5.7
+
+docker <span class=nb>exec</span> -it mysql-slave-1 /bin/bash
+</code></pre></td></tr></table></div></div></div><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with <span class=p>;</span> or <span class=se>\g</span>.
+Your MySQL connection id is <span class=m>2</span>
+Server version: 5.7.23-log MySQL Community Server <span class=o>(</span>GPL<span class=o>)</span>
+Copyright <span class=o>(</span>c<span class=o>)</span> 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type <span class=s1>&#39;help;&#39;</span> or <span class=s1>&#39;\h&#39;</span> <span class=k>for</span> help. Type <span class=s1>&#39;\c&#39;</span> to clear the current input statement.
+
+mysql&gt; reset slave<span class=p>;</span>
+Query OK, <span class=m>0</span> rows affected <span class=o>(</span>0.02 sec<span class=o>)</span>
+
+mysql&gt; change master to <span class=nv>master_host</span><span class=o>=</span><span class=s1>&#39;mysql-master&#39;</span>, <span class=nv>master_user</span><span class=o>=</span><span class=s1>&#39;slave&#39;</span>, <span class=nv>master_password</span><span class=o>=</span><span class=s1>&#39;iamslave&#39;</span>, <span class=nv>master_log_file</span><span class=o>=</span><span class=s1>&#39;mysql-bin.000003&#39;</span>, <span class=nv>master_log_pos</span><span class=o>=</span>590<span class=p>;</span>
+Query OK, <span class=m>0</span> rows affected, <span class=m>2</span> warnings <span class=o>(</span>0.03 sec<span class=o>)</span>
+
+mysql&gt; start slave<span class=p>;</span>
+Query OK, <span class=m>0</span> rows affected <span class=o>(</span>0.01 sec<span class=o>)</span>
+
+mysql&gt; show slave status<span class=se>\G</span>
+*************************** 1. row ***************************
+               Slave_IO_State: Waiting <span class=k>for</span> master to send event
+                  Master_Host: mysql57
+                  Master_User: slave
+                  Master_Port: <span class=m>3306</span>
+                Connect_Retry: <span class=m>60</span>
+              Master_Log_File: mysql-bin.000001
+          Read_Master_Log_Pos: <span class=m>590</span>
+               Relay_Log_File: f352f05eb9d0-relay-bin.000002
+                Relay_Log_Pos: <span class=m>320</span>
+        Relay_Master_Log_File: mysql-bin.000001
+             Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+             Replicate_Do_DB:
+          Replicate_Ignore_DB:
+           Replicate_Do_Table:
+       Replicate_Ignore_Table:
+      Replicate_Wild_Do_Table:
+  Replicate_Wild_Ignore_Table:
+                   Last_Errno: <span class=m>0</span>
+                   Last_Error:
+                 Skip_Counter: <span class=m>0</span>
+          Exec_Master_Log_Pos: <span class=m>590</span>
+              Relay_Log_Space: <span class=m>534</span>
+              Until_Condition: None
+               Until_Log_File:
+                Until_Log_Pos: <span class=m>0</span>
+           Master_SSL_Allowed: No
+           Master_SSL_CA_File:
+           Master_SSL_CA_Path:
+              Master_SSL_Cert:
+            Master_SSL_Cipher:
+               Master_SSL_Key:
+        Seconds_Behind_Master: <span class=m>0</span>
+Master_SSL_Verify_Server_Cert: No
+                Last_IO_Errno: <span class=m>0</span>
+                Last_IO_Error:
+               Last_SQL_Errno: <span class=m>0</span>
+               Last_SQL_Error:
+  Replicate_Ignore_Server_Ids:
+             Master_Server_Id: <span class=m>1</span>
+                  Master_UUID: 30c38043-ada1-11e8-8fa1-0242ac110002
+             Master_Info_File: /var/lib/mysql/master.info
+                    SQL_Delay: <span class=m>0</span>
+          SQL_Remaining_Delay: NULL
+      Slave_SQL_Running_State: Slave has <span class=nb>read</span> all relay log<span class=p>;</span> waiting <span class=k>for</span> more updates
+           Master_Retry_Count: <span class=m>86400</span>
+                  Master_Bind:
+      Last_IO_Error_Timestamp:
+     Last_SQL_Error_Timestamp:
+               Master_SSL_Crl:
+           Master_SSL_Crlpath:
+           Retrieved_Gtid_Set:
+            Executed_Gtid_Set:
+                Auto_Position: <span class=m>0</span>
+         Replicate_Rewrite_DB:
+                 Channel_Name:
+           Master_TLS_Version:
+<span class=m>1</span> row in <span class=nb>set</span> <span class=o>(</span>0.00 sec<span class=o>)</span>
+
+mysql&gt; quit
+Bye
+<span class=nb>exit</span>
+</code></pre></td></tr></table></div></div></div><p>接下来可以如法炮制配置出slave2和slave3，这样就可以搭建起一个“一主带三从”的主从复制环境。上面创建创建容器时使用的<code>--link</code>参数用来配置容器在网络上的主机名（网络地址别名）。</p></li></ol><p>配置好主从复制后，写数据的操作应该master上执行，而读数据的操作应该在slave上完成。为此，在Django项目中需要配置DATABASE_ROUTERS并通过自定义的主从复制路由类来实现读写分离操作，如下所示：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>DATABASE_ROUTERS</span> <span class=o>=</span> <span class=p>[</span>
+    <span class=c1># 此处省略其他配置</span>
+    <span class=s1>&#39;common.routers.MasterSlaveRouter&#39;</span><span class=p>,</span>
+<span class=p>]</span>
+</code></pre></td></tr></table></div></div></div><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=k>class</span> <span class=nc>MasterSlaveRouter</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+    <span class=s2>&#34;&#34;&#34;主从复制路由&#34;&#34;&#34;</span>
+
+    <span class=nd>@staticmethod</span>
+    <span class=k>def</span> <span class=nf>db_for_read</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=o>**</span><span class=n>hints</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>        Attempts to read auth models go to auth_db.
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=k>return</span> <span class=n>random</span><span class=o>.</span><span class=n>choice</span><span class=p>((</span><span class=s1>&#39;slave1&#39;</span><span class=p>,</span> <span class=s1>&#39;slave2&#39;</span><span class=p>,</span> <span class=s1>&#39;slave3&#39;</span><span class=p>))</span>
+
+    <span class=nd>@staticmethod</span>
+    <span class=k>def</span> <span class=nf>db_for_write</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=o>**</span><span class=n>hints</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>        Attempts to write auth models go to auth_db.
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=k>return</span> <span class=s1>&#39;default&#39;</span>
+
+    <span class=nd>@staticmethod</span>
+    <span class=k>def</span> <span class=nf>allow_relation</span><span class=p>(</span><span class=n>obj1</span><span class=p>,</span> <span class=n>obj2</span><span class=p>,</span> <span class=o>**</span><span class=n>hints</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>        Allow relations if a model in the auth app is involved.
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=k>return</span> <span class=kc>None</span>
+
+    <span class=nd>@staticmethod</span>
+    <span class=k>def</span> <span class=nf>allow_migrate</span><span class=p>(</span><span class=n>db</span><span class=p>,</span> <span class=n>app_label</span><span class=p>,</span> <span class=n>model_name</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=o>**</span><span class=n>hints</span><span class=p>):</span>
+        <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>        Make sure the auth app only appears in the &#39;auth_db&#39;
+</span><span class=s2>        database.
+</span><span class=s2>        &#34;&#34;&#34;</span>
+        <span class=k>return</span> <span class=kc>True</span>
+</code></pre></td></tr></table></div></div></div><p>上面的内容参考了Django官方文档的<a href=https://docs.djangoproject.com/en/2.1/topics/db/multi-db/#topics-db-multi-db-routing target=_blank rel=noopener>DATABASE_ROUTERS配置</a>，对代码进行了适当的调整。</p><h3 id=docker><a href=#docker class=anchor-link>#</a>Docker</h3><p>事实上，项目上线中最为麻烦的事情就是配置软件运行环境，环境的差异会给软件的安装和部署带来诸多的麻烦，而Docker正好可以解决这个问题。关于Docker在之前的文档中我们已经介绍过了，接下来我们对Docker的知识做一些必要的补充。</p><ol><li><p>创建镜像文件。</p><p>将容器保存成镜像：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>docker commit -m <span class=s2>&#34;...&#34;</span> -a <span class=s2>&#34;jackfrued&#34;</span> &lt;container-name&gt; jackfrued/&lt;image-name&gt;
+</code></pre></td></tr></table></div></div></div><p>使用Dockerfile构建镜像：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Dockerfile data-lang=Dockerfile><span class=c># 指定基础镜像文件</span><span class=err>
+</span><span class=err></span><span class=k>FROM</span><span class=s> centos:latest</span><span class=err>
+</span><span class=err>
+</span><span class=err></span><span class=c># 指定维护者信息</span><span class=err>
+</span><span class=err></span><span class=k>MAINTAINER</span><span class=s> jackfrued</span><span class=err>
+</span><span class=err>
+</span><span class=err></span><span class=c># 执行命令</span><span class=err>
+</span><span class=err></span><span class=k>RUN</span> yum -y install gcc<span class=err>
+</span><span class=err></span><span class=k>RUN</span> <span class=nb>cd</span> ~<span class=err>
+</span><span class=err></span><span class=k>RUN</span> mkdir -p project/code<span class=err>
+</span><span class=err></span><span class=k>RUN</span> mkdir -p project/logs<span class=err>
+</span><span class=err>
+</span><span class=err></span><span class=c># 拷贝文件</span><span class=err>
+</span><span class=err></span><span class=k>COPY</span> ...<span class=err>
+</span><span class=err>
+</span><span class=err></span><span class=c># 暴露端口</span><span class=err>
+</span><span class=err></span><span class=k>EXPOSE</span><span class=s> ...</span><span class=err>
+</span><span class=err>
+</span><span class=err></span><span class=c># 在容器启动时执行命令</span><span class=err>
+</span><span class=err></span><span class=k>CMD</span> ~/init.sh<span class=err>
+</span></code></pre></td></tr></table></div></div></div><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>docker build -t jackfrued/&lt;image-name&gt; .
+</code></pre></td></tr></table></div></div></div></li><li><p>镜像的导入和导出。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>docker save -o &lt;file-name&gt;.tar &lt;image-name&gt;:&lt;version&gt;
+docker load -i &lt;file-name&gt;.tar
+</code></pre></td></tr></table></div></div></div></li><li><p>推送到DockerHub服务器。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>docker tag &lt;image-name&gt;:&lt;version&gt; jackfrued/&lt;name&gt;
+docker login
+docker push jackfrued/&lt;name&gt;
+</code></pre></td></tr></table></div></div></div></li><li><p>容器之间的通信。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>docker run --link &lt;container-name&gt;:&lt;alias-name&gt;
+</code></pre></td></tr></table></div></div></div></li></ol><p>如果我们能够在Docker中完成项目的部署，并且将整个部署好的容器打包成镜像文件进行分发和安装，这样就可以解决项目在多个节点上进行部署时可能遇到的麻烦，而且整个部署可以在很短的时间内完成。</p><h3 id=supervisor><a href=#supervisor class=anchor-link>#</a>Supervisor</h3><p><a href=https://github.com/Supervisor/supervisor target=_blank rel=noopener>Supervisor</a>是一个用Python写的进程管理工具，可以很方便的用来在类Unix系统下启动、重启（自动重启程序）和关闭进程，目前Supervisor暂时还没有提供对Python 3的支持，可以通过Python 2来安装和运行Supervisor，再通过Supervisor来管理Python 3的程序。</p><blockquote><p><strong>提示</strong>：还有一个和Supervisor功能类似的工具名为Circus，支持Python 3。</p></blockquote><ol><li><p>安装Supervisor。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>virtualenv -p /usr/bin/python venv
+<span class=nb>source</span> venv/bin/activate
+pip install supervisor
+</code></pre></td></tr></table></div></div></div></li><li><p>查看Supervisor的配置文件。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>vim /etc/supervisord.conf
+</code></pre></td></tr></table></div></div></div><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-INI data-lang=INI><span class=c1>; 此处省略上面的代码</span>
+<span class=c1>; The [include] section can just contain the &#34;files&#34; setting.  This</span>
+<span class=c1>; setting can list multiple files (separated by whitespace or</span>
+<span class=c1>; newlines).  It can also contain wildcards.  The filenames are</span>
+<span class=c1>; interpreted as relative to this file.  Included files *cannot*</span>
+<span class=c1>; include files themselves.</span>
+<span class=k>[include]</span>
+<span class=na>files</span> <span class=o>=</span> <span class=s>supervisord.d/*.ini</span>
+</code></pre></td></tr></table></div></div></div><p>可以看出自定义的管理配置代码可以放在<code>/etc/supervisord.d</code>目录中，并且文件名以<code>ini</code>作为后缀即可。</p></li><li><p>编写自己的配置文件<code>fangtx.ini</code>并放在<code>/etc/supervisord.d</code>目录中。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-INI data-lang=INI><span class=k>[program:project]</span>
+<span class=na>command</span><span class=o>=</span><span class=s>uwsgi --ini /root/project/conf/uwsgi.ini</span>
+<span class=na>stopsignal</span><span class=o>=</span><span class=s>QUIT</span>
+<span class=na>autostart</span><span class=o>=</span><span class=s>true</span>
+<span class=na>autorestart</span><span class=o>=</span><span class=s>true</span>
+<span class=na>redirect_stderr</span><span class=o>=</span><span class=s>true</span>
+
+<span class=k>[program:celery]</span>
+<span class=c1>; Set full path to celery program if using virtualenv</span>
+<span class=na>command</span><span class=o>=</span><span class=s>/root/project/venv/bin/celery -A fangtx worker</span>
+<span class=na>user</span><span class=o>=</span><span class=s>root</span>
+<span class=na>numprocs</span><span class=o>=</span><span class=s>1</span>
+<span class=na>stdout_logfile</span><span class=o>=</span><span class=s>/var/log/supervisor/celery.log</span>
+<span class=na>stderr_logfile</span><span class=o>=</span><span class=s>/var/log/supervisor/celery_error.log</span>
+<span class=na>autostart</span><span class=o>=</span><span class=s>true</span>
+<span class=na>autorestart</span><span class=o>=</span><span class=s>true</span>
+<span class=na>startsecs</span><span class=o>=</span><span class=s>10</span>
+
+<span class=c1>; Need to wait for currently executing tasks to finish at shutdown.</span>
+<span class=c1>; Increase this if you have very long running tasks.</span>
+<span class=c1>;stopwaitsecs = 600</span>
+
+<span class=c1>; When resorting to send SIGKILL to the program to terminate it</span>
+<span class=c1>; send SIGKILL to its whole process group instead,</span>
+<span class=c1>; taking care of its children as well.</span>
+<span class=na>killasgroup</span><span class=o>=</span><span class=s>true</span>
+<span class=c1>; Set Celery priority higher than default (999)</span>
+<span class=c1>; so, if rabbitmq is supervised, it will start first.</span>
+<span class=na>priority</span><span class=o>=</span><span class=s>1000</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>启动Supervisor。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>supervisorctl -c /etc/supervisord.conf
+</code></pre></td></tr></table></div></div></div></li></ol><h3 id=其他服务><a href=#其他服务 class=anchor-link>#</a>其他服务</h3><ol><li><p>常用开源软件。</p><div class=table-container><table><thead><tr><th>功能</th><th>开源方案</th></tr></thead><tbody><tr><td>版本控制工具</td><td>Git、Mercurial、SVN</td></tr><tr><td>缺陷管理</td><td>Redmine、Mantis</td></tr><tr><td>负载均衡</td><td>Nginx、LVS、HAProxy</td></tr><tr><td>邮件服务</td><td>Postfix、Sendmail</td></tr><tr><td>HTTP服务</td><td>Nginx、Apache</td></tr><tr><td>消息队列</td><td>RabbitMQ、ZeroMQ、Redis、Kafka</td></tr><tr><td>文件系统</td><td>FastDFS</td></tr><tr><td>基于位置服务（LBS）</td><td>MongoDB、Redis</td></tr><tr><td>监控服务</td><td>Nagios、Zabbix</td></tr><tr><td>关系型数据库</td><td>MySQL、PostgreSQL</td></tr><tr><td>非关系型数据库</td><td>MongoDB、Redis、Cassandra、TiDB</td></tr><tr><td>搜索引擎</td><td>ElasticSearch、Solr</td></tr><tr><td>缓存服务</td><td>Mamcached、Redis</td></tr></tbody></table></div></li><li><p>常用云服务。</p><div class=table-container><table><thead><tr><th>功能</th><th>可用的云服务</th></tr></thead><tbody><tr><td>团队协作工具</td><td>Teambition、钉钉</td></tr><tr><td>代码托管平台</td><td>Github、Gitee、CODING</td></tr><tr><td>邮件服务</td><td>SendCloud</td></tr><tr><td>云存储（CDN）</td><td>七牛、OSS、LeanCloud、Bmob、又拍云、S3</td></tr><tr><td>移动端推送</td><td>极光、友盟、百度</td></tr><tr><td>即时通信</td><td>环信、融云</td></tr><tr><td>短信服务</td><td>云片、极光、Luosimao、又拍云</td></tr><tr><td>第三方登录</td><td>友盟、ShareSDK</td></tr><tr><td>网站监控和统计</td><td>阿里云监控、监控宝、百度云观测、小鸟云</td></tr></tbody></table></div></li></ol></div><ul class=post-copyright><li class="copyright-item author"><span class=copyright-item-text>作者</span>：<span class="p-author h-card">骆昊</span></li><li class="copyright-item link"><span class=copyright-item-text>链接</span>：<a href=https://github.com/jackfrued/Python-100-Days target=_blank rel=noopener>https://github.com/jackfrued/Python-100-Days</a></li><li class="copyright-item license"><span class=copyright-item-text>许可</span>：本文采用<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>「CC BY-NC-SA 4.0」</a>协议，转载请注明出处。</li></ul></article><div class=related-posts><h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2><ul class=related-list><li class=related-item><a href=/python/01.%E5%88%9D%E8%AF%86python/ class=related-link>01.初识Python</a></li><li class=related-item><a href=/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/ class=related-link>02.语言元素</a></li><li class=related-item><a href=/python/03.%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84/ class=related-link>03.分支结构</a></li><li class=related-item><a href=/python/04.%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84/ class=related-link>04.循环结构</a></li><li class=related-item><a href=/python/05.%E6%9E%84%E9%80%A0%E7%A8%8B%E5%BA%8F%E9%80%BB%E8%BE%91/ class=related-link>05.构造程序逻辑</a></li></ul></div><div class=post-tags><a href=/tags/python/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>python</a></div></div></main><div id=back-to-top class=back-to-top><a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a></div><footer id=footer class=footer><div class=footer-inner><div class=site-info>©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;hanxin</div><script src=https://sdk.jinrishici.com/v2/browser/jinrishici.js></script>
+<text class=poem_sentence></text>
+<text class=poem_info></text>
+<script type=text/javascript>jinrishici.load(function(a){var b=document.querySelector(".poem_sentence"),c=document.querySelector(".poem_info");b.innerHTML=a.data.content,c.innerHTML='——'+a.data.origin.author})</script></div></footer></div><script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script><script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script></body></html>

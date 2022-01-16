@@ -1,0 +1,457 @@
+<!doctype html><html lang=zh-cn><head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"><meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=theme-color content="#16171d"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=format-detection content="telephone=no, date=no, address=no, email=no"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><title>62.数据采集和解析 | Hanxin</title><link rel=stylesheet href=/css/meme.min.88c90dc75021618344ec926f4ed6ac307f30ba48911294816b16370a41e5f137.css><script src=/js/meme.min.f460a174bb100a60a7e275913695161f1e09aab1378fe99cfd30cde14da70888.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap" media=print onload="this.media='all'"><noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap"></noscript><meta name=author content="骆昊"><meta name=description content="数据采集和解析 通过上一个章节的讲解，我们已经了解到了开发一个爬虫需要做的工作以及一些……"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=mask-icon href=/icons/safari-pinned-tab.svg color=#2a6df4><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-title content="Hanxin"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=mobile-web-app-capable content="yes"><meta name=application-name content="Hanxin"><meta name=msapplication-starturl content="../../"><meta name=msapplication-TileColor content="#fff"><meta name=msapplication-TileImage content="../../icons/mstile-150x150.png"><link rel=manifest href=/manifest.json><link rel=canonical href=/python/62.%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E5%92%8C%E8%A7%A3%E6%9E%90/><script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2021-08-23T17:34:26+08:00","dateModified":"2022-01-16T09:24:35+00:00","url":"/python/62.%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E5%92%8C%E8%A7%A3%E6%9E%90/","name":"62.数据采集和解析","description":"数据采集和解析 通过上一个章节的讲解，我们已经了解到了开发一个爬虫需要做的工作以及一些……","image":"/icons/apple-touch-icon.png","license":"本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。","publisher":{"@type":"Organization","name":"Hanxin","logo":{"@type":"ImageObject","url":"/icons/apple-touch-icon.png"},"url":"/"},"mainEntityOfPage":{"@type":"WebSite","@id":"/"}}</script><meta name=twitter:card content="summary"><meta property="og:title" content="62.数据采集和解析"><meta property="og:description" content="数据采集和解析 通过上一个章节的讲解，我们已经了解到了开发一个爬虫需要做的工作以及一些……"><meta property="og:url" content="/python/62.%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E5%92%8C%E8%A7%A3%E6%9E%90/"><meta property="og:site_name" content="Hanxin"><meta property="og:locale" content="zh"><meta property="og:image" content="/icons/apple-touch-icon.png"><meta property="og:type" content="website"></head><body><div class=container><header class=header><div class=header-wrapper><div class="header-inner single"><div class=site-brand><a href=/ class=brand>Hanxin</a></div><nav class=nav><ul class=menu id=menu><li class=menu-item><a href=/life/><span class=menu-item-name>生活</span></a></li><li class=menu-item><a href=/tech/><span class=menu-item-name>技术</span></a></li><li class=menu-item><a href=/tags/><span class=menu-item-name>标签</span></a></li><li class=menu-item><a href=/about/><span class=menu-item-name>关于</span></a></li><li class=menu-item><a href=/blogroll/><span class=menu-item-name>友链</span></a></li><li class=menu-item><a href=/python/><span class=menu-item-name>Python-100天</span></a></li><li class=menu-item><a id=theme-switcher href=#><span class="icon theme-icon-light">🌞</span><span class="icon theme-icon-dark">🌙</span></a></li></ul></nav></div></div><input type=checkbox id=nav-toggle aria-hidden=true>
+<label for=nav-toggle class=nav-toggle></label>
+<label for=nav-toggle class=nav-curtain></label></header><main class="main single" id=main><div class=main-inner><article class="content post h-entry" data-align=justify data-type=python data-toc-num=true><h1 class="post-title p-name">62.数据采集和解析</h1><div class=post-meta><time datetime=2021-08-23T17:34:26+08:00 class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;2021.8.23</time>
+<time datetime=2022-01-16T09:24:35+00:00 class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M4e2 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H48C21.49 64 0 85.49.0 112v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 4e2H54a6 6 0 01-6-6V160h352v298a6 6 0 01-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.1.16</time>
+<span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2700</span>
+<span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;6&nbsp;分钟</span></div><div class="post-body e-content"><h2 id=数据采集和解析><a href=#数据采集和解析 class=anchor-link>#</a>数据采集和解析</h2><p>通过上一个章节的讲解，我们已经了解到了开发一个爬虫需要做的工作以及一些常见的问题，下面我们给出一个爬虫开发相关技术的清单以及这些技术涉及到的标准库和第三方库，稍后我们会一一介绍这些内容。</p><ol><li>下载数据 - <strong>urllib</strong> / <strong>requests</strong> / <strong>aiohttp</strong> / <strong>httpx</strong>。</li><li>解析数据 - <strong>re</strong> / <strong>lxml</strong> / <strong>beautifulsoup4</strong> / <strong>pyquery</strong>。</li><li>缓存和持久化 - <strong>mysqlclient</strong> / <strong>sqlalchemy</strong> / <strong>peewee</strong> / <strong>redis</strong> / <strong>pymongo</strong>。</li><li>生成数字签名 - <strong>hashlib</strong>。</li><li>序列化和压缩 - <strong>pickle</strong> / <strong>json</strong> / <strong>zlib</strong>。</li><li>调度器 - <strong>multiprocessing</strong> / <strong>threading</strong> / <strong>concurrent.futures</strong>。</li></ol><h3 id=html页面><a href=#html页面 class=anchor-link>#</a>HTML页面</h3><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-HTML data-lang=HTML><span class=cp>&lt;!DOCTYPE html&gt;</span>
+<span class=p>&lt;</span><span class=nt>html</span><span class=p>&gt;</span>
+	<span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
+		<span class=p>&lt;</span><span class=nt>title</span><span class=p>&gt;</span>Home<span class=p>&lt;/</span><span class=nt>title</span><span class=p>&gt;</span>
+		<span class=p>&lt;</span><span class=nt>style</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;text/css&#34;</span><span class=p>&gt;</span>
+			<span class=c>/* 此处省略层叠样式表代码 */</span>
+		<span class=p>&lt;/</span><span class=nt>style</span><span class=p>&gt;</span>
+	<span class=p>&lt;/</span><span class=nt>head</span><span class=p>&gt;</span>
+	<span class=p>&lt;</span><span class=nt>body</span><span class=p>&gt;</span>
+		<span class=p>&lt;</span><span class=nt>div</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;wrapper&#34;</span><span class=p>&gt;</span>
+			<span class=p>&lt;</span><span class=nt>header</span><span class=p>&gt;</span>
+				<span class=p>&lt;</span><span class=nt>h1</span><span class=p>&gt;</span>Yoko&#39;s Kitchen<span class=p>&lt;/</span><span class=nt>h1</span><span class=p>&gt;</span>
+				<span class=p>&lt;</span><span class=nt>nav</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>ul</span><span class=p>&gt;</span>
+						<span class=p>&lt;</span><span class=nt>li</span><span class=p>&gt;&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;&#34;</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;current&#34;</span><span class=p>&gt;</span>Home<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;&lt;/</span><span class=nt>li</span><span class=p>&gt;</span>
+						<span class=p>&lt;</span><span class=nt>li</span><span class=p>&gt;&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;&#34;</span><span class=p>&gt;</span>Classes<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;&lt;/</span><span class=nt>li</span><span class=p>&gt;</span>
+						<span class=p>&lt;</span><span class=nt>li</span><span class=p>&gt;&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;&#34;</span><span class=p>&gt;</span>Catering<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;&lt;/</span><span class=nt>li</span><span class=p>&gt;</span>
+						<span class=p>&lt;</span><span class=nt>li</span><span class=p>&gt;&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;&#34;</span><span class=p>&gt;</span>About<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;&lt;/</span><span class=nt>li</span><span class=p>&gt;</span>
+						<span class=p>&lt;</span><span class=nt>li</span><span class=p>&gt;&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;&#34;</span><span class=p>&gt;</span>Contact<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;&lt;/</span><span class=nt>li</span><span class=p>&gt;</span>
+					<span class=p>&lt;/</span><span class=nt>ul</span><span class=p>&gt;</span>
+				<span class=p>&lt;/</span><span class=nt>nav</span><span class=p>&gt;</span>
+			<span class=p>&lt;/</span><span class=nt>header</span><span class=p>&gt;</span>
+			<span class=p>&lt;</span><span class=nt>section</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;courses&#34;</span><span class=p>&gt;</span>
+				<span class=p>&lt;</span><span class=nt>article</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>figure</span><span class=p>&gt;</span>
+						<span class=p>&lt;</span><span class=nt>img</span> <span class=na>src</span><span class=o>=</span><span class=s>&#34;images/bok-choi.jpg&#34;</span> <span class=na>alt</span><span class=o>=</span><span class=s>&#34;Bok Choi&#34;</span> <span class=p>/&gt;</span>
+						<span class=p>&lt;</span><span class=nt>figcaption</span><span class=p>&gt;</span>Bok Choi<span class=p>&lt;/</span><span class=nt>figcaption</span><span class=p>&gt;</span>
+					<span class=p>&lt;/</span><span class=nt>figure</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>hgroup</span><span class=p>&gt;</span>
+						<span class=p>&lt;</span><span class=nt>h2</span><span class=p>&gt;</span>Japanese Vegetarian<span class=p>&lt;/</span><span class=nt>h2</span><span class=p>&gt;</span>
+						<span class=p>&lt;</span><span class=nt>h3</span><span class=p>&gt;</span>Five week course in London<span class=p>&lt;/</span><span class=nt>h3</span><span class=p>&gt;</span>
+					<span class=p>&lt;/</span><span class=nt>hgroup</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>p</span><span class=p>&gt;</span>A five week introduction to traditional Japanese vegetarian meals, teaching you a selection of rice and noodle dishes.<span class=p>&lt;/</span><span class=nt>p</span><span class=p>&gt;</span>
+				<span class=p>&lt;/</span><span class=nt>article</span><span class=p>&gt;</span>    
+				<span class=p>&lt;</span><span class=nt>article</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>figure</span><span class=p>&gt;</span>
+						<span class=p>&lt;</span><span class=nt>img</span> <span class=na>src</span><span class=o>=</span><span class=s>&#34;images/teriyaki.jpg&#34;</span> <span class=na>alt</span><span class=o>=</span><span class=s>&#34;Teriyaki sauce&#34;</span> <span class=p>/&gt;</span>
+						<span class=p>&lt;</span><span class=nt>figcaption</span><span class=p>&gt;</span>Teriyaki Sauce<span class=p>&lt;/</span><span class=nt>figcaption</span><span class=p>&gt;</span>
+					<span class=p>&lt;/</span><span class=nt>figure</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>hgroup</span><span class=p>&gt;</span>
+						<span class=p>&lt;</span><span class=nt>h2</span><span class=p>&gt;</span>Sauces Masterclass<span class=p>&lt;/</span><span class=nt>h2</span><span class=p>&gt;</span>
+						<span class=p>&lt;</span><span class=nt>h3</span><span class=p>&gt;</span>One day workshop<span class=p>&lt;/</span><span class=nt>h3</span><span class=p>&gt;</span>
+					<span class=p>&lt;/</span><span class=nt>hgroup</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>p</span><span class=p>&gt;</span>An intensive one-day course looking at how to create the most delicious sauces for use in a range of Japanese cookery.<span class=p>&lt;/</span><span class=nt>p</span><span class=p>&gt;</span>
+				<span class=p>&lt;/</span><span class=nt>article</span><span class=p>&gt;</span>    
+			<span class=p>&lt;/</span><span class=nt>section</span><span class=p>&gt;</span>
+			<span class=p>&lt;</span><span class=nt>aside</span><span class=p>&gt;</span>
+				<span class=p>&lt;</span><span class=nt>section</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;popular-recipes&#34;</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>h2</span><span class=p>&gt;</span>Popular Recipes<span class=p>&lt;/</span><span class=nt>h2</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;&#34;</span><span class=p>&gt;</span>Yakitori (grilled chicken)<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;&#34;</span><span class=p>&gt;</span>Tsukune (minced chicken patties)<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;&#34;</span><span class=p>&gt;</span>Okonomiyaki (savory pancakes)<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>a</span> <span class=na>href</span><span class=o>=</span><span class=s>&#34;&#34;</span><span class=p>&gt;</span>Mizutaki (chicken stew)<span class=p>&lt;/</span><span class=nt>a</span><span class=p>&gt;</span>
+				<span class=p>&lt;/</span><span class=nt>section</span><span class=p>&gt;</span>
+				<span class=p>&lt;</span><span class=nt>section</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;contact-details&#34;</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>h2</span><span class=p>&gt;</span>Contact<span class=p>&lt;/</span><span class=nt>h2</span><span class=p>&gt;</span>
+					<span class=p>&lt;</span><span class=nt>p</span><span class=p>&gt;</span>Yoko&#39;s Kitchen<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;</span>
+						27 Redchurch Street<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;</span>
+						Shoreditch<span class=p>&lt;</span><span class=nt>br</span><span class=p>&gt;</span>
+						London E2 7DP<span class=p>&lt;/</span><span class=nt>p</span><span class=p>&gt;</span>
+				<span class=p>&lt;/</span><span class=nt>section</span><span class=p>&gt;</span>
+			<span class=p>&lt;/</span><span class=nt>aside</span><span class=p>&gt;</span>
+			<span class=p>&lt;</span><span class=nt>footer</span><span class=p>&gt;</span>
+				<span class=ni>&amp;copy;</span> 2011 Yoko&#39;s Kitchen
+			<span class=p>&lt;/</span><span class=nt>footer</span><span class=p>&gt;</span>
+		<span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+        <span class=p>&lt;</span><span class=nt>script</span><span class=p>&gt;</span>
+        	<span class=cm>/* 此处省略JavaScript代码 */</span>
+        <span class=p>&lt;/</span><span class=nt>script</span><span class=p>&gt;</span>
+	<span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
+<span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
+</code></pre></td></tr></table></div></div></div><p>如上所示的HTML页面通常由三部分构成，分别是用来承载内容的Tag（标签）、负责渲染页面的CSS（层叠样式表）以及控制交互式行为的JavaScript。通常，我们可以在浏览器的右键菜单中通过“查看网页源代码”的方式获取网页的代码并了解页面的结构；当然，我们也可以通过浏览器提供的开发人员工具来了解更多的信息。</p><h4 id=使用requests获取页面><a href=#使用requests获取页面 class=anchor-link>#</a>使用requests获取页面</h4><p>在上一节课的代码中我们使用了三方库<code>requests</code>来获取页面，下面我们对<code>requests</code>库的用法做进一步说明。</p><ol><li><p>GET请求和POST请求。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>requests</span>
+
+<span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;http://www.baidu.com/index.html&#39;</span><span class=p>)</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>status_code</span><span class=p>)</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>headers</span><span class=p>)</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>cookies</span><span class=p>)</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>content</span><span class=o>.</span><span class=n>decode</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>))</span>
+
+<span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>post</span><span class=p>(</span><span class=s1>&#39;http://httpbin.org/post&#39;</span><span class=p>,</span> <span class=n>data</span><span class=o>=</span><span class=p>{</span><span class=s1>&#39;name&#39;</span><span class=p>:</span> <span class=s1>&#39;Hao&#39;</span><span class=p>,</span> <span class=s1>&#39;age&#39;</span><span class=p>:</span> <span class=mi>40</span><span class=p>})</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+<span class=n>data</span> <span class=o>=</span> <span class=n>resp</span><span class=o>.</span><span class=n>json</span><span class=p>()</span>
+<span class=nb>print</span><span class=p>(</span><span class=nb>type</span><span class=p>(</span><span class=n>data</span><span class=p>))</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>URL参数和请求头。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span>
+    <span class=n>url</span><span class=o>=</span><span class=s1>&#39;https://movie.douban.com/top250&#39;</span><span class=p>,</span>
+    <span class=n>headers</span><span class=o>=</span><span class=p>{</span>
+        <span class=s1>&#39;User-Agent&#39;</span><span class=p>:</span> <span class=s1>&#39;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) &#39;</span>
+                      <span class=s1>&#39;AppleWebKit/537.36 (KHTML, like Gecko) &#39;</span>
+                      <span class=s1>&#39;Chrome/83.0.4103.97 Safari/537.36&#39;</span><span class=p>,</span>
+        <span class=s1>&#39;Accept&#39;</span><span class=p>:</span> <span class=s1>&#39;text/html,application/xhtml+xml,application/xml;&#39;</span>
+                  <span class=s1>&#39;q=0.9,image/webp,image/apng,*/*;&#39;</span>
+                  <span class=s1>&#39;q=0.8,application/signed-exchange;v=b3;q=0.9&#39;</span><span class=p>,</span>
+        <span class=s1>&#39;Accept-Language&#39;</span><span class=p>:</span> <span class=s1>&#39;zh-CN,zh;q=0.9,en;q=0.8&#39;</span><span class=p>,</span>
+    <span class=p>}</span>
+<span class=p>)</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>status_code</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>复杂的POST请求（文件上传）。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>post</span><span class=p>(</span>
+	<span class=n>url</span><span class=o>=</span><span class=s1>&#39;http://httpbin.org/post&#39;</span><span class=p>,</span>
+    <span class=n>files</span><span class=o>=</span><span class=p>{</span><span class=s1>&#39;file&#39;</span><span class=p>:</span> <span class=nb>open</span><span class=p>(</span><span class=s1>&#39;data.xlsx&#39;</span><span class=p>,</span> <span class=s1>&#39;rb&#39;</span><span class=p>)}</span>
+<span class=p>)</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>操作Cookie。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>cookies</span> <span class=o>=</span> <span class=p>{</span><span class=s1>&#39;key1&#39;</span><span class=p>:</span> <span class=s1>&#39;value1&#39;</span><span class=p>,</span> <span class=s1>&#39;key2&#39;</span><span class=p>:</span> <span class=s1>&#39;value2&#39;</span><span class=p>}</span>
+<span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;http://httpbin.org/cookies&#39;</span><span class=p>,</span> <span class=n>cookies</span><span class=o>=</span><span class=n>cookies</span><span class=p>)</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+
+<span class=n>jar</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>cookies</span><span class=o>.</span><span class=n>RequestsCookieJar</span><span class=p>()</span>
+<span class=n>jar</span><span class=o>.</span><span class=n>set</span><span class=p>(</span><span class=s1>&#39;tasty_cookie&#39;</span><span class=p>,</span> <span class=s1>&#39;yum&#39;</span><span class=p>,</span> <span class=n>domain</span><span class=o>=</span><span class=s1>&#39;httpbin.org&#39;</span><span class=p>,</span> <span class=n>path</span><span class=o>=</span><span class=s1>&#39;/cookies&#39;</span><span class=p>)</span>
+<span class=n>jar</span><span class=o>.</span><span class=n>set</span><span class=p>(</span><span class=s1>&#39;gross_cookie&#39;</span><span class=p>,</span> <span class=s1>&#39;blech&#39;</span><span class=p>,</span> <span class=n>domain</span><span class=o>=</span><span class=s1>&#39;httpbin.org&#39;</span><span class=p>,</span> <span class=n>path</span><span class=o>=</span><span class=s1>&#39;/elsewhere&#39;</span><span class=p>)</span>
+<span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;http://httpbin.org/cookies&#39;</span><span class=p>,</span> <span class=n>cookies</span><span class=o>=</span><span class=n>jar</span><span class=p>)</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>设置代理服务器。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;https://www.taobao.com&#39;</span><span class=p>,</span> <span class=n>proxies</span><span class=o>=</span><span class=p>{</span>
+    <span class=s1>&#39;http&#39;</span><span class=p>:</span> <span class=s1>&#39;http://10.10.1.10:3128&#39;</span><span class=p>,</span>
+    <span class=s1>&#39;https&#39;</span><span class=p>:</span> <span class=s1>&#39;http://10.10.1.10:1080&#39;</span><span class=p>,</span>
+<span class=p>})</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：关于<code>requests</code>库的相关知识，还是强烈建议大家自行阅读它的<a href=https://requests.readthedocs.io/zh_CN/latest/ target=_blank rel=noopener>官方文档</a>。</p></blockquote></li><li><p>设置请求超时。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;https://github.com&#39;</span><span class=p>,</span> <span class=n>timeout</span><span class=o>=</span><span class=mi>10</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div></li></ol><h3 id=页面解析><a href=#页面解析 class=anchor-link>#</a>页面解析</h3><h4 id=几种解析方式的比较><a href=#几种解析方式的比较 class=anchor-link>#</a>几种解析方式的比较</h4><div class=table-container><table><thead><tr><th>解析方式</th><th>对应的模块</th><th>速度</th><th>使用难度</th><th>备注</th></tr></thead><tbody><tr><td>正则表达式解析</td><td>re</td><td>快</td><td>困难</td><td>常用正则表达式<br>在线正则表达式测试</td></tr><tr><td>XPath解析</td><td>lxml</td><td>快</td><td>一般</td><td>需要安装C语言依赖库<br>唯一支持XML的解析器</td></tr><tr><td>CSS选择器解析</td><td>bs4 / pyquery</td><td>不确定</td><td>简单</td><td></td></tr></tbody></table></div><blockquote><p><strong>说明</strong>：<code>BeautifulSoup</code>可选的解析器包括：Python标准库中的<code>html.parser</code>、<code>lxml</code>的HTML解析器、<code>lxml</code>的XML解析器和<code>html5lib</code>。</p></blockquote><h4 id=使用正则表达式解析页面><a href=#使用正则表达式解析页面 class=anchor-link>#</a>使用正则表达式解析页面</h4><p>如果你对正则表达式没有任何的概念，那么推荐先阅读<a href=https://deerchao.cn/tutorials/regex/regex.htm target=_blank rel=noopener>《正则表达式30分钟入门教程》</a>，然后再阅读我们之前讲解在Python中如何使用正则表达式一文。</p><p>下面的例子演示了如何用正则表达式解析“豆瓣电影Top250”中的中文电影名称。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>random</span>
+<span class=kn>import</span> <span class=nn>re</span>
+<span class=kn>import</span> <span class=nn>time</span>
+
+<span class=kn>import</span> <span class=nn>requests</span>
+
+<span class=n>PATTERN</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>compile</span><span class=p>(</span><span class=sa>r</span><span class=s1>&#39;&lt;a[^&gt;]*?&gt;\s*&lt;span class=&#34;title&#34;&gt;(.*?)&lt;/span&gt;&#39;</span><span class=p>)</span>
+
+<span class=k>for</span> <span class=n>page</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>10</span><span class=p>):</span>
+    <span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span>
+        <span class=n>url</span><span class=o>=</span><span class=sa>f</span><span class=s1>&#39;https://movie.douban.com/top250?start=</span><span class=si>{</span><span class=n>page</span> <span class=o>*</span> <span class=mi>25</span><span class=si>}</span><span class=s1>&#39;</span><span class=p>,</span>
+        <span class=n>headers</span><span class=o>=</span><span class=p>{</span>
+            <span class=s1>&#39;User-Agent&#39;</span><span class=p>:</span> <span class=s1>&#39;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) &#39;</span>
+                          <span class=s1>&#39;AppleWebKit/537.36 (KHTML, like Gecko) &#39;</span>
+                          <span class=s1>&#39;Chrome/83.0.4103.97 Safari/537.36&#39;</span><span class=p>,</span>
+            <span class=s1>&#39;Accept&#39;</span><span class=p>:</span> <span class=s1>&#39;text/html,application/xhtml+xml,application/xml;&#39;</span>
+                      <span class=s1>&#39;q=0.9,image/webp,image/apng,*/*;&#39;</span>
+                      <span class=s1>&#39;q=0.8,application/signed-exchange;v=b3;q=0.9&#39;</span><span class=p>,</span>
+            <span class=s1>&#39;Accept-Language&#39;</span><span class=p>:</span> <span class=s1>&#39;zh-CN,zh;q=0.9,en;q=0.8&#39;</span><span class=p>,</span>
+        <span class=p>},</span>
+    <span class=p>)</span>
+    <span class=n>items</span> <span class=o>=</span> <span class=n>PATTERN</span><span class=o>.</span><span class=n>findall</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+    <span class=k>for</span> <span class=n>item</span> <span class=ow>in</span> <span class=n>items</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>item</span><span class=p>)</span>
+    <span class=n>time</span><span class=o>.</span><span class=n>sleep</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>randint</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>5</span><span class=p>))</span>
+</code></pre></td></tr></table></div></div></div><h4 id=xpath解析和lxml><a href=#xpath解析和lxml class=anchor-link>#</a>XPath解析和lxml</h4><p>XPath是在XML文档中查找信息的一种语法，它使用路径表达式来选取XML文档中的节点或者节点集。这里所说的XPath节点包括元素、属性、文本、命名空间、处理指令、注释、根节点等。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-XML data-lang=XML><span class=cp>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span class=nt>&lt;bookstore&gt;</span>
+    <span class=nt>&lt;book&gt;</span>
+      <span class=nt>&lt;title</span> <span class=na>lang=</span><span class=s>&#34;eng&#34;</span><span class=nt>&gt;</span>Harry Potter<span class=nt>&lt;/title&gt;</span>
+      <span class=nt>&lt;price&gt;</span>29.99<span class=nt>&lt;/price&gt;</span>
+    <span class=nt>&lt;/book&gt;</span>
+    <span class=nt>&lt;book&gt;</span>
+      <span class=nt>&lt;title</span> <span class=na>lang=</span><span class=s>&#34;zh&#34;</span><span class=nt>&gt;</span>三国演义<span class=nt>&lt;/title&gt;</span>
+      <span class=nt>&lt;price&gt;</span>39.95<span class=nt>&lt;/price&gt;</span>
+    <span class=nt>&lt;/book&gt;</span>
+<span class=nt>&lt;/bookstore&gt;</span>
+</code></pre></td></tr></table></div></div></div><p>对于上面的XML文件，我们可以用如下所示的XPath语法获取文档中的节点。</p><div class=table-container><table><thead><tr><th>路径表达式</th><th>结果</th></tr></thead><tbody><tr><td>bookstore</td><td>选取 bookstore 元素的所有子节点。</td></tr><tr><td>/bookstore</td><td>选取根元素 bookstore。注释：假如路径起始于正斜杠( / )，则此路径始终代表到某元素的绝对路径！</td></tr><tr><td>bookstore/book</td><td>选取属于 bookstore 的子元素的所有 book 元素。</td></tr><tr><td>//book</td><td>选取所有 book 子元素，而不管它们在文档中的位置。</td></tr><tr><td>bookstore//book</td><td>选择属于 bookstore 元素的后代的所有 book 元素，而不管它们位于 bookstore 之下的什么位置。</td></tr><tr><td>//@lang</td><td>选取名为 lang 的所有属性。</td></tr></tbody></table></div><p>在使用XPath语法时，还可以使用XPath中的谓词。</p><div class=table-container><table><thead><tr><th>路径表达式</th><th>结果</th></tr></thead><tbody><tr><td>/bookstore/book[1]</td><td>选取属于 bookstore 子元素的第一个 book 元素。</td></tr><tr><td>/bookstore/book[last()]</td><td>选取属于 bookstore 子元素的最后一个 book 元素。</td></tr><tr><td>/bookstore/book[last()-1]</td><td>选取属于 bookstore 子元素的倒数第二个 book 元素。</td></tr><tr><td>/bookstore/book[position()&lt;3]</td><td>选取最前面的两个属于 bookstore 元素的子元素的 book 元素。</td></tr><tr><td>//title[@lang]</td><td>选取所有拥有名为 lang 的属性的 title 元素。</td></tr><tr><td>//title[@lang='eng']</td><td>选取所有 title 元素，且这些元素拥有值为 eng 的 lang 属性。</td></tr><tr><td>/bookstore/book[price>35.00]</td><td>选取 bookstore 元素的所有 book 元素，且其中的 price 元素的值须大于 35.00。</td></tr><tr><td>/bookstore/book[price>35.00]/title</td><td>选取 bookstore 元素中的 book 元素的所有 title 元素，且其中的 price 元素的值须大于 35.00。</td></tr></tbody></table></div><p>XPath还支持通配符用法，如下所示。</p><div class=table-container><table><thead><tr><th>路径表达式</th><th>结果</th></tr></thead><tbody><tr><td>/bookstore/*</td><td>选取 bookstore 元素的所有子元素。</td></tr><tr><td>//*</td><td>选取文档中的所有元素。</td></tr><tr><td>//title[@*]</td><td>选取所有带有属性的 title 元素。</td></tr></tbody></table></div><p>如果要选取多个节点，可以使用如下所示的方法。</p><div class=table-container><table><thead><tr><th>路径表达式</th><th>结果</th></tr></thead><tbody><tr><td>//book/title | //book/price</td><td>选取 book 元素的所有 title 和 price 元素。</td></tr><tr><td>//title | //price</td><td>选取文档中的所有 title 和 price 元素。</td></tr><tr><td>/bookstore/book/title | //price</td><td>选取属于 bookstore 元素的 book 元素的所有 title 元素，以及文档中所有的 price 元素。</td></tr></tbody></table></div><blockquote><p><strong>说明</strong>：上面的例子来自于菜鸟教程网站上<a href=https://www.runoob.com/xpath/xpath-tutorial.html target=_blank rel=noopener>XPath教程</a>，有兴趣的读者可以自行阅读原文。</p></blockquote><p>当然，如果不理解或者不太熟悉XPath语法，可以在Chrome浏览器中按照如下所示的方法查看元素的XPath语法。</p><p><img src=/res/douban-xpath.png alt></p><p>下面的例子演示了如何用XPath解析“豆瓣电影Top250”中的中文电影名称。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>from</span> <span class=nn>lxml</span> <span class=kn>import</span> <span class=n>etree</span>
+
+<span class=kn>import</span> <span class=nn>requests</span>
+
+<span class=k>for</span> <span class=n>page</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>10</span><span class=p>):</span>
+    <span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span>
+        <span class=n>url</span><span class=o>=</span><span class=sa>f</span><span class=s1>&#39;https://movie.douban.com/top250?start=</span><span class=si>{</span><span class=n>page</span> <span class=o>*</span> <span class=mi>25</span><span class=si>}</span><span class=s1>&#39;</span><span class=p>,</span>
+        <span class=n>headers</span><span class=o>=</span><span class=p>{</span>
+            <span class=s1>&#39;User-Agent&#39;</span><span class=p>:</span> <span class=s1>&#39;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) &#39;</span>
+                          <span class=s1>&#39;AppleWebKit/537.36 (KHTML, like Gecko) &#39;</span>
+                          <span class=s1>&#39;Chrome/83.0.4103.97 Safari/537.36&#39;</span><span class=p>,</span>
+            <span class=s1>&#39;Accept&#39;</span><span class=p>:</span> <span class=s1>&#39;text/html,application/xhtml+xml,application/xml;&#39;</span>
+                      <span class=s1>&#39;q=0.9,image/webp,image/apng,*/*;&#39;</span>
+                      <span class=s1>&#39;q=0.8,application/signed-exchange;v=b3;q=0.9&#39;</span><span class=p>,</span>
+            <span class=s1>&#39;Accept-Language&#39;</span><span class=p>:</span> <span class=s1>&#39;zh-CN,zh;q=0.9,en;q=0.8&#39;</span><span class=p>,</span>
+        <span class=p>}</span>
+    <span class=p>)</span>
+    <span class=n>html</span> <span class=o>=</span> <span class=n>etree</span><span class=o>.</span><span class=n>HTML</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+    <span class=n>spans</span> <span class=o>=</span> <span class=n>html</span><span class=o>.</span><span class=n>xpath</span><span class=p>(</span><span class=s1>&#39;/html/body/div[3]/div[1]/div/div[1]/ol/li/div/div[2]/div[1]/a/span[1]&#39;</span><span class=p>)</span>
+    <span class=k>for</span> <span class=n>span</span> <span class=ow>in</span> <span class=n>spans</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>span</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><h3 id=beautifulsoup的使用><a href=#beautifulsoup的使用 class=anchor-link>#</a>BeautifulSoup的使用</h3><p>BeautifulSoup是一个可以从HTML或XML文件中提取数据的Python库。它能够通过你喜欢的转换器实现惯用的文档导航、查找、修改文档的方式。</p><ol><li>遍历文档树<ul><li>获取标签</li><li>获取标签属性</li><li>获取标签内容</li><li>获取子（孙）节点</li><li>获取父节点/祖先节点</li><li>获取兄弟节点</li></ul></li><li>搜索树节点<ul><li>find / find_all</li><li>select_one / select</li></ul></li></ol><blockquote><p><strong>说明</strong>：更多内容可以参考BeautifulSoup的<a href=https://beautifulsoup.readthedocs.io/zh_CN/v4.4.0/ target=_blank rel=noopener>官方文档</a>。</p></blockquote><p>下面的例子演示了如何用CSS选择器解析“豆瓣电影Top250”中的中文电影名称。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>random</span>
+<span class=kn>import</span> <span class=nn>time</span>
+
+<span class=kn>import</span> <span class=nn>bs4</span>
+<span class=kn>import</span> <span class=nn>requests</span>
+
+<span class=k>for</span> <span class=n>page</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>10</span><span class=p>):</span>
+    <span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span>
+        <span class=n>url</span><span class=o>=</span><span class=sa>f</span><span class=s1>&#39;https://movie.douban.com/top250?start=</span><span class=si>{</span><span class=n>page</span> <span class=o>*</span> <span class=mi>25</span><span class=si>}</span><span class=s1>&#39;</span><span class=p>,</span>
+        <span class=n>headers</span><span class=o>=</span><span class=p>{</span>
+            <span class=s1>&#39;User-Agent&#39;</span><span class=p>:</span> <span class=s1>&#39;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) &#39;</span>
+                          <span class=s1>&#39;AppleWebKit/537.36 (KHTML, like Gecko) &#39;</span>
+                          <span class=s1>&#39;Chrome/83.0.4103.97 Safari/537.36&#39;</span><span class=p>,</span>
+            <span class=s1>&#39;Accept&#39;</span><span class=p>:</span> <span class=s1>&#39;text/html,application/xhtml+xml,application/xml;&#39;</span>
+                      <span class=s1>&#39;q=0.9,image/webp,image/apng,*/*;&#39;</span>
+                      <span class=s1>&#39;q=0.8,application/signed-exchange;v=b3;q=0.9&#39;</span><span class=p>,</span>
+            <span class=s1>&#39;Accept-Language&#39;</span><span class=p>:</span> <span class=s1>&#39;zh-CN,zh;q=0.9,en;q=0.8&#39;</span><span class=p>,</span>
+        <span class=p>},</span>
+    <span class=p>)</span>
+    <span class=n>soup</span> <span class=o>=</span> <span class=n>bs4</span><span class=o>.</span><span class=n>BeautifulSoup</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>text</span><span class=p>,</span> <span class=s1>&#39;lxml&#39;</span><span class=p>)</span>
+    <span class=n>elements</span> <span class=o>=</span> <span class=n>soup</span><span class=o>.</span><span class=n>select</span><span class=p>(</span><span class=s1>&#39;.info&gt;div&gt;a&#39;</span><span class=p>)</span>
+    <span class=k>for</span> <span class=n>element</span> <span class=ow>in</span> <span class=n>elements</span><span class=p>:</span>
+        <span class=n>span</span> <span class=o>=</span> <span class=n>element</span><span class=o>.</span><span class=n>select_one</span><span class=p>(</span><span class=s1>&#39;.title&#39;</span><span class=p>)</span>
+        <span class=nb>print</span><span class=p>(</span><span class=n>span</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+    <span class=n>time</span><span class=o>.</span><span class=n>sleep</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>random</span><span class=p>()</span> <span class=o>*</span> <span class=mi>5</span><span class=p>)</span>
+
+</code></pre></td></tr></table></div></div></div><h3 id=例子---获取知乎发现上的问题链接><a href=#例子---获取知乎发现上的问题链接 class=anchor-link>#</a>例子 - 获取知乎发现上的问题链接</h3><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=kn>import</span> <span class=nn>re</span>
+<span class=kn>from</span> <span class=nn>urllib.parse</span> <span class=kn>import</span> <span class=n>urljoin</span>
+
+<span class=kn>import</span> <span class=nn>bs4</span>
+<span class=kn>import</span> <span class=nn>requests</span>
+
+
+<span class=k>def</span> <span class=nf>main</span><span class=p>():</span>
+    <span class=n>headers</span> <span class=o>=</span> <span class=p>{</span><span class=s1>&#39;user-agent&#39;</span><span class=p>:</span> <span class=s1>&#39;Baiduspider&#39;</span><span class=p>}</span>
+    <span class=n>base_url</span> <span class=o>=</span> <span class=s1>&#39;https://www.zhihu.com/&#39;</span>
+    <span class=n>resp</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>urljoin</span><span class=p>(</span><span class=n>base_url</span><span class=p>,</span> <span class=s1>&#39;explore&#39;</span><span class=p>),</span> <span class=n>headers</span><span class=o>=</span><span class=n>headers</span><span class=p>)</span>
+    <span class=n>soup</span> <span class=o>=</span> <span class=n>bs4</span><span class=o>.</span><span class=n>BeautifulSoup</span><span class=p>(</span><span class=n>resp</span><span class=o>.</span><span class=n>text</span><span class=p>,</span> <span class=s1>&#39;lxml&#39;</span><span class=p>)</span>
+    <span class=n>href_regex</span> <span class=o>=</span> <span class=n>re</span><span class=o>.</span><span class=n>compile</span><span class=p>(</span><span class=sa>r</span><span class=s1>&#39;^/question&#39;</span><span class=p>)</span>
+    <span class=n>links_set</span> <span class=o>=</span> <span class=nb>set</span><span class=p>()</span>
+    <span class=k>for</span> <span class=n>a_tag</span> <span class=ow>in</span> <span class=n>soup</span><span class=o>.</span><span class=n>find_all</span><span class=p>(</span><span class=s1>&#39;a&#39;</span><span class=p>,</span> <span class=p>{</span><span class=s1>&#39;href&#39;</span><span class=p>:</span> <span class=n>href_regex</span><span class=p>}):</span>
+        <span class=k>if</span> <span class=s1>&#39;href&#39;</span> <span class=ow>in</span> <span class=n>a_tag</span><span class=o>.</span><span class=n>attrs</span><span class=p>:</span>
+            <span class=n>href</span> <span class=o>=</span> <span class=n>a_tag</span><span class=o>.</span><span class=n>attrs</span><span class=p>[</span><span class=s1>&#39;href&#39;</span><span class=p>]</span>
+            <span class=n>full_url</span> <span class=o>=</span> <span class=n>urljoin</span><span class=p>(</span><span class=n>base_url</span><span class=p>,</span> <span class=n>href</span><span class=p>)</span>
+            <span class=n>links_set</span><span class=o>.</span><span class=n>add</span><span class=p>(</span><span class=n>full_url</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;Total </span><span class=si>%d</span><span class=s1> question pages found.&#39;</span> <span class=o>%</span> <span class=nb>len</span><span class=p>(</span><span class=n>links_set</span><span class=p>))</span>
+    <span class=nb>print</span><span class=p>(</span><span class=n>links_set</span><span class=p>)</span>
+
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>main</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div></div></div><ul class=post-copyright><li class="copyright-item author"><span class=copyright-item-text>作者</span>：<span class="p-author h-card">骆昊</span></li><li class="copyright-item link"><span class=copyright-item-text>链接</span>：<a href=https://github.com/jackfrued/Python-100-Days target=_blank rel=noopener>https://github.com/jackfrued/Python-100-Days</a></li><li class="copyright-item license"><span class=copyright-item-text>许可</span>：本文采用<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>「CC BY-NC-SA 4.0」</a>协议，转载请注明出处。</li></ul></article><div class=related-posts><h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2><ul class=related-list><li class=related-item><a href=/python/01.%E5%88%9D%E8%AF%86python/ class=related-link>01.初识Python</a></li><li class=related-item><a href=/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/ class=related-link>02.语言元素</a></li><li class=related-item><a href=/python/03.%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84/ class=related-link>03.分支结构</a></li><li class=related-item><a href=/python/04.%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84/ class=related-link>04.循环结构</a></li><li class=related-item><a href=/python/05.%E6%9E%84%E9%80%A0%E7%A8%8B%E5%BA%8F%E9%80%BB%E8%BE%91/ class=related-link>05.构造程序逻辑</a></li></ul></div><div class=post-tags><a href=/tags/python/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>python</a></div></div></main><div id=back-to-top class=back-to-top><a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a></div><footer id=footer class=footer><div class=footer-inner><div class=site-info>©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;hanxin</div><script src=https://sdk.jinrishici.com/v2/browser/jinrishici.js></script>
+<text class=poem_sentence></text>
+<text class=poem_info></text>
+<script type=text/javascript>jinrishici.load(function(a){var b=document.querySelector(".poem_sentence"),c=document.querySelector(".poem_info");b.innerHTML=a.data.content,c.innerHTML='——'+a.data.origin.author})</script></div></footer></div><script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script><script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script></body></html>

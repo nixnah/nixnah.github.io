@@ -1,0 +1,1757 @@
+<!doctype html><html lang=zh-cn><head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"><meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=theme-color content="#16171d"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=format-detection content="telephone=no, date=no, address=no, email=no"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><title>31-35.玩转Linux操作系统 | Hanxin</title><link rel=stylesheet href=/css/meme.min.88c90dc75021618344ec926f4ed6ac307f30ba48911294816b16370a41e5f137.css><script src=/js/meme.min.f460a174bb100a60a7e275913695161f1e09aab1378fe99cfd30cde14da70888.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap" media=print onload="this.media='all'"><noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap"></noscript><meta name=author content="骆昊"><meta name=description content="玩转Linux操作系统 说明：本文中对Linux命令的讲解都是基于名为CentOS的L……"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=mask-icon href=/icons/safari-pinned-tab.svg color=#2a6df4><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-title content="Hanxin"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=mobile-web-app-capable content="yes"><meta name=application-name content="Hanxin"><meta name=msapplication-starturl content="../../"><meta name=msapplication-TileColor content="#fff"><meta name=msapplication-TileImage content="../../icons/mstile-150x150.png"><link rel=manifest href=/manifest.json><link rel=canonical href=/python/31-35.%E7%8E%A9%E8%BD%AClinux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/><script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2021-08-23T17:34:46+08:00","dateModified":"2022-01-16T09:24:35+00:00","url":"/python/31-35.%E7%8E%A9%E8%BD%AClinux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/","name":"31-35.玩转Linux操作系统","description":"玩转Linux操作系统 说明：本文中对Linux命令的讲解都是基于名为CentOS的L……","image":"/icons/apple-touch-icon.png","license":"本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。","publisher":{"@type":"Organization","name":"Hanxin","logo":{"@type":"ImageObject","url":"/icons/apple-touch-icon.png"},"url":"/"},"mainEntityOfPage":{"@type":"WebSite","@id":"/"}}</script><meta name=twitter:card content="summary"><meta property="og:title" content="31-35.玩转Linux操作系统"><meta property="og:description" content="玩转Linux操作系统 说明：本文中对Linux命令的讲解都是基于名为CentOS的L……"><meta property="og:url" content="/python/31-35.%E7%8E%A9%E8%BD%AClinux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><meta property="og:site_name" content="Hanxin"><meta property="og:locale" content="zh"><meta property="og:image" content="/icons/apple-touch-icon.png"><meta property="og:type" content="website"></head><body><div class=container><header class=header><div class=header-wrapper><div class="header-inner single"><div class=site-brand><a href=/ class=brand>Hanxin</a></div><nav class=nav><ul class=menu id=menu><li class=menu-item><a href=/life/><span class=menu-item-name>生活</span></a></li><li class=menu-item><a href=/tech/><span class=menu-item-name>技术</span></a></li><li class=menu-item><a href=/tags/><span class=menu-item-name>标签</span></a></li><li class=menu-item><a href=/about/><span class=menu-item-name>关于</span></a></li><li class=menu-item><a href=/blogroll/><span class=menu-item-name>友链</span></a></li><li class=menu-item><a href=/python/><span class=menu-item-name>Python-100天</span></a></li><li class=menu-item><a id=theme-switcher href=#><span class="icon theme-icon-light">🌞</span><span class="icon theme-icon-dark">🌙</span></a></li></ul></nav></div></div><input type=checkbox id=nav-toggle aria-hidden=true>
+<label for=nav-toggle class=nav-toggle></label>
+<label for=nav-toggle class=nav-curtain></label></header><main class="main single" id=main><div class=main-inner><article class="content post h-entry" data-align=justify data-type=python data-toc-num=true><h1 class="post-title p-name">31-35.玩转Linux操作系统</h1><div class=post-meta><time datetime=2021-08-23T17:34:46+08:00 class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;2021.8.23</time>
+<time datetime=2022-01-16T09:24:35+00:00 class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M4e2 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H48C21.49 64 0 85.49.0 112v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 4e2H54a6 6 0 01-6-6V160h352v298a6 6 0 01-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.1.16</time>
+<span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;17393</span>
+<span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;35&nbsp;分钟</span></div><div class="post-body e-content"><h2 id=玩转linux操作系统><a href=#玩转linux操作系统 class=anchor-link>#</a>玩转Linux操作系统</h2><blockquote><p><strong>说明</strong>：本文中对Linux命令的讲解都是基于名为CentOS的Linux发行版本，我自己使用的是阿里云服务器，系统版本为CentOS Linux release 7.6.1810。不同的Linux发行版本在Shell命令和工具程序上会有一些差别，但是这些差别是很小的。</p></blockquote><h3 id=操作系统发展史><a href=#操作系统发展史 class=anchor-link>#</a>操作系统发展史</h3><p>只有硬件没有软件的计算机系统被称之为“裸机”，我们很难用“裸机”来完成计算机日常的工作（如存储和运算），所以必须用特定的软件来控制硬件的工作。最靠近计算机硬件的软件是系统软件，其中最为重要的就是“操作系统”。“操作系统”是控制和管理整个计算机硬件和软件资源、实现资源分配和任务调配、为系统用户以及其他软件提供接口和环境的程序的集合。</p><h4 id=没有操作系统手工操作><a href=#没有操作系统手工操作 class=anchor-link>#</a>没有操作系统（手工操作）</h4><p>在计算机诞生之初没有操作系统的年代，人们先把程序纸带（或卡片）装上计算机，然后启动输入机把程序送入计算机，接着通过控制台开关启动程序运行。当程序执行完毕，打印机输出计算的结果，用户卸下并取走纸带（或卡片）。第二个用户上机，重复同样的步骤。在整个过程中用户独占机器，CPU等待手工操作，资源利用率极低。</p><h4 id=批处理系统><a href=#批处理系统 class=anchor-link>#</a>批处理系统</h4><p>首先启动计算机上的一个监督程序，在监督程序的控制下，计算机能够自动的、成批的处理一个或多个用户的作业。完成一批作业后，监督程度又从输入机读取作业存入磁带机。按照上面的步骤重复处理任务。监督程序不停的处理各个作业，实现了作业的自动转接，减少了作业的建立时间和手工操作时间，提高了计算机资源的利用率。 批处理系统又可以分为单道批处理系统、多道批处理系统、联机批处理系统、脱机批处理系统。</p><h4 id=分时系统和实时系统><a href=#分时系统和实时系统 class=anchor-link>#</a>分时系统和实时系统</h4><p>分时系统是把处理器的运行时间分成很短的时间片，按时间片轮流把处理机分配给各联机作业使用。 若某个作业在分配给它的时间片内不能完成其计算，则该作业暂时中断，把处理机让给另一作业使用，等待下一轮调度时再继续其运行。由于计算机速度很快，作业运行轮转得很快，给每个用户的感觉是他独占了一台计算机。而每个用户可以通过自己的终端向系统发出各种操作控制命令，在充分的人机交互情况下，完成作业的运行。为了解决分时系统不能及时响应用户指令的情况，又出现了能够在在严格的时间范围内完成事件处理，及时响应随机外部事件的实时系统。</p><h4 id=通用操作系统><a href=#通用操作系统 class=anchor-link>#</a>通用操作系统</h4><ol><li><p>1960s：IBM的System/360系列的机器有了统一的操作系统OS/360。</p></li><li><p>1965年：AT&T的贝尔实验室加入GE和MIT的合作计划开始开发MULTICS。</p></li><li><p>1969年：MULTICS项目失败，Ken Tompson赋闲在家，为了玩“Space Travel”游戏用汇编语言在当时已经被淘汰的PDP-7上开发了Unics。</p><blockquote><p>注：很难想象，Unix这么伟大的系统，居然是一个赋闲在家的程序员（关键是老婆回娘家还带上了孩子）在一台被淘汰的设备上为了玩游戏开发出来的。</p></blockquote></li><li><p>1970年~1971年：Ken Tompson和Dennis Ritchie用B语言在PDP-11上重写了Unics，并在Brian Kernighan的建议下将其更名为Unix。</p><p><img src=/res/ken-and-dennis-pdp-11.png alt></p></li><li><p>1972年~1973年：Dennis Ritchie发明了C语言来取代可移植性较差的B语言，并开启了用C语言重写Unix的工作。</p></li><li><p>1974年：Unix推出了里程碑意义的第5版，几乎完全用C语言来实现。</p></li><li><p>1979年：从Unix第7版开始，AT&T发布新的使用条款，将Unix私有化。</p></li><li><p>1987年：Andrew S. Tanenbaum教授为了能在课堂上为学生讲解操作系统运作的细节，决定在不使用任何AT&T的源代码前提下，自行开发与Unix兼容的操作系统以避免版权上的争议，该系统被命名为Minix。</p><p><img src=/res/andrew.jpg alt></p></li><li><p>1991年：Linus Torvalds就读于芬兰赫尔辛基大学期间，尝试在Minix上做一些开发工作，但因为Minix只是作为教学用途的操作系统，功能并不强大，为了方便在学校的新闻组和邮件系统中读写和下载文件，Linus编写了磁盘驱动程序和文件系统，这些东西形成了Linux系统内核的雏形。</p><p><img src=/res/linus.png alt></p></li></ol><p>下图是Unix操作系统家族的图谱。</p><p><img src=/res/history-of-unix.png alt></p><h3 id=linux概述><a href=#linux概述 class=anchor-link>#</a>Linux概述</h3><p>Linux是一个通用操作系统。一个操作系统要负责任务调度、内存分配、处理外围设备I/O等操作。操作系统通常由内核（运行其他程序，管理像磁盘、打印机等硬件设备的核心程序）和系统程序（设备驱动、底层库、shell、服务程序等）两部分组成。</p><p>Linux内核是芬兰人Linus Torvalds开发的，于1991年9月发布。而Linux操作系统作为Internet时代的产物，它是由全世界许多开发者共同合作开发的，是一个自由的操作系统（注意自由和免费并不是同一个概念，想了解二者的差别可以<a href=https://www.debian.org/intro/free target=_blank rel=noopener>点击这里</a>）。</p><h3 id=linux系统优点><a href=#linux系统优点 class=anchor-link>#</a>Linux系统优点</h3><ol><li>通用操作系统，不跟特定的硬件绑定。</li><li>用C语言编写，可移植性强，有内核编程接口。</li><li>支持多用户和多任务，支持安全的分层文件系统。</li><li>大量的实用程序，完善的网络功能以及强大的支持文档。</li><li>可靠的安全性和良好的稳定性，对开发者更友好。</li></ol><h3 id=linux系统发行版本><a href=#linux系统发行版本 class=anchor-link>#</a>Linux系统发行版本</h3><ol><li><a href=https://www.redhat.com/en target=_blank rel=noopener>Redhat</a></li><li><a href=https://www.ubuntu.com/ target=_blank rel=noopener>Ubuntu</a></li><li><a href=https://www.centos.org/ target=_blank rel=noopener>CentOS</a></li><li><a href=https://getfedora.org/ target=_blank rel=noopener>Fedora</a></li><li><a href=https://www.debian.org/ target=_blank rel=noopener>Debian</a></li><li><a href=https://www.opensuse.org/ target=_blank rel=noopener>openSUSE</a></li></ol><h3 id=基础命令><a href=#基础命令 class=anchor-link>#</a>基础命令</h3><p>Linux系统的命令通常都是如下所示的格式：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>命令名称 <span class=o>[</span>命名参数<span class=o>]</span> <span class=o>[</span>命令对象<span class=o>]</span>
+</code></pre></td></tr></table></div></div></div><ol><li><p>获取登录信息 - <strong>w</strong> / <strong>who</strong> / <strong>last</strong>/ <strong>lastb</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># w</span>
+ 23:31:16 up 12:16,  <span class=m>2</span> users,  load average: 0.00, 0.01, 0.05
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+root     pts/0    182.139.66.250   23:03    4.00s  0.02s  0.00s w
+jackfrue pts/1    182.139.66.250   23:26    3:56   0.00s  0.00s -bash
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># who</span>
+root     pts/0        2018-04-12 23:03 <span class=o>(</span>182.139.66.250<span class=o>)</span>
+jackfrued pts/1        2018-04-12 23:26 <span class=o>(</span>182.139.66.250<span class=o>)</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># who am i</span>
+root     pts/0        2018-04-12 23:03 <span class=o>(</span>182.139.66.250<span class=o>)</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># who mom likes</span>
+root     pts/0        2018-04-12 23:03 <span class=o>(</span>182.139.66.250<span class=o>)</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># last</span>
+root     pts/0        117.136.63.184   Sun May <span class=m>26</span> 18:57   still logged in   
+reboot   system boot  3.10.0-957.10.1. Mon May <span class=m>27</span> 02:52 - 19:10  <span class=o>(</span>-7:-42<span class=o>)</span>   
+root     pts/4        117.136.63.184   Sun May <span class=m>26</span> 18:51 - crash  <span class=o>(</span>08:01<span class=o>)</span>    
+root     pts/4        117.136.63.184   Sun May <span class=m>26</span> 18:49 - 18:49  <span class=o>(</span>00:00<span class=o>)</span>    
+root     pts/3        117.136.63.183   Sun May <span class=m>26</span> 18:35 - crash  <span class=o>(</span>08:17<span class=o>)</span>    
+root     pts/2        117.136.63.183   Sun May <span class=m>26</span> 18:34 - crash  <span class=o>(</span>08:17<span class=o>)</span>    
+root     pts/0        117.136.63.183   Sun May <span class=m>26</span> 18:10 - crash  <span class=o>(</span>08:42<span class=o>)</span>    
+</code></pre></td></tr></table></div></div></div></li><li><p>查看自己使用的Shell - <strong>ps</strong>。</p><p>Shell也被称为“壳”或“壳程序”，它是用户与操作系统内核交流的翻译官，简单的说就是人与计算机交互的界面和接口。目前很多Linux系统默认的Shell都是bash（<u>B</u>ourne <u>A</u>gain <u>SH</u>ell），因为它可以使用tab键进行命令和路径补全、可以保存历史命令、可以方便的配置环境变量以及执行批处理操作。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># ps</span>
+  PID TTY          TIME CMD
+ <span class=m>3531</span> pts/0    00:00:00 bash
+ <span class=m>3553</span> pts/0    00:00:00 ps
+</code></pre></td></tr></table></div></div></div></li><li><p>查看命令的说明和位置 - <strong>whatis</strong> / <strong>which</strong> / <strong>whereis</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># whatis ps</span>
+ps <span class=o>(</span>1<span class=o>)</span>        - report a snapshot of the current processes.
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># whatis python</span>
+python <span class=o>(</span>1<span class=o>)</span>    - an interpreted, interactive, object-oriented programming language
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># whereis ps</span>
+ps: /usr/bin/ps /usr/share/man/man1/ps.1.gz
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># whereis python</span>
+python: /usr/bin/python /usr/bin/python2.7 /usr/lib/python2.7 /usr/lib64/python2.7 /etc/python /usr/include/python2.7 /usr/share/man/man1/python.1.gz
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># which ps</span>
+/usr/bin/ps
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># which python</span>
+/usr/bin/python
+</code></pre></td></tr></table></div></div></div></li><li><p>清除屏幕上显示的内容 - <strong>clear</strong>。</p></li><li><p>查看帮助文档 - <strong>man</strong> / <strong>info</strong> / <strong>--help</strong> / <strong>apropos</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root@izwz97tbgo9lkabnat2lo8z ~<span class=o>]</span><span class=c1># ps --help</span>
+Usage:
+ ps <span class=o>[</span>options<span class=o>]</span>
+ Try <span class=s1>&#39;ps --help &lt;simple|list|output|threads|misc|all&gt;&#39;</span>
+  or <span class=s1>&#39;ps --help &lt;s|l|o|t|m|a&gt;&#39;</span>
+ <span class=k>for</span> additional <span class=nb>help</span> text.
+For more details see ps<span class=o>(</span>1<span class=o>)</span>.
+<span class=o>[</span>root@izwz97tbgo9lkabnat2lo8z ~<span class=o>]</span><span class=c1># man ps</span>
+PS<span class=o>(</span>1<span class=o>)</span>                                User Commands                                PS<span class=o>(</span>1<span class=o>)</span>
+NAME
+       ps - report a snapshot of the current processes.
+SYNOPSIS
+       ps <span class=o>[</span>options<span class=o>]</span>
+DESCRIPTION
+...
+</code></pre></td></tr></table></div></div></div></li><li><p>查看系统和主机名 - <strong>uname</strong> / <strong>hostname</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root@izwz97tbgo9lkabnat2lo8z ~<span class=o>]</span><span class=c1># uname</span>
+Linux
+<span class=o>[</span>root@izwz97tbgo9lkabnat2lo8z ~<span class=o>]</span><span class=c1># hostname</span>
+izwz97tbgo9lkabnat2lo8z
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># cat /etc/centos-release</span>
+CentOS Linux release 7.6.1810 <span class=o>(</span>Core<span class=o>)</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：<code>cat</code>是连接文件内容并打印到标准输出的命令，后面会讲到该命令；<code>/etc</code>是Linux系统上的一个非常重要的目录，它保存了很多的配置文件；<code>centos-release</code>是该目录下的一个文件，因为我自己使用的Linux发行版本是CentOS 7.6，因此这里会有一个这样的文件。</p></blockquote></li><li><p>时间和日期 - <strong>date</strong> / <strong>cal</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># date</span>
+Wed Jun <span class=m>20</span> 12:53:19 CST <span class=m>2018</span>
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># cal</span>
+      June <span class=m>2018</span>
+Su Mo Tu We Th Fr Sa
+                <span class=m>1</span>  <span class=m>2</span>
+ <span class=m>3</span>  <span class=m>4</span>  <span class=m>5</span>  <span class=m>6</span>  <span class=m>7</span>  <span class=m>8</span>  <span class=m>9</span>
+<span class=m>10</span> <span class=m>11</span> <span class=m>12</span> <span class=m>13</span> <span class=m>14</span> <span class=m>15</span> <span class=m>16</span>
+<span class=m>17</span> <span class=m>18</span> <span class=m>19</span> <span class=m>20</span> <span class=m>21</span> <span class=m>22</span> <span class=m>23</span>
+<span class=m>24</span> <span class=m>25</span> <span class=m>26</span> <span class=m>27</span> <span class=m>28</span> <span class=m>29</span> <span class=m>30</span>
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># cal 5 2017</span>
+      May <span class=m>2017</span>
+Su Mo Tu We Th Fr Sa
+    <span class=m>1</span>  <span class=m>2</span>  <span class=m>3</span>  <span class=m>4</span>  <span class=m>5</span>  <span class=m>6</span>
+ <span class=m>7</span>  <span class=m>8</span>  <span class=m>9</span> <span class=m>10</span> <span class=m>11</span> <span class=m>12</span> <span class=m>13</span>
+<span class=m>14</span> <span class=m>15</span> <span class=m>16</span> <span class=m>17</span> <span class=m>18</span> <span class=m>19</span> <span class=m>20</span>
+<span class=m>21</span> <span class=m>22</span> <span class=m>23</span> <span class=m>24</span> <span class=m>25</span> <span class=m>26</span> <span class=m>27</span>
+<span class=m>28</span> <span class=m>29</span> <span class=m>30</span> <span class=m>31</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>重启和关机 - <strong>reboot</strong> / <strong>shutdown</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># shutdown -h +5</span>
+Shutdown scheduled <span class=k>for</span> Sun 2019-05-26 19:34:27 CST, use <span class=s1>&#39;shutdown -c&#39;</span> to cancel.
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># </span>
+Broadcast message from root <span class=o>(</span>Sun 2019-05-26 19:29:27 CST<span class=o>)</span>:
+
+The system is going down <span class=k>for</span> power-off at Sun 2019-05-26 19:34:27 CST!
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># shutdown -c</span>
+
+Broadcast message from root <span class=o>(</span>Sun 2019-05-26 19:30:22 CST<span class=o>)</span>:
+
+The system shutdown has been cancelled at Sun 2019-05-26 19:31:22 CST!
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># shutdown -r 23:58</span>
+Shutdown scheduled <span class=k>for</span> Sun 2019-05-26 23:58:00 CST, use <span class=s1>&#39;shutdown -c&#39;</span> to cancel.
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># shutdown -c</span>
+
+Broadcast message from root <span class=o>(</span>Sun 2019-05-26 19:31:06 CST<span class=o>)</span>:
+
+The system shutdown has been cancelled at Sun 2019-05-26 19:32:06 CST!
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：在执行<code>shutdown</code>命令时会向登录系统的用户发出警告，可以在命令后面跟上警告消息来替换默认的警告消息，也可以在<code>-h</code>参数后通过<code>now</code>来表示立刻关机。</p></blockquote></li><li><p>退出登录 - <strong>exit</strong> / <strong>logout</strong>。</p></li><li><p>查看历史命令 - <strong>history</strong>。</p></li></ol><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># history</span>
+...
+<span class=m>452</span>  ls
+<span class=m>453</span>  <span class=nb>cd</span> Python-3.6.5/
+<span class=m>454</span>  clear
+<span class=m>455</span>  <span class=nb>history</span>
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># !454</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：查看到历史命令之后，可以用<code>!历史命令编号</code>来重新执行该命令；通过<code>history -c</code>可以清除历史命令。</p></blockquote><h3 id=实用程序><a href=#实用程序 class=anchor-link>#</a>实用程序</h3><h4 id=文件和文件夹操作><a href=#文件和文件夹操作 class=anchor-link>#</a>文件和文件夹操作</h4><ol><li><p>创建/删除空目录 - <strong>mkdir</strong> / <strong>rmdir</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># mkdir abc</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># mkdir -p xyz/abc</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># rmdir abc</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>创建/删除文件 - <strong>touch</strong> / <strong>rm</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># touch readme.txt</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># touch error.txt</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># rm error.txt</span>
+rm: remove regular empty file ‘error.txt’? y
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># rm -rf xyz</span>
+</code></pre></td></tr></table></div></div></div><ul><li><code>touch</code>命令用于创建空白文件或修改文件时间。在Linux系统中一个文件有三种时间：<ul><li>更改内容的时间 - mtime。</li><li>更改权限的时间 - ctime。</li><li>最后访问时间 - atime。</li></ul></li><li><code>rm</code>的几个重要参数：<ul><li><code>-i</code>：交互式删除，每个删除项都会进行询问。</li><li><code>-r</code>：删除目录并递归的删除目录中的文件和目录。</li><li><code>-f</code>：强制删除，忽略不存在的文件，没有任何提示。</li></ul></li></ul></li><li><p>切换和查看当前工作目录 - <strong>cd</strong> / <strong>pwd</strong>。</p><blockquote><p>说明：<code>cd</code>命令后面可以跟相对路径（以当前路径作为参照）或绝对路径（以<code>/</code>开头）来切换到指定的目录，也可以用<code>cd ..</code>来返回上一级目录。请大家想一想，如果要返回到上上一级目录应该给<code>cd</code>命令加上什么样的参数呢？</p></blockquote></li><li><p>查看目录内容 - <strong>ls</strong>。</p><ul><li><code>-l</code>：以长格式查看文件和目录。</li><li><code>-a</code>：显示以点开头的文件和目录（隐藏文件）。</li><li><code>-R</code>：遇到目录要进行递归展开（继续列出目录下面的文件和目录）。</li><li><code>-d</code>：只列出目录，不列出其他内容。</li><li><code>-S</code> / <code>-t</code>：按大小/时间排序。</li></ul></li><li><p>查看文件内容 - <strong>cat</strong> / <strong>tac</strong> / <strong>head</strong> / <strong>tail</strong> / <strong>more</strong> / <strong>less</strong> / <strong>rev</strong> / <strong>od</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># wget http://www.sohu.com/ -O sohu.html</span>
+--2018-06-20 18:42:34--  http://www.sohu.com/
+Resolving www.sohu.com <span class=o>(</span>www.sohu.com<span class=o>)</span>... 14.18.240.6
+Connecting to www.sohu.com <span class=o>(</span>www.sohu.com<span class=o>)</span><span class=p>|</span>14.18.240.6<span class=p>|</span>:80... connected.
+HTTP request sent, awaiting response... <span class=m>200</span> OK
+Length: <span class=m>212527</span> <span class=o>(</span>208K<span class=o>)</span> <span class=o>[</span>text/html<span class=o>]</span>
+Saving to: ‘sohu.html’
+100%<span class=o>[==================================================</span>&gt;<span class=o>]</span> 212,527     --.-K/s   in 0.03s
+2018-06-20 18:42:34 <span class=o>(</span>7.48 MB/s<span class=o>)</span> - ‘sohu.html’ saved <span class=o>[</span>212527/212527<span class=o>]</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># cat sohu.html</span>
+...
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># head -10 sohu.html</span>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;搜狐&lt;/title&gt;
+&lt;meta <span class=nv>name</span><span class=o>=</span><span class=s2>&#34;Keywords&#34;</span> <span class=nv>content</span><span class=o>=</span><span class=s2>&#34;搜狐,门户网站,新媒体,网络媒体,新闻,财经,体育,娱乐,时尚,汽车,房产,科技,图片,论坛,微博,博客,视频,电影,电视剧&#34;</span>/&gt;
+&lt;meta <span class=nv>name</span><span class=o>=</span><span class=s2>&#34;Description&#34;</span> <span class=nv>content</span><span class=o>=</span><span class=s2>&#34;搜狐网为用户提供24小时不间断的最新资讯，及搜索、邮件等网络服务。内容包括全球热点事件、突发新闻、时事评论、热播影视剧、体育赛事、行业动态、生活服务信息，以及论坛、博客、微博、我的搜狐等互动空间。&#34;</span> /&gt;
+&lt;meta <span class=nv>name</span><span class=o>=</span><span class=s2>&#34;shenma-site-verification&#34;</span> <span class=nv>content</span><span class=o>=</span><span class=s2>&#34;1237e4d02a3d8d73e96cbd97b699e9c3_1504254750&#34;</span>&gt;
+&lt;meta <span class=nv>charset</span><span class=o>=</span><span class=s2>&#34;utf-8&#34;</span>/&gt;
+&lt;meta http-equiv<span class=o>=</span><span class=s2>&#34;X-UA-Compatible&#34;</span> <span class=nv>content</span><span class=o>=</span><span class=s2>&#34;IE=Edge,chrome=1&#34;</span>/&gt;
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># tail -2 sohu.html</span>
+&lt;/body&gt;
+&lt;/html&gt;
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># less sohu.html</span>
+...
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># cat -n sohu.html | more</span>
+...
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：上面用到了一个名为<code>wget</code>的命令，它是一个网络下载器程序，可以从指定的URL下载资源。</p></blockquote></li><li><p>拷贝/移动文件 - <strong>cp</strong> / <strong>mv</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># mkdir backup</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># cp sohu.html backup/</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># cd backup</span>
+<span class=o>[</span>root backup<span class=o>]</span><span class=c1># ls</span>
+sohu.html
+<span class=o>[</span>root backup<span class=o>]</span><span class=c1># mv sohu.html sohu_index.html</span>
+<span class=o>[</span>root backup<span class=o>]</span><span class=c1># ls</span>
+sohu_index.html
+</code></pre></td></tr></table></div></div></div></li><li><p>文件重命名 - <strong>rename</strong>。</p></li></ol><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># rename .htm .html *.htm</span>
+</code></pre></td></tr></table></div></div></div><ol start=8><li><p>查找文件和查找内容 - <strong>find</strong> / <strong>grep</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># find / -name &#34;*.html&#34;</span>
+/root/sohu.html
+/root/backup/sohu_index.html
+<span class=o>[</span>root@izwz97tbgo9lkabnat2lo8z ~<span class=o>]</span><span class=c1># find . -atime 7 -type f -print</span>
+<span class=o>[</span>root@izwz97tbgo9lkabnat2lo8z ~<span class=o>]</span><span class=c1># find . -type f -size +2k</span>
+<span class=o>[</span>root@izwz97tbgo9lkabnat2lo8z ~<span class=o>]</span><span class=c1># find . -type f -name &#34;*.swp&#34; -delete</span>
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># grep &#34;&lt;script&gt;&#34; sohu.html -n</span>
+20:&lt;script&gt;
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># grep -E \&lt;\/?script.*\&gt; sohu.html -n</span>
+20:&lt;script&gt;
+22:&lt;/script&gt;
+24:&lt;script <span class=nv>src</span><span class=o>=</span><span class=s2>&#34;//statics.itc.cn/web/v3/static/js/es5-shim-08e41cfc3e.min.js&#34;</span>&gt;&lt;/script&gt;
+25:&lt;script <span class=nv>src</span><span class=o>=</span><span class=s2>&#34;//statics.itc.cn/web/v3/static/js/es5-sham-1d5fa1124b.min.js&#34;</span>&gt;&lt;/script&gt;
+26:&lt;script <span class=nv>src</span><span class=o>=</span><span class=s2>&#34;//statics.itc.cn/web/v3/static/js/html5shiv-21fc8c2ba6.js&#34;</span>&gt;&lt;/script&gt;
+29:&lt;script <span class=nv>type</span><span class=o>=</span><span class=s2>&#34;text/javascript&#34;</span>&gt;
+52:&lt;/script&gt;
+...
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：<code>grep</code>在搜索字符串时可以使用正则表达式，如果需要使用正则表达式可以用<code>grep -E</code>或者直接使用<code>egrep</code>。</p></blockquote></li><li><p>创建链接和查看链接 - <strong>ln</strong> / <strong>readlink</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># ls -l sohu.html</span>
+-rw-r--r-- <span class=m>1</span> root root <span class=m>212131</span> Jun <span class=m>20</span> 19:15 sohu.html
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># ln /root/sohu.html /root/backup/sohu_backup</span>
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># ls -l sohu.html</span>
+-rw-r--r-- <span class=m>2</span> root root <span class=m>212131</span> Jun <span class=m>20</span> 19:15 sohu.html
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># ln /root/sohu.html /root/backup/sohu_backup2</span>
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># ls -l sohu.html</span>
+-rw-r--r-- <span class=m>3</span> root root <span class=m>212131</span> Jun <span class=m>20</span> 19:15 sohu.html
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># ln -s /etc/centos-release sysinfo</span>
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># ls -l sysinfo</span>
+lrwxrwxrwx <span class=m>1</span> root root <span class=m>19</span> Jun <span class=m>20</span> 19:21 sysinfo -&gt; /etc/centos-release
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># cat sysinfo</span>
+CentOS Linux release 7.4.1708 <span class=o>(</span>Core<span class=o>)</span>
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># cat /etc/centos-release</span>
+CentOS Linux release 7.4.1708 <span class=o>(</span>Core<span class=o>)</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：链接可以分为硬链接和软链接（符号链接）。硬链接可以认为是一个指向文件数据的指针，就像Python中对象的引用计数，每添加一个硬链接，文件的对应链接数就增加1，只有当文件的链接数为0时，文件所对应的存储空间才有可能被其他文件覆盖。我们平常删除文件时其实并没有删除硬盘上的数据，我们删除的只是一个指针，或者说是数据的一条使用记录，所以类似于“文件粉碎机”之类的软件在“粉碎”文件时除了删除文件指针，还会在文件对应的存储区域填入数据来保证文件无法再恢复。软链接类似于Windows系统下的快捷方式，当软链接链接的文件被删除时，软链接也就失效了。</p></blockquote></li><li><p>压缩/解压缩和归档/解归档 - <strong>gzip</strong> / <strong>gunzip</strong> / <strong>xz</strong>。</p></li></ol><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># wget http://download.redis.io/releases/redis-4.0.10.tar.gz</span>
+--2018-06-20 19:29:59--  http://download.redis.io/releases/redis-4.0.10.tar.gz
+Resolving download.redis.io <span class=o>(</span>download.redis.io<span class=o>)</span>... 109.74.203.151
+Connecting to download.redis.io <span class=o>(</span>download.redis.io<span class=o>)</span><span class=p>|</span>109.74.203.151<span class=p>|</span>:80... connected.
+HTTP request sent, awaiting response... <span class=m>200</span> OK
+Length: <span class=m>1738465</span> <span class=o>(</span>1.7M<span class=o>)</span> <span class=o>[</span>application/x-gzip<span class=o>]</span>
+Saving to: ‘redis-4.0.10.tar.gz’
+100%<span class=o>[==================================================</span>&gt;<span class=o>]</span> 1,738,465   70.1KB/s   in 74s
+2018-06-20 19:31:14 <span class=o>(</span>22.9 KB/s<span class=o>)</span> - ‘redis-4.0.10.tar.gz’ saved <span class=o>[</span>1738465/1738465<span class=o>]</span>
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># ls redis*</span>
+redis-4.0.10.tar.gz
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># gunzip redis-4.0.10.tar.gz</span>
+<span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># ls redis*</span>
+redis-4.0.10.tar
+</code></pre></td></tr></table></div></div></div><ol start=11><li>归档和解归档 - <strong>tar</strong>。</li></ol><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># tar -xvf redis-4.0.10.tar</span>
+redis-4.0.10/
+redis-4.0.10/.gitignore
+redis-4.0.10/00-RELEASENOTES
+redis-4.0.10/BUGS
+redis-4.0.10/CONTRIBUTING
+redis-4.0.10/COPYING
+redis-4.0.10/INSTALL
+redis-4.0.10/MANIFESTO
+redis-4.0.10/Makefile
+redis-4.0.10/README.md
+redis-4.0.10/deps/
+redis-4.0.10/deps/Makefile
+redis-4.0.10/deps/README.md
+...
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：归档（也称为创建归档）和解归档都使用<code>tar</code>命令，通常创建归档需要<code>-cvf</code>三个参数，其中<code>c</code>表示创建（create），<code>v</code>表示显示创建归档详情（verbose），<code>f</code>表示指定归档的文件（file）；解归档需要加上<code>-xvf</code>参数，其中<code>x</code>表示抽取（extract），其他两个参数跟创建归档相同。</p></blockquote><ol start=12><li>将标准输入转成命令行参数 - <strong>xargs</strong>。</li></ol><p>下面的命令会将查找当前路径下的html文件，然后通过<code>xargs</code>将这些文件作为参数传给<code>rm</code>命令，实现查找并删除文件的操作。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># find . -type f -name &#34;*.html&#34; | xargs rm -f</span>
+</code></pre></td></tr></table></div></div></div><p>下面的命令将a.txt文件中的多行内容变成一行输出到b.txt文件中，其中<code>&lt;</code>表示从a.txt中读取输入，<code>></code>表示将命令的执行结果输出到b.txt中。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root@iZwz97tbgo9lkabnat2lo8Z ~<span class=o>]</span><span class=c1># xargs &lt; a.txt &gt; b.txt</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：这个命令就像上面演示的那样常在管道（实现进程间通信的一种方式）和重定向（重新指定输入输出的位置）操作中用到，后面的内容中会讲到管道操作和输入输出重定向操作。</p></blockquote><ol start=13><li><p>显示文件或目录 - <strong>basename</strong> / <strong>dirname</strong>。</p></li><li><p>其他相关工具。</p></li></ol><ul><li><strong>sort</strong> - 对内容排序</li><li><strong>uniq</strong> - 去掉相邻重复内容</li><li><strong>tr</strong> - 替换指定内容为新内容</li><li><strong>cut</strong> / <strong>paste</strong> - 剪切/黏贴内容</li><li><strong>split</strong> - 拆分文件</li><li><strong>file</strong> - 判断文件类型</li><li><strong>wc</strong> - 统计文件行数、单词数、字节数</li><li><strong>iconv</strong> - 编码转换</li></ul><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># cat foo.txt</span>
+grape
+apple
+pitaya
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># cat bar.txt</span>
+<span class=m>100</span>
+<span class=m>200</span>
+<span class=m>300</span>
+<span class=m>400</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># paste foo.txt bar.txt</span>
+grape   <span class=m>100</span>
+apple   <span class=m>200</span>
+pitaya  <span class=m>300</span>
+        <span class=m>400</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># paste foo.txt bar.txt &gt; hello.txt</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># cut -b 4-8 hello.txt</span>
+pe      <span class=m>10</span>
+le      <span class=m>20</span>
+aya     <span class=m>3</span>
+<span class=m>0</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># cat hello.txt | tr &#39;\t&#39; &#39;,&#39;</span>
+grape,100
+apple,200
+pitaya,300
+,400
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># split -l 100 sohu.html hello</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># wget https://www.baidu.com/img/bd_logo1.png</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># file bd_logo1.png</span>
+bd_logo1.png: PNG image data, <span class=m>540</span> x 258, 8-bit colormap, non-interlaced
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># wc sohu.html</span>
+  <span class=m>2979</span>   <span class=m>6355</span> <span class=m>212527</span> sohu.html
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># wc -l sohu.html</span>
+<span class=m>2979</span> sohu.html
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># wget http://www.qq.com -O qq.html</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># iconv -f gb2312 -t utf-8 qq.html</span>
+</code></pre></td></tr></table></div></div></div><h4 id=管道和重定向><a href=#管道和重定向 class=anchor-link>#</a>管道和重定向</h4><ol><li><p>管道的使用 - <strong>|</strong>。</p><p>例子：查找当前目录下文件个数。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># find ./ | wc -l</span>
+<span class=m>6152</span>
+</code></pre></td></tr></table></div></div></div><p>例子：列出当前路径下的文件和文件夹，给每一项加一个编号。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># ls | cat -n</span>
+     <span class=m>1</span>  dump.rdb
+     <span class=m>2</span>  mongodb-3.6.5
+     <span class=m>3</span>  Python-3.6.5
+     <span class=m>4</span>  redis-3.2.11
+     <span class=m>5</span>  redis.conf
+</code></pre></td></tr></table></div></div></div><p>例子：查找record.log中包含AAA，但不包含BBB的记录的总数</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># cat record.log | grep AAA | grep -v BBB | wc -l</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>输出重定向和错误重定向 - <strong>></strong> / <strong>>></strong> / <strong>2></strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># cat readme.txt</span>
+banana
+apple
+grape
+apple
+grape
+watermelon
+pear
+pitaya
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># cat readme.txt | sort | uniq &gt; result.txt</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># cat result.txt</span>
+apple
+banana
+grape
+pear
+pitaya
+watermelon
+</code></pre></td></tr></table></div></div></div></li><li><p>输入重定向 - <strong>&lt;</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># echo &#39;hello, world!&#39; &gt; hello.txt</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># wall &lt; hello.txt</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1>#</span>
+Broadcast message from root <span class=o>(</span>Wed Jun <span class=m>20</span> 19:43:05 2018<span class=o>)</span>:
+hello, world!
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># echo &#39;I will show you some code.&#39; &gt;&gt; hello.txt</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># wall &lt; hello.txt</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1>#</span>
+Broadcast message from root <span class=o>(</span>Wed Jun <span class=m>20</span> 19:43:55 2018<span class=o>)</span>:
+hello, world!
+I will show you some code.
+</code></pre></td></tr></table></div></div></div></li><li><p>多重定向 - <strong>tee</strong>。</p><p>下面的命令除了在终端显示命令<code>ls</code>的结果之外，还会追加输出到<code>ls.txt</code>文件中。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># ls | tee -a ls.txt</span>
+</code></pre></td></tr></table></div></div></div></li></ol><h4 id=别名><a href=#别名 class=anchor-link>#</a>别名</h4><ol><li><p><strong>alias</strong></p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># alias ll=&#39;ls -l&#39;</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># alias frm=&#39;rm -rf&#39;</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># ll</span>
+...
+drwxr-xr-x  <span class=m>2</span> root       root   <span class=m>4096</span> Jun <span class=m>20</span> 12:52 abc
+...
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># frm abc</span>
+</code></pre></td></tr></table></div></div></div></li><li><p><strong>unalias</strong></p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># unalias frm</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># frm sohu.html</span>
+-bash: frm: <span class=nb>command</span> not found
+</code></pre></td></tr></table></div></div></div></li></ol><h4 id=文本处理><a href=#文本处理 class=anchor-link>#</a>文本处理</h4><ol><li><p>字符流编辑器 - <strong>sed</strong>。</p><p>sed是操作、过滤和转换文本内容的工具。假设有一个名为fruit.txt的文件，内容如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># cat -n fruit.txt </span>
+     <span class=m>1</span>  banana
+     <span class=m>2</span>  grape
+     <span class=m>3</span>  apple
+     <span class=m>4</span>  watermelon
+     <span class=m>5</span>  orange
+</code></pre></td></tr></table></div></div></div><p>接下来，我们在第2行后面添加一个pitaya。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># sed &#39;2a pitaya&#39; fruit.txt </span>
+banana
+grape
+pitaya
+apple
+watermelon
+orange
+</code></pre></td></tr></table></div></div></div><blockquote><p>注意：刚才的命令和之前我们讲过的很多命令一样并没有改变fruit.txt文件，而是将添加了新行的内容输出到终端中，如果想保存到fruit.txt中，可以使用输出重定向操作。</p></blockquote><p>在第2行前面插入一个waxberry。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># sed &#39;2i waxberry&#39; fruit.txt</span>
+banana
+waxberry
+grape
+apple
+watermelon
+orange
+</code></pre></td></tr></table></div></div></div><p>删除第3行。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># sed &#39;3d&#39; fruit.txt</span>
+banana
+grape
+watermelon
+orange
+</code></pre></td></tr></table></div></div></div><p>删除第2行到第4行。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># sed &#39;2,4d&#39; fruit.txt</span>
+banana
+orange
+</code></pre></td></tr></table></div></div></div><p>将文本中的字符a替换为@。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># sed &#39;s#a#@#&#39; fruit.txt </span>
+b@nana
+gr@pe
+@pple
+w@termelon
+or@nge
+</code></pre></td></tr></table></div></div></div><p>将文本中的字符a替换为@，使用全局模式。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># sed &#39;s#a#@#g&#39; fruit.txt </span>
+b@n@n@
+gr@pe
+@pple
+w@termelon
+or@nge
+</code></pre></td></tr></table></div></div></div></li><li><p>模式匹配和处理语言 - <strong>awk</strong>。</p><p>awk是一种编程语言，也是Linux系统中处理文本最为强大的工具，它的作者之一和现在的维护者就是之前提到过的Brian Kernighan（ken和dmr最亲密的伙伴）。通过该命令可以从文本中提取出指定的列、用正则表达式从文本中取出我们想要的内容、显示指定的行以及进行统计和运算，总之它非常强大。</p><p>假设有一个名为fruit2.txt的文件，内容如下所示。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># cat fruit2.txt </span>
+<span class=m>1</span>       banana      <span class=m>120</span>
+<span class=m>2</span>       grape       <span class=m>500</span>
+<span class=m>3</span>       apple       <span class=m>1230</span>
+<span class=m>4</span>       watermelon  <span class=m>80</span>
+<span class=m>5</span>       orange      <span class=m>400</span>
+</code></pre></td></tr></table></div></div></div><p>显示文件的第3行。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># awk &#39;NR==3&#39; fruit2.txt </span>
+<span class=m>3</span>       apple       <span class=m>1230</span>
+</code></pre></td></tr></table></div></div></div><p>显示文件的第2列。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># awk &#39;{print $2}&#39; fruit2.txt </span>
+banana
+grape
+apple
+watermelon
+orange
+</code></pre></td></tr></table></div></div></div><p>显示文件的最后一列。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># awk &#39;{print $NF}&#39; fruit2.txt </span>
+<span class=m>120</span>
+<span class=m>500</span>
+<span class=m>1230</span>
+<span class=m>80</span>
+<span class=m>400</span>
+</code></pre></td></tr></table></div></div></div><p>输出末尾数字大于等于300的行。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># awk &#39;{if($3 &gt;= 300) {print $0}}&#39; fruit2.txt </span>
+<span class=m>2</span>       grape       <span class=m>500</span>
+<span class=m>3</span>       apple       <span class=m>1230</span>
+<span class=m>5</span>       orange      <span class=m>400</span>
+</code></pre></td></tr></table></div></div></div><p>上面展示的只是awk命令的冰山一角，更多的内容留给读者自己在实践中去探索。</p></li></ol><h3 id=用户管理><a href=#用户管理 class=anchor-link>#</a>用户管理</h3><ol><li><p>创建和删除用户 - <strong>useradd</strong> / <strong>userdel</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root home<span class=o>]</span><span class=c1># useradd hellokitty</span>
+<span class=o>[</span>root home<span class=o>]</span><span class=c1># userdel hellokitty</span>
+</code></pre></td></tr></table></div></div></div><ul><li><code>-d</code> - 创建用户时为用户指定用户主目录</li><li><code>-g</code> - 创建用户时指定用户所属的用户组</li></ul></li><li><p>创建和删除用户组 - <strong>groupadd</strong> / <strong>groupdel</strong>。</p><blockquote><p>说明：用户组主要是为了方便对一个组里面所有用户的管理。</p></blockquote></li><li><p>修改密码 - <strong>passwd</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># passwd hellokitty</span>
+New password: 
+Retype new password: 
+passwd: all authentication tokens updated successfully.
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：输入密码和确认密码没有回显且必须一气呵成的输入完成（不能使用退格键），密码和确认密码需要一致。如果使用<code>passwd</code>命令时没有指定命令作用的对象，则表示要修改当前用户的密码。如果想批量修改用户密码，可以使用<code>chpasswd</code>命令。</p></blockquote><ul><li><code>-l</code> / <code>-u</code> - 锁定/解锁用户。</li><li><code>-d</code> - 清除用户密码。</li><li><code>-e</code> - 设置密码立即过期，用户登录时会强制要求修改密码。</li><li><code>-i</code> - 设置密码过期多少天以后禁用该用户。</li></ul></li><li><p>查看和修改密码有效期 - <strong>chage</strong>。</p><p>设置hellokitty用户100天后必须修改密码，过期前15天通知该用户，过期后15天禁用该用户。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>chage -M <span class=m>100</span> -W <span class=m>15</span> -I <span class=m>7</span> hellokitty
+</code></pre></td></tr></table></div></div></div></li><li><p>切换用户 - <strong>su</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># su hellokitty</span>
+<span class=o>[</span>hellokitty root<span class=o>]</span>$
+</code></pre></td></tr></table></div></div></div></li><li><p>以管理员身份执行命令 - <strong>sudo</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>hellokitty ~<span class=o>]</span>$ ls /root
+ls: cannot open directory /root: Permission denied
+<span class=o>[</span>hellokitty ~<span class=o>]</span>$ sudo ls /root
+<span class=o>[</span>sudo<span class=o>]</span> password <span class=k>for</span> hellokitty:
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：如果希望用户能够以管理员身份执行命令，用户必须要出现在sudoers名单中，sudoers文件在 <code>/etc</code>目录下，如果希望直接编辑该文件也可以使用下面的命令。</p></blockquote></li><li><p>编辑sudoers文件 - <strong>visudo</strong>。</p><p>这里使用的编辑器是vi，关于vi的知识在后面有讲解。该文件的部分内容如下所示：</p><pre tabindex=0><code>## Allow root to run any commands anywhere 
+root    ALL=(ALL)   ALL
+
+## Allows members of the 'sys' group to run networking, software, 
+## service management apps and more.
+# %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS
+## Allows people in group wheel to run all commands
+%wheel  ALL=(ALL)   ALL
+
+## Same thing without a password
+# %wheel    ALL=(ALL)   NOPASSWD: ALL
+
+## Allows members of the users group to mount and unmount the
+## cdrom as root
+# %users  ALL=/sbin/mount /mnt/cdrom, /sbin/umount /mnt/cdrom
+
+## Allows members of the users group to shutdown this system
+# %users  localhost=/sbin/shutdown -h now
+</code></pre></li><li><p>显示用户与用户组的信息 - <strong>id</strong>。</p></li><li><p>给其他用户发消息 -<strong>write</strong> / <strong>wall</strong>。</p><p>发送方：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># write hellokitty</span>
+Dinner is on me.
+Call me at 6pm.
+</code></pre></td></tr></table></div></div></div><p>接收方：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>hellokitty ~<span class=o>]</span>$ 
+Message from root on pts/0 at 17:41 ...
+Dinner is on me.
+Call me at 6pm.
+EOF
+</code></pre></td></tr></table></div></div></div></li><li><p>查看/设置是否接收其他用户发送的消息 - <strong>mesg</strong>。</p></li></ol><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>hellokitty ~<span class=o>]</span>$ mesg
+is y
+<span class=o>[</span>hellokitty ~<span class=o>]</span>$ mesg n
+<span class=o>[</span>hellokitty ~<span class=o>]</span>$ mesg
+is n
+</code></pre></td></tr></table></div></div></div><h3 id=文件系统><a href=#文件系统 class=anchor-link>#</a>文件系统</h3><h4 id=文件和路径><a href=#文件和路径 class=anchor-link>#</a>文件和路径</h4><ol><li>命名规则：文件名的最大长度与文件系统类型有关，一般情况下，文件名不应该超过255个字符，虽然绝大多数的字符都可以用于文件名，但是最好使用英文大小写字母、数字、下划线、点这样的符号。文件名中虽然可以使用空格，但应该尽可能避免使用空格，否则在输入文件名时需要用将文件名放在双引号中或者通过<code>\</code>对空格进行转义。</li><li>扩展名：在Linux系统下文件的扩展名是可选的，但是使用扩展名有助于对文件内容的理解。有些应用程序要通过扩展名来识别文件，但是更多的应用程序并不依赖文件的扩展名，就像<code>file</code>命令在识别文件时并不是依据扩展名来判定文件的类型。</li><li>隐藏文件：以点开头的文件在Linux系统中是隐藏文件（不可见文件）。</li></ol><h4 id=目录结构><a href=#目录结构 class=anchor-link>#</a>目录结构</h4><ol><li>/bin - 基本命令的二进制文件。</li><li>/boot - 引导加载程序的静态文件。</li><li>/dev - 设备文件。</li><li><strong>/etc</strong> - 配置文件。</li><li>/home - 普通用户主目录的父目录。</li><li>/lib - 共享库文件。</li><li>/lib64 - 共享64位库文件。</li><li>/lost+found - 存放未链接文件。</li><li>/media - 自动识别设备的挂载目录。</li><li>/mnt - 临时挂载文件系统的挂载点。</li><li>/opt - 可选插件软件包安装位置。</li><li>/proc - 内核和进程信息。</li><li><strong>/root</strong> - 超级管理员用户主目录。</li><li>/run - 存放系统运行时需要的东西。</li><li>/sbin - 超级用户的二进制文件。</li><li>/sys - 设备的伪文件系统。</li><li>/tmp - 临时文件夹。</li><li><strong>/usr</strong> - 用户应用目录。</li><li>/var - 变量数据目录。</li></ol><h4 id=访问权限><a href=#访问权限 class=anchor-link>#</a>访问权限</h4><ol><li><p><strong>chmod</strong> - 改变文件模式比特。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># ls -l</span>
+...
+-rw-r--r--  <span class=m>1</span> root       root <span class=m>211878</span> Jun <span class=m>19</span> 16:06 sohu.html
+...
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># chmod g+w,o+w sohu.html</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># ls -l</span>
+...
+-rw-rw-rw-  <span class=m>1</span> root       root <span class=m>211878</span> Jun <span class=m>19</span> 16:06 sohu.html
+...
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># chmod 644 sohu.html</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># ls -l</span>
+...
+-rw-r--r--  <span class=m>1</span> root       root <span class=m>211878</span> Jun <span class=m>19</span> 16:06 sohu.html
+...
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：通过上面的例子可以看出，用<code>chmod</code>改变文件模式比特有两种方式：一种是字符设定法，另一种是数字设定法。除了<code>chmod</code>之外，可以通过<code>umask</code>来设定哪些权限将在新文件的默认权限中被删除。</p></blockquote><p>长格式查看目录或文件时显示结果及其对应权限的数值如下表所示。</p><p><img src=/res/file-mode.png alt></p></li><li><p><strong>chown</strong> - 改变文件所有者。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># ls -l</span>
+...
+-rw-r--r--  <span class=m>1</span> root root     <span class=m>54</span> Jun <span class=m>20</span> 10:06 readme.txt
+...
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># chown hellokitty readme.txt</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># ls -l</span>
+...
+-rw-r--r--  <span class=m>1</span> hellokitty root     <span class=m>54</span> Jun <span class=m>20</span> 10:06 readme.txt
+...
+</code></pre></td></tr></table></div></div></div></li><li><p><strong>chgrp</strong> - 改变用户组。</p></li></ol><h4 id=磁盘管理><a href=#磁盘管理 class=anchor-link>#</a>磁盘管理</h4><ol><li><p>列出文件系统的磁盘使用状况 - <strong>df</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># df -h</span>
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        40G  5.0G   33G  14% /
+devtmpfs        486M     <span class=m>0</span>  486M   0% /dev
+tmpfs           497M     <span class=m>0</span>  497M   0% /dev/shm
+tmpfs           497M  356K  496M   1% /run
+tmpfs           497M     <span class=m>0</span>  497M   0% /sys/fs/cgroup
+tmpfs           100M     <span class=m>0</span>  100M   0% /run/user/0
+</code></pre></td></tr></table></div></div></div></li><li><p>磁盘分区表操作 - <strong>fdisk</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># fdisk -l</span>
+Disk /dev/vda: 42.9 GB, <span class=m>42949672960</span> bytes, <span class=m>83886080</span> sectors
+<span class=nv>Units</span> <span class=o>=</span> sectors of <span class=m>1</span> * <span class=nv>512</span> <span class=o>=</span> <span class=m>512</span> bytes
+Sector size <span class=o>(</span>logical/physical<span class=o>)</span>: <span class=m>512</span> bytes / <span class=m>512</span> bytes
+I/O size <span class=o>(</span>minimum/optimal<span class=o>)</span>: <span class=m>512</span> bytes / <span class=m>512</span> bytes
+Disk label type: dos
+Disk identifier: 0x000a42f4
+   Device Boot      Start         End      Blocks   Id  System
+/dev/vda1   *        <span class=m>2048</span>    <span class=m>83884031</span>    <span class=m>41940992</span>   <span class=m>83</span>  Linux
+Disk /dev/vdb: 21.5 GB, <span class=m>21474836480</span> bytes, <span class=m>41943040</span> sectors
+<span class=nv>Units</span> <span class=o>=</span> sectors of <span class=m>1</span> * <span class=nv>512</span> <span class=o>=</span> <span class=m>512</span> bytes
+Sector size <span class=o>(</span>logical/physical<span class=o>)</span>: <span class=m>512</span> bytes / <span class=m>512</span> bytes
+I/O size <span class=o>(</span>minimum/optimal<span class=o>)</span>: <span class=m>512</span> bytes / <span class=m>512</span> bytes
+</code></pre></td></tr></table></div></div></div></li><li><p>磁盘分区工具 - <strong>parted</strong>。</p></li><li><p>格式化文件系统 - <strong>mkfs</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># mkfs -t ext4 -v /dev/sdb</span>
+</code></pre></td></tr></table></div></div></div><ul><li><code>-t</code> - 指定文件系统的类型。</li><li><code>-c</code> - 创建文件系统时检查磁盘损坏情况。</li><li><code>-v</code> - 显示详细信息。</li></ul></li><li><p>文件系统检查 - <strong>fsck</strong>。</p></li><li><p>转换或拷贝文件 - <strong>dd</strong>。</p></li><li><p>挂载/卸载 - <strong>mount</strong> / <strong>umount</strong>。</p></li><li><p>创建/激活/关闭交换分区 - <strong>mkswap</strong> / <strong>swapon</strong> / <strong>swapoff</strong>。</p></li></ol><blockquote><p><strong>说明</strong>：执行上面这些命令会带有一定的风险，如果不清楚这些命令的用法，最好不用随意使用，在使用的过程中，最好对照参考资料进行操作，并在操作前确认是否要这么做。</p></blockquote><h3 id=编辑器---vim><a href=#编辑器---vim class=anchor-link>#</a>编辑器 - vim</h3><ol><li><p>启动vim。可以通过<code>vi</code>或<code>vim</code>命令来启动vim，启动时可以指定文件名来打开一个文件，如果没有指定文件名，也可以在保存的时候指定文件名。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># vim guess.py</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>命令模式、编辑模式和末行模式：启动vim进入的是命令模式（也称为Normal模式），在命令模式下输入英文字母<code>i</code>会进入编辑模式（Insert模式），屏幕下方出现<code>-- INSERT --</code>提示；在编辑模式下按下<code>Esc</code>会回到命令模式，此时如果输入英文<code>:</code>会进入末行模式，在末行模式下输入<code>q!</code>可以在不保存当前工作的情况下强行退出vim；在命令模式下输入<code>v</code>会进入可视模式（Visual模式），可以用光标选择一个区域再完成对应的操作。</p></li><li><p>保存和退出vim：在命令模式下输入<code>:</code> 进入末行模式，输入<code>wq</code>可以实现保存退出；如果想放弃编辑的内容输入<code>q!</code>强行退出，这一点刚才已经提到过了；在命令模式下也可以直接输入<code>ZZ</code>实现保存退出。如果只想保存文件不退出，那么可以在末行模式下输入<code>w</code>；可以在<code>w</code>后面输入空格再指定要保存的文件名。</p></li><li><p>光标操作。</p><ul><li>在命令模式下可以通过<code>h</code>、<code>j</code>、<code>k</code>、<code>l</code>来控制光标向左、下、上、右的方向移动，可以在字母前输入数字来表示移动的距离，例如：<code>10h</code>表示向左移动10个字符。</li><li>在命令模式下可以通过<code>Ctrl+y</code>和<code>Ctrl+e</code>来实现向上、向下滚动一行文本的操作，可以通过<code>Ctrl+f</code>和<code>Ctrl+b</code>来实现向前和向后翻页的操作。</li><li>在命令模式下可以通过输入英文字母<code>G</code>将光标移到文件的末尾，可以通过<code>gg</code>将光标移到文件的开始，也可以通过在<code>G</code>前输入数字来将光标移动到指定的行。</li></ul></li><li><p>文本操作。</p><ul><li>删除：在命令模式下可以用<code>dd</code>来删除整行；可以在<code>dd</code>前加数字来指定删除的行数；可以用<code>d$</code>来实现删除从光标处删到行尾的操作，也可以通过<code>d0</code>来实现从光标处删到行首的操作；如果想删除一个单词，可以使用<code>dw</code>；如果要删除全文，可以在输入<code>:%d</code>（其中<code>:</code>用来从命令模式进入末行模式）。</li><li>复制和粘贴：在命令模式下可以用<code>yy</code>来复制整行；可以在<code>yy</code>前加数字来指定复制的行数；可以通过<code>p</code>将复制的内容粘贴到光标所在的地方。</li><li>撤销和恢复：在命令模式下输入<code>u</code>可以撤销之前的操作；通过<code>Ctrl+r</code>可以恢复被撤销的操作。</li><li>对内容进行排序：在命令模式下输入<code>%!sort</code>。</li></ul></li><li><p>查找和替换。</p><ul><li>查找操作需要输入<code>/</code>进入末行模式并提供正则表达式来匹配与之对应的内容，例如：<code>/doc.*\.</code>，输入<code>n</code>来向前搜索，也可以输入<code>N</code>来向后搜索。</li><li>替换操作需要输入<code>:</code>进入末行模式并指定搜索的范围、正则表达式以及替换后的内容和匹配选项，例如：<code>:1,$s/doc.*/hello/gice</code>，其中：<ul><li><code>g</code> - global：全局匹配。</li><li><code>i</code> - ignore case：忽略大小写匹配。</li><li><code>c</code> - confirm：替换时需要确认。</li><li><code>e</code> - error：忽略错误。</li></ul></li></ul></li><li><p>参数设定：在输入<code>:</code>进入末行模式后可以对vim进行设定。</p><ul><li><p>设置Tab键的空格数：<code>set ts=4</code></p></li><li><p>设置显示/不显示行号：<code>set nu</code> / <code>set nonu</code></p></li><li><p>设置启用/关闭高亮语法：<code>syntax on</code> / <code>syntax off</code></p></li><li><p>设置显示标尺（光标所在的行和列）： <code>set ruler</code></p></li><li><p>设置启用/关闭搜索结果高亮：<code>set hls</code> / <code>set nohls</code></p><blockquote><p>说明：如果希望上面的这些设定在每次启动vim时都能自动生效，需要将这些设定写到用户主目录下的.vimrc文件中。</p></blockquote></li></ul></li><li><p>高级技巧</p><ul><li><p>比较多个文件。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># vim -d foo.txt bar.txt</span>
+</code></pre></td></tr></table></div></div></div><p><img src=/res/vim-diff.png alt></p></li><li><p>打开多个文件。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># vim foo.txt bar.txt hello.txt</span>
+</code></pre></td></tr></table></div></div></div><p>启动vim后只有一个窗口显示的是foo.txt，可以在末行模式中输入<code>ls</code>查看到打开的三个文件，也可以在末行模式中输入<code>b &lt;num></code>来显示另一个文件，例如可以用<code>:b 2</code>将bar.txt显示出来，可以用<code>:b 3</code>将hello.txt显示出来。</p></li><li><p>拆分和切换窗口。</p><p>可以在末行模式中输入<code>sp</code>或<code>vs</code>来实现对窗口的水平或垂直拆分，这样我们就可以同时打开多个编辑窗口，通过按两次<code>Ctrl+w</code>就可以实现编辑窗口的切换，在一个窗口中执行退出操作只会关闭对应的窗口，其他的窗口继续保留。</p><p><img src=/res/vim-multi-window.png alt></p></li><li><p>映射快捷键：在vim下可以将一些常用操作映射为快捷键来提升工作效率。</p><ul><li><p>例子1：在命令模式下输入<code>F4</code>执行从第一行开始删除10000行代码的操作。</p><p><code>:map &lt;F4> gg10000dd</code>。</p><p>例子2：在编辑模式下输入<code>__main</code>直接补全为<code>if __name__ == '__main__':</code>。</p><p><code>:inoremap __main if __name__ == '__main__':</code></p></li></ul><blockquote><p>说明：上面例子2的<code>inoremap</code>中的<code>i</code>表示映射的键在编辑模式使用， <code>nore</code>表示不要递归，这一点非常重要，否则如果键对应的内容中又出现键本身，就会引发递归（相当于进入了死循环）。如果希望映射的快捷键每次启动vim时都能生效，需要将映射写到用户主目录下的.vimrc文件中。</p></blockquote></li><li><p>录制宏。</p><ul><li><p>在命令模式下输入<code>qa</code>开始录制宏（其中<code>a</code>是寄存器的名字，也可以是其他英文字母或0-9的数字）。</p></li><li><p>执行你的操作（光标操作、编辑操作等），这些操作都会被录制下来。</p></li><li><p>如果录制的操作已经完成了，按<code>q</code>结束录制。</p></li><li><p>通过<code>@a</code>（<code>a</code>是刚才使用的寄存器的名字）播放宏，如果要多次执行宏可以在前面加数字，例如<code>100@a</code>表示将宏播放100次。</p></li><li><p>可以试一试下面的例子来体验录制宏的操作，该例子来源于<a href=https://harttle.land/tags.html#Vim target=_blank rel=noopener>Harttle Land网站</a>，该网站上提供了很多关于vim的使用技巧，有兴趣的可以了解一下。</p><p><img src=/res/vim-macro.png alt></p></li></ul></li></ul></li></ol><h3 id=软件安装和配置><a href=#软件安装和配置 class=anchor-link>#</a>软件安装和配置</h3><h4 id=使用包管理工具><a href=#使用包管理工具 class=anchor-link>#</a>使用包管理工具</h4><ol><li><strong>yum</strong> - Yellowdog Updater Modified。<ul><li><code>yum search</code>：搜索软件包，例如<code>yum search nginx</code>。</li><li><code>yum list installed</code>：列出已经安装的软件包，例如<code>yum list installed | grep zlib</code>。</li><li><code>yum install</code>：安装软件包，例如<code>yum install nginx</code>。</li><li><code>yum remove</code>：删除软件包，例如<code>yum remove nginx</code>。</li><li><code>yum update</code>：更新软件包，例如<code>yum update</code>可以更新所有软件包，而<code>yum update tar</code>只会更新tar。</li><li><code>yum check-update</code>：检查有哪些可以更新的软件包。</li><li><code>yum info</code>：显示软件包的相关信息，例如<code>yum info nginx</code>。</li></ul></li><li><strong>rpm</strong> - Redhat Package Manager。<ul><li>安装软件包：<code>rpm -ivh &lt;packagename>.rpm</code>。</li><li>移除软件包：<code>rpm -e &lt;packagename></code>。</li><li>查询软件包：<code>rpm -qa</code>，例如可以用<code>rpm -qa | grep mysql</code>来检查是否安装了MySQL相关的软件包。</li></ul></li></ol><p>下面以Nginx为例，演示如何使用yum安装软件。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># yum -y install nginx</span>
+...
+Installed:
+  nginx.x86_64 1:1.12.2-2.el7
+Dependency Installed:
+  nginx-all-modules.noarch 1:1.12.2-2.el7
+  nginx-mod-http-geoip.x86_64 1:1.12.2-2.el7
+  nginx-mod-http-image-filter.x86_64 1:1.12.2-2.el7
+  nginx-mod-http-perl.x86_64 1:1.12.2-2.el7
+  nginx-mod-http-xslt-filter.x86_64 1:1.12.2-2.el7
+  nginx-mod-mail.x86_64 1:1.12.2-2.el7
+  nginx-mod-stream.x86_64 1:1.12.2-2.el7
+Complete!
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># yum info nginx</span>
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+Installed Packages
+Name        : nginx
+Arch        : x86_64
+Epoch       : <span class=m>1</span>
+Version     : 1.12.2
+Release     : 2.el7
+Size        : 1.5 M
+Repo        : installed
+From repo   : epel
+Summary     : A high performance web server and reverse proxy server
+URL         : http://nginx.org/
+License     : BSD
+Description : Nginx is a web server and a reverse proxy server <span class=k>for</span> HTTP, SMTP, POP3 and
+            : IMAP protocols, with a strong focus on high concurrency, performance and low
+            : memory usage.
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># nginx -v</span>
+nginx version: nginx/1.12.2
+</code></pre></td></tr></table></div></div></div><p>移除Nginx。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># yum -y remove nginx</span>
+</code></pre></td></tr></table></div></div></div><p>下面以MySQL为例，演示如何使用rpm安装软件。要安装MySQL需要先到<a href=https://www.mysql.com/ target=_blank rel=noopener>MySQL官方网站</a>下载对应的<a href=https://dev.mysql.com/downloads/mysql/ target=_blank rel=noopener>RPM文件</a>，当然要选择和你使用的Linux系统对应的版本。MySQL现在是Oracle公司旗下的产品，在MySQL被收购后，MySQL的作者重新制作了一个MySQL的分支MariaDB，可以通过yum进行安装。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root mysql<span class=o>]</span><span class=c1># ls</span>
+mysql-community-client-5.7.22-1.el7.x86_64.rpm
+mysql-community-common-5.7.22-1.el7.x86_64.rpm
+mysql-community-libs-5.7.22-1.el7.x86_64.rpm
+mysql-community-server-5.7.22-1.el7.x86_64.rpm
+<span class=o>[</span>root mysql<span class=o>]</span><span class=c1># yum -y remove mariadb-libs</span>
+<span class=o>[</span>root mysql<span class=o>]</span><span class=c1># yum -y install libaio</span>
+<span class=o>[</span>root mysql<span class=o>]</span><span class=c1>#rpm -ivh mysql-community-common-5.7.26-1.el7.x86_64.rpm</span>
+...
+<span class=o>[</span>root mysql<span class=o>]</span><span class=c1>#rpm -ivh mysql-community-libs-5.7.26-1.el7.x86_64.rpm</span>
+...
+<span class=o>[</span>root mysql<span class=o>]</span><span class=c1>#rpm -ivh mysql-community-client-5.7.26-1.el7.x86_64.rpm</span>
+...
+<span class=o>[</span>root mysql<span class=o>]</span><span class=c1>#rpm -ivh mysql-community-server-5.7.26-1.el7.x86_64.rpm</span>
+...
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：由于MySQL和<a href=https://mariadb.org/ target=_blank rel=noopener>MariaDB</a>的底层依赖库是有冲突的，所以上面我们首先用<code>yum</code>移除了名为mariadb-libs的依赖库并安装了名为libaio支持异步I/O操作的依赖库。关于MySQL和MariaDB之间的关系，可以阅读<a href=https://zh.wikipedia.org/wiki/MariaDB target=_blank rel=noopener>维基百科</a>上关于MariaDB的介绍。</p></blockquote><p>移除安装的MySQL。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># rpm -qa | grep mysql | xargs rpm -e</span>
+</code></pre></td></tr></table></div></div></div><h4 id=下载解压配置环境变量><a href=#下载解压配置环境变量 class=anchor-link>#</a>下载解压配置环境变量</h4><p>下面以安装MongoDB为例，演示这类软件应该如何安装。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-3.6.5.tgz</span>
+--2018-06-21 18:32:53--  https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-3.6.5.tgz
+Resolving fastdl.mongodb.org <span class=o>(</span>fastdl.mongodb.org<span class=o>)</span>... 52.85.83.16, 52.85.83.228, 52.85.83.186, ...
+Connecting to fastdl.mongodb.org <span class=o>(</span>fastdl.mongodb.org<span class=o>)</span><span class=p>|</span>52.85.83.16<span class=p>|</span>:443... connected.
+HTTP request sent, awaiting response... <span class=m>200</span> OK
+Length: <span class=m>100564462</span> <span class=o>(</span>96M<span class=o>)</span> <span class=o>[</span>application/x-gzip<span class=o>]</span>
+Saving to: ‘mongodb-linux-x86_64-rhel70-3.6.5.tgz’
+100%<span class=o>[==================================================</span>&gt;<span class=o>]</span> 100,564,462  630KB/s   in 2m 9s
+2018-06-21 18:35:04 <span class=o>(</span><span class=m>760</span> KB/s<span class=o>)</span> - ‘mongodb-linux-x86_64-rhel70-3.6.5.tgz’ saved <span class=o>[</span>100564462/100564462<span class=o>]</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># gunzip mongodb-linux-x86_64-rhel70-3.6.5.tgz</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># tar -xvf mongodb-linux-x86_64-rhel70-3.6.5.tar</span>
+mongodb-linux-x86_64-rhel70-3.6.5/README
+mongodb-linux-x86_64-rhel70-3.6.5/THIRD-PARTY-NOTICES
+mongodb-linux-x86_64-rhel70-3.6.5/MPL-2
+mongodb-linux-x86_64-rhel70-3.6.5/GNU-AGPL-3.0
+mongodb-linux-x86_64-rhel70-3.6.5/bin/mongodump
+mongodb-linux-x86_64-rhel70-3.6.5/bin/mongorestore
+mongodb-linux-x86_64-rhel70-3.6.5/bin/mongoexport
+mongodb-linux-x86_64-rhel70-3.6.5/bin/mongoimport
+mongodb-linux-x86_64-rhel70-3.6.5/bin/mongostat
+mongodb-linux-x86_64-rhel70-3.6.5/bin/mongotop
+mongodb-linux-x86_64-rhel70-3.6.5/bin/bsondump
+mongodb-linux-x86_64-rhel70-3.6.5/bin/mongofiles
+mongodb-linux-x86_64-rhel70-3.6.5/bin/mongoreplay
+mongodb-linux-x86_64-rhel70-3.6.5/bin/mongoperf
+mongodb-linux-x86_64-rhel70-3.6.5/bin/mongod
+mongodb-linux-x86_64-rhel70-3.6.5/bin/mongos
+mongodb-linux-x86_64-rhel70-3.6.5/bin/mongo
+mongodb-linux-x86_64-rhel70-3.6.5/bin/install_compass
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># vim .bash_profile</span>
+...
+<span class=nv>PATH</span><span class=o>=</span><span class=nv>$PATH</span>:<span class=nv>$HOME</span>/bin:<span class=nv>$HOME</span>/mongodb-linux-x86_64-rhel70-3.6.5/bin
+<span class=nb>export</span> PATH
+...
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># source .bash_profile</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># mongod --version</span>
+db version v3.6.5
+git version: a20ecd3e3a174162052ff99913bc2ca9a839d618
+OpenSSL version: OpenSSL 1.0.1e-fips <span class=m>11</span> Feb <span class=m>2013</span>
+allocator: tcmalloc
+modules: none
+build environment:
+    distmod: rhel70
+    distarch: x86_64
+    target_arch: x86_64
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># mongo --version</span>
+MongoDB shell version v3.6.5
+git version: a20ecd3e3a174162052ff99913bc2ca9a839d618
+OpenSSL version: OpenSSL 1.0.1e-fips <span class=m>11</span> Feb <span class=m>2013</span>
+allocator: tcmalloc
+modules: none
+build environment:
+    distmod: rhel70
+    distarch: x86_64
+    target_arch: x86_64
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：当然也可以通过yum来安装MongoDB，具体可以参照<a href=https://docs.mongodb.com/master/administration/install-on-linux/ target=_blank rel=noopener>官方网站</a>上给出的说明。</p></blockquote><h4 id=源代码构建安装><a href=#源代码构建安装 class=anchor-link>#</a>源代码构建安装</h4><ol><li><p>安装Python 3.6。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># yum install gcc</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># wget https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tgz</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># gunzip Python-3.6.5.tgz</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># tar -xvf Python-3.6.5.tar</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># cd Python-3.6.5</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># ./configure --prefix=/usr/local/python36 --enable-optimizations</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># make &amp;&amp; make install</span>
+...
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># ln -s /usr/local/python36/bin/python3.6 /usr/bin/python3</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># python3 --version</span>
+Python 3.6.5
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># python3 -m pip install -U pip</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># pip3 --version</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：上面在安装好Python之后还需要注册PATH环境变量，将Python安装路径下bin文件夹的绝对路径注册到PATH环境变量中。注册环境变量可以修改用户主目录下的.bash_profile或者/etc目录下的profile文件，二者的区别在于前者相当于是用户环境变量，而后者相当于是系统环境变量。</p></blockquote></li><li><p>安装Redis-3.2.12。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># wget http://download.redis.io/releases/redis-3.2.12.tar.gz</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># gunzip redis-3.2.12.tar.gz</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># tar -xvf redis-3.2.12.tar</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># cd redis-3.2.12</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># make &amp;&amp; make install</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># redis-server --version</span>
+Redis server <span class=nv>v</span><span class=o>=</span>3.2.12 <span class=nv>sha</span><span class=o>=</span>00000000:0 <span class=nv>malloc</span><span class=o>=</span>jemalloc-4.0.3 <span class=nv>bits</span><span class=o>=</span><span class=m>64</span> <span class=nv>build</span><span class=o>=</span>5bc5cd3c03d6ceb6
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># redis-cli --version</span>
+redis-cli 3.2.12
+</code></pre></td></tr></table></div></div></div></li></ol><h3 id=配置服务><a href=#配置服务 class=anchor-link>#</a>配置服务</h3><p>我们可以Linux系统下安装和配置各种服务，也就是说我们可以把Linux系统打造成数据库服务器、Web服务器、缓存服务器、文件服务器、消息队列服务器等等。Linux下的大多数服务都被设置为守护进程（驻留在系统后台运行，但不会因为服务还在运行而导致Linux无法停止运行），所以我们安装的服务通常名字后面都有一个字母<code>d</code>，它是英文单词<code>daemon</code>的缩写，例如：防火墙服务叫firewalld，我们之前安装的MySQL服务叫mysqld，Apache服务器叫httpd等。在安装好服务之后，可以使用<code>systemctl</code>命令或<code>service</code>命令来完成对服务的启动、停止等操作，具体操作如下所示。</p><ol><li><p>启动防火墙服务。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># systemctl start firewalld</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>终止防火墙服务。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># systemctl stop firewalld</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>重启防火墙服务。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># systemctl restart firewalld</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>查看防火墙服务状态。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># systemctl status firewalld</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>设置/禁用防火墙服务开机自启。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># systemctl enable firewalld</span>
+Created symlink from /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service to /usr/lib/systemd/system/firewalld.service.
+Created symlink from /etc/systemd/system/multi-user.target.wants/firewalld.service to /usr/lib/systemd/system/firewalld.service.
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># systemctl disable firewalld</span>
+Removed symlink /etc/systemd/system/multi-user.target.wants/firewalld.service.
+Removed symlink /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service.
+</code></pre></td></tr></table></div></div></div></li></ol><h3 id=计划任务><a href=#计划任务 class=anchor-link>#</a>计划任务</h3><ol><li><p>在指定的时间执行命令。</p><ul><li><strong>at</strong> - 将任务排队，在指定的时间执行。</li><li><strong>atq</strong> - 查看待执行的任务队列。</li><li><strong>atrm</strong> - 从队列中删除待执行的任务。</li></ul><p>指定3天以后下午5点要执行的任务。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># at 5pm+3days</span>
+at&gt; rm -f /root/*.html
+at&gt; &lt;EOT&gt;
+job <span class=m>9</span> at Wed Jun  <span class=m>5</span> 17:00:00 <span class=m>2019</span>
+</code></pre></td></tr></table></div></div></div><p>查看待执行的任务队列。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># atq</span>
+<span class=m>9</span>       Wed Jun  <span class=m>5</span> 17:00:00 <span class=m>2019</span> a root
+</code></pre></td></tr></table></div></div></div><p>从队列中删除指定的任务。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span>$ atrm <span class=m>9</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>计划任务表 - <strong>crontab</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># crontab -e</span>
+* * * * * <span class=nb>echo</span> <span class=s2>&#34;hello, world!&#34;</span> &gt;&gt; /root/hello.txt
+<span class=m>59</span> <span class=m>23</span> * * * rm -f /root/*.log
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：输入<code>crontab -e</code>命令会打开vim来编辑Cron表达式并指定触发的任务，上面我们定制了两个计划任务，一个是每分钟向/root目录下的hello.txt中追加输出<code>hello, world!</code>；另一个是每天23时59分执行删除/root目录下以log为后缀名的文件。如果不知道Cron表达式如何书写，可以参照/etc/crontab文件中的提示（下面会讲到）或者用搜索引擎找一下“Cron表达式在线生成器”来生成Cron表达式。</p></blockquote><p>和crontab相关的文件在<code>/etc</code>目录下，通过修改<code>/etc</code>目录下的crontab文件也能够定制计划任务。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># cd /etc</span>
+<span class=o>[</span>root etc<span class=o>]</span><span class=c1># ls -l | grep cron</span>
+-rw-------.  <span class=m>1</span> root root      <span class=m>541</span> Aug  <span class=m>3</span>  <span class=m>2017</span> anacrontab
+drwxr-xr-x.  <span class=m>2</span> root root     <span class=m>4096</span> Mar <span class=m>27</span> 11:56 cron.d
+drwxr-xr-x.  <span class=m>2</span> root root     <span class=m>4096</span> Mar <span class=m>27</span> 11:51 cron.daily
+-rw-------.  <span class=m>1</span> root root        <span class=m>0</span> Aug  <span class=m>3</span>  <span class=m>2017</span> cron.deny
+drwxr-xr-x.  <span class=m>2</span> root root     <span class=m>4096</span> Mar <span class=m>27</span> 11:50 cron.hourly
+drwxr-xr-x.  <span class=m>2</span> root root     <span class=m>4096</span> Jun <span class=m>10</span>  <span class=m>2014</span> cron.monthly
+-rw-r--r--   <span class=m>1</span> root root      <span class=m>493</span> Jun <span class=m>23</span> 15:09 crontab
+drwxr-xr-x.  <span class=m>2</span> root root     <span class=m>4096</span> Jun <span class=m>10</span>  <span class=m>2014</span> cron.weekly
+<span class=o>[</span>root etc<span class=o>]</span><span class=c1># vim crontab</span>
+  <span class=m>1</span> <span class=nv>SHELL</span><span class=o>=</span>/bin/bash
+  <span class=m>2</span> <span class=nv>PATH</span><span class=o>=</span>/sbin:/bin:/usr/sbin:/usr/bin
+  <span class=m>3</span> <span class=nv>MAILTO</span><span class=o>=</span>root
+  <span class=m>4</span>
+  <span class=m>5</span> <span class=c1># For details see man 4 crontabs</span>
+  <span class=m>6</span>
+  <span class=m>7</span> <span class=c1># Example of job definition:</span>
+  <span class=m>8</span> <span class=c1># .---------------- minute (0 - 59)</span>
+  <span class=m>9</span> <span class=c1># |  .------------- hour (0 - 23)</span>
+ <span class=m>10</span> <span class=c1># |  |  .---------- day of month (1 - 31)</span>
+ <span class=m>11</span> <span class=c1># |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span>
+ <span class=m>12</span> <span class=c1># |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span>
+ <span class=m>13</span> <span class=c1># |  |  |  |  |</span>
+ <span class=m>14</span> <span class=c1># *  *  *  *  * user-name  command to be executed</span>
+</code></pre></td></tr></table></div></div></div></li></ol><h3 id=网络访问和管理><a href=#网络访问和管理 class=anchor-link>#</a>网络访问和管理</h3><ol><li><p>安全远程连接 - <strong>ssh</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span>$ ssh root@120.77.222.217
+The authenticity of host <span class=s1>&#39;120.77.222.217 (120.77.222.217)&#39;</span> can<span class=s1>&#39;t be established.
+</span><span class=s1>ECDSA key fingerprint is SHA256:BhUhykv+FvnIL03I9cLRpWpaCxI91m9n7zBWrcXRa8w.
+</span><span class=s1>ECDSA key fingerprint is MD5:cc:85:e9:f0:d7:07:1a:26:41:92:77:6b:7f:a0:92:65.
+</span><span class=s1>Are you sure you want to continue connecting (yes/no)? yes
+</span><span class=s1>Warning: Permanently added &#39;</span>120.77.222.217<span class=s1>&#39; (ECDSA) to the list of known hosts.
+</span><span class=s1>root@120.77.222.217&#39;</span>s password: 
+</code></pre></td></tr></table></div></div></div></li><li><p>通过网络获取资源 - <strong>wget</strong>。</p><ul><li>-b 后台下载模式</li><li>-O 下载到指定的目录</li><li>-r 递归下载</li></ul></li><li><p>发送和接收邮件 - <strong>mail</strong>。</p></li><li><p>网络配置工具（旧） - <strong>ifconfig</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># ifconfig eth0</span>
+eth0: <span class=nv>flags</span><span class=o>=</span>4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu <span class=m>1500</span>
+        inet 172.18.61.250  netmask 255.255.240.0  broadcast 172.18.63.255
+        ether 00:16:3e:02:b6:46  txqueuelen <span class=m>1000</span>  <span class=o>(</span>Ethernet<span class=o>)</span>
+        RX packets <span class=m>1067841</span>  bytes <span class=m>1296732947</span> <span class=o>(</span>1.2 GiB<span class=o>)</span>
+        RX errors <span class=m>0</span>  dropped <span class=m>0</span>  overruns <span class=m>0</span>  frame <span class=m>0</span>
+        TX packets <span class=m>409912</span>  bytes <span class=m>43569163</span> <span class=o>(</span>41.5 MiB<span class=o>)</span>
+        TX errors <span class=m>0</span>  dropped <span class=m>0</span> overruns <span class=m>0</span>  carrier <span class=m>0</span>  collisions 
+</code></pre></td></tr></table></div></div></div></li><li><p>网络配置工具（新） - <strong>ip</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># ip address</span>
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span class=m>65536</span> qdisc noqueue state UNKNOWN qlen <span class=m>1</span>
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class=m>1500</span> qdisc pfifo_fast state UP qlen <span class=m>1000</span>
+    link/ether 00:16:3e:02:b6:46 brd ff:ff:ff:ff:ff:ff
+    inet 172.18.61.250/20 brd 172.18.63.255 scope global eth0
+       valid_lft forever preferred_lft forever
+</code></pre></td></tr></table></div></div></div></li><li><p>网络可达性检查 - <strong>ping</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># ping www.baidu.com -c 3</span>
+PING www.a.shifen.com <span class=o>(</span>220.181.111.188<span class=o>)</span> 56<span class=o>(</span>84<span class=o>)</span> bytes of data.
+<span class=m>64</span> bytes from 220.181.111.188 <span class=o>(</span>220.181.111.188<span class=o>)</span>: <span class=nv>icmp_seq</span><span class=o>=</span><span class=m>1</span> <span class=nv>ttl</span><span class=o>=</span><span class=m>51</span> <span class=nv>time</span><span class=o>=</span>36.3 ms
+<span class=m>64</span> bytes from 220.181.111.188 <span class=o>(</span>220.181.111.188<span class=o>)</span>: <span class=nv>icmp_seq</span><span class=o>=</span><span class=m>2</span> <span class=nv>ttl</span><span class=o>=</span><span class=m>51</span> <span class=nv>time</span><span class=o>=</span>36.4 ms
+<span class=m>64</span> bytes from 220.181.111.188 <span class=o>(</span>220.181.111.188<span class=o>)</span>: <span class=nv>icmp_seq</span><span class=o>=</span><span class=m>3</span> <span class=nv>ttl</span><span class=o>=</span><span class=m>51</span> <span class=nv>time</span><span class=o>=</span>36.4 ms
+--- www.a.shifen.com ping statistics ---
+<span class=m>3</span> packets transmitted, <span class=m>3</span> received, 0% packet loss, <span class=nb>time</span> 2002ms
+rtt min/avg/max/mdev <span class=o>=</span> 36.392/36.406/36.427/0.156 ms
+</code></pre></td></tr></table></div></div></div></li><li><p>显示或管理路由表 - <strong>route</strong>。</p></li><li><p>查看网络服务和端口 - <strong>netstat</strong> / <strong>ss</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># netstat -nap | grep nginx</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>网络监听抓包 - <strong>tcpdump</strong>。</p></li><li><p>安全文件拷贝 - <strong>scp</strong>。</p></li></ol><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># scp root@1.2.3.4:/root/guido.jpg hellokitty@4.3.2.1:/home/hellokitty/pic.jpg</span>
+</code></pre></td></tr></table></div></div></div><ol start=11><li><p>文件同步工具 - <strong>rsync</strong>。</p><blockquote><p>说明：使用<code>rsync</code>可以实现文件的自动同步，这个对于文件服务器来说相当重要。关于这个命令的用法，我们在后面讲项目部署的时候为大家详细说明。</p></blockquote></li><li><p>安全文件传输 - <strong>sftp</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># sftp root@1.2.3.4</span>
+root@1.2.3.4<span class=err>&#39;</span>s password:
+Connected to 1.2.3.4.
+sftp&gt;
+</code></pre></td></tr></table></div></div></div><ul><li><p><code>help</code>：显示帮助信息。</p></li><li><p><code>ls</code>/<code>lls</code>：显示远端/本地目录列表。</p></li><li><p><code>cd</code>/<code>lcd</code>：切换远端/本地路径。</p></li><li><p><code>mkdir</code>/<code>lmkdir</code>：创建远端/本地目录。</p></li><li><p><code>pwd</code>/<code>lpwd</code>：显示远端/本地当前工作目录。</p></li><li><p><code>get</code>：下载文件。</p></li><li><p><code>put</code>：上传文件。</p></li><li><p><code>rm</code>：删除远端文件。</p></li><li><p><code>bye</code>/<code>exit</code>/<code>quit</code>：退出sftp。</p></li></ul></li></ol><h3 id=进程管理><a href=#进程管理 class=anchor-link>#</a>进程管理</h3><ol><li><p>查看进程 - <strong>ps</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># ps -ef</span>
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         <span class=m>1</span>     <span class=m>0</span>  <span class=m>0</span> Jun23 ?        00:00:05 /usr/lib/systemd/systemd --switched-root --system --deserialize <span class=m>21</span>
+root         <span class=m>2</span>     <span class=m>0</span>  <span class=m>0</span> Jun23 ?        00:00:00 <span class=o>[</span>kthreadd<span class=o>]</span>
+...
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># ps -ef | grep mysqld</span>
+root      <span class=m>4943</span>  <span class=m>4581</span>  <span class=m>0</span> 22:45 pts/0    00:00:00 grep --color<span class=o>=</span>auto mysqld
+mysql    <span class=m>25257</span>     <span class=m>1</span>  <span class=m>0</span> Jun25 ?        00:00:39 /usr/sbin/mysqld --daemonize --pid-file<span class=o>=</span>/var/run/mysqld/mysqld.pid
+</code></pre></td></tr></table></div></div></div></li><li><p>显示进程状态树 - <strong>pstree</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># pstree</span>
+systemd─┬─AliYunDun───18*<span class=o>[{</span>AliYunDun<span class=o>}]</span>
+        ├─AliYunDunUpdate───3*<span class=o>[{</span>AliYunDunUpdate<span class=o>}]</span>
+        ├─2*<span class=o>[</span>agetty<span class=o>]</span>
+        ├─aliyun-service───2*<span class=o>[{</span>aliyun-service<span class=o>}]</span>
+        ├─atd
+        ├─auditd───<span class=o>{</span>auditd<span class=o>}</span>
+        ├─dbus-daemon
+        ├─dhclient
+        ├─irqbalance
+        ├─lvmetad
+        ├─mysqld───28*<span class=o>[{</span>mysqld<span class=o>}]</span>
+        ├─nginx───2*<span class=o>[</span>nginx<span class=o>]</span>
+        ├─ntpd
+        ├─polkitd───6*<span class=o>[{</span>polkitd<span class=o>}]</span>
+        ├─rsyslogd───2*<span class=o>[{</span>rsyslogd<span class=o>}]</span>
+        ├─sshd───sshd───bash───pstree
+        ├─systemd-journal
+        ├─systemd-logind
+        ├─systemd-udevd
+        └─tuned───4*<span class=o>[{</span>tuned<span class=o>}]</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>查找与指定条件匹配的进程 - <strong>pgrep</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span>$ pgrep mysqld
+<span class=m>3584</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>通过进程号终止进程 - <strong>kill</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span>$ <span class=nb>kill</span> -l
+ 1<span class=o>)</span> SIGHUP       2<span class=o>)</span> SIGINT       3<span class=o>)</span> SIGQUIT      4<span class=o>)</span> SIGILL       5<span class=o>)</span> SIGTRAP
+ 6<span class=o>)</span> SIGABRT      7<span class=o>)</span> SIGBUS       8<span class=o>)</span> SIGFPE       9<span class=o>)</span> SIGKILL     10<span class=o>)</span> SIGUSR1
+11<span class=o>)</span> SIGSEGV     12<span class=o>)</span> SIGUSR2     13<span class=o>)</span> SIGPIPE     14<span class=o>)</span> SIGALRM     15<span class=o>)</span> SIGTERM
+16<span class=o>)</span> SIGSTKFLT   17<span class=o>)</span> SIGCHLD     18<span class=o>)</span> SIGCONT     19<span class=o>)</span> SIGSTOP     20<span class=o>)</span> SIGTSTP
+21<span class=o>)</span> SIGTTIN     22<span class=o>)</span> SIGTTOU     23<span class=o>)</span> SIGURG      24<span class=o>)</span> SIGXCPU     25<span class=o>)</span> SIGXFSZ
+26<span class=o>)</span> SIGVTALRM   27<span class=o>)</span> SIGPROF     28<span class=o>)</span> SIGWINCH    29<span class=o>)</span> SIGIO       30<span class=o>)</span> SIGPWR
+31<span class=o>)</span> SIGSYS      34<span class=o>)</span> SIGRTMIN    35<span class=o>)</span> SIGRTMIN+1  36<span class=o>)</span> SIGRTMIN+2  37<span class=o>)</span> SIGRTMIN+3
+38<span class=o>)</span> SIGRTMIN+4  39<span class=o>)</span> SIGRTMIN+5  40<span class=o>)</span> SIGRTMIN+6  41<span class=o>)</span> SIGRTMIN+7  42<span class=o>)</span> SIGRTMIN+8
+43<span class=o>)</span> SIGRTMIN+9  44<span class=o>)</span> SIGRTMIN+10 45<span class=o>)</span> SIGRTMIN+11 46<span class=o>)</span> SIGRTMIN+12 47<span class=o>)</span> SIGRTMIN+13
+48<span class=o>)</span> SIGRTMIN+14 49<span class=o>)</span> SIGRTMIN+15 50<span class=o>)</span> SIGRTMAX-14 51<span class=o>)</span> SIGRTMAX-13 52<span class=o>)</span> SIGRTMAX-12
+53<span class=o>)</span> SIGRTMAX-11 54<span class=o>)</span> SIGRTMAX-10 55<span class=o>)</span> SIGRTMAX-9  56<span class=o>)</span> SIGRTMAX-8  57<span class=o>)</span> SIGRTMAX-7
+58<span class=o>)</span> SIGRTMAX-6  59<span class=o>)</span> SIGRTMAX-5  60<span class=o>)</span> SIGRTMAX-4  61<span class=o>)</span> SIGRTMAX-3  62<span class=o>)</span> SIGRTMAX-2
+63<span class=o>)</span> SIGRTMAX-1  64<span class=o>)</span> SIGRTMAX
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># kill 1234</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># kill -9 1234</span>
+</code></pre></td></tr></table></div></div></div><p>例子：用一条命令强制终止正在运行的Redis进程。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>ps -ef <span class=p>|</span> grep redis <span class=p>|</span> grep -v grep <span class=p>|</span> awk <span class=s1>&#39;{print $2}&#39;</span> <span class=p>|</span> xargs <span class=nb>kill</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>通过进程名终止进程 - <strong>killall</strong> / <strong>pkill</strong>。</p><p>结束名为mysqld的进程。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># pkill mysqld</span>
+</code></pre></td></tr></table></div></div></div><p>结束hellokitty用户的所有进程。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># pkill -u hellokitty</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：这样的操作会让hellokitty用户和服务器断开连接。</p></blockquote></li><li><p>将进程置于后台运行。</p><ul><li><code>Ctrl+Z</code> - 快捷键，用于停止进程并置于后台。</li><li><code>&</code> - 将进程置于后台运行。</li></ul><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># mongod &amp;</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># redis-server</span>
+...
+^Z
+<span class=o>[</span>4<span class=o>]</span>+  Stopped                 redis-server
+</code></pre></td></tr></table></div></div></div></li><li><p>查询后台进程 - <strong>jobs</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># jobs</span>
+<span class=o>[</span>2<span class=o>]</span>   Running                 mongod <span class=p>&amp;</span>
+<span class=o>[</span>3<span class=o>]</span>-  Stopped                 cat
+<span class=o>[</span>4<span class=o>]</span>+  Stopped                 redis-server
+</code></pre></td></tr></table></div></div></div></li><li><p>让进程在后台继续运行 - <strong>bg</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># bg %4</span>
+<span class=o>[</span>4<span class=o>]</span>+ redis-server <span class=p>&amp;</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># jobs</span>
+<span class=o>[</span>2<span class=o>]</span>   Running                 mongod <span class=p>&amp;</span>
+<span class=o>[</span>3<span class=o>]</span>+  Stopped                 cat
+<span class=o>[</span>4<span class=o>]</span>-  Running                 redis-server <span class=p>&amp;</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>将后台进程置于前台 - <strong>fg</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># fg %4</span>
+redis-server
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：置于前台的进程可以使用<code>Ctrl+C</code>来终止它。</p></blockquote></li><li><p>调整程序/进程运行时优先级 - <strong>nice</strong> / <strong>renice</strong>。</p></li><li><p>用户登出后进程继续工作 - <strong>nohup</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># nohup ping www.baidu.com &gt; result.txt &amp;</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>跟踪进程系统调用情况 - <strong>strace</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># pgrep mysqld</span>
+<span class=m>8803</span>
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># strace -c -p 8803</span>
+strace: Process <span class=m>8803</span> attached
+^Cstrace: Process <span class=m>8803</span> detached
+% <span class=nb>time</span>     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 99.18    0.005719        <span class=m>5719</span>         <span class=m>1</span>           restart_syscall
+  0.49    0.000028          <span class=m>28</span>         <span class=m>1</span>           mprotect
+  0.24    0.000014          <span class=m>14</span>         <span class=m>1</span>           clone
+  0.05    0.000003           <span class=m>3</span>         <span class=m>1</span>           mmap
+  0.03    0.000002           <span class=m>2</span>         <span class=m>1</span>           accept
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.005766                     <span class=m>5</span>           total
+</code></pre></td></tr></table></div></div></div><blockquote><p>说明：这个命令的用法和参数都比较复杂，建议大家在真正用到这个命令的时候再根据实际需要进行了解。</p></blockquote></li><li><p>查看当前运行级别 - <strong>runlevel</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># runlevel</span>
+N <span class=m>3</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>实时监控进程占用资源状况 - <strong>top</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># top</span>
+top - 23:04:23 up <span class=m>3</span> days, 14:10,  <span class=m>1</span> user,  load average: 0.00, 0.01, 0.05
+Tasks:  <span class=m>65</span> total,   <span class=m>1</span> running,  <span class=m>64</span> sleeping,   <span class=m>0</span> stopped,   <span class=m>0</span> zombie
+%Cpu<span class=o>(</span>s<span class=o>)</span>:  0.3 us,  0.3 sy,  0.0 ni, 99.3 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem :  <span class=m>1016168</span> total,   <span class=m>191060</span> free,   <span class=m>324700</span> used,   <span class=m>500408</span> buff/cache
+KiB Swap:        <span class=m>0</span> total,        <span class=m>0</span> free,        <span class=m>0</span> used.   <span class=m>530944</span> avail Mem
+...
+</code></pre></td></tr></table></div></div></div><ul><li><code>-c</code> - 显示进程的整个路径。</li><li><code>-d</code> - 指定两次刷屏之间的间隔时间（秒为单位）。</li><li><code>-i</code> - 不显示闲置进程或僵尸进程。</li><li><code>-p</code> - 显示指定进程的信息。</li></ul></li></ol><h3 id=系统诊断><a href=#系统诊断 class=anchor-link>#</a>系统诊断</h3><ol><li><p>系统启动异常诊断 - <strong>dmesg</strong>。</p></li><li><p>查看系统活动信息 - <strong>sar</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># sar -u -r 5 10</span>
+Linux 3.10.0-957.10.1.el7.x86_64 <span class=o>(</span>izwz97tbgo9lkabnat2lo8z<span class=o>)</span>      06/02/2019      _x86_64_        <span class=o>(</span><span class=m>2</span> CPU<span class=o>)</span>
+
+06:48:30 PM     CPU     %user     %nice   %system   %iowait    %steal     %idle
+06:48:35 PM     all      0.10      0.00      0.10      0.00      0.00     99.80
+
+06:48:30 PM kbmemfree kbmemused  %memused kbbuffers  kbcached  kbcommit   %commit  kbactive   kbinact   kbdirty
+06:48:35 PM   <span class=m>1772012</span>   <span class=m>2108392</span>     54.33    <span class=m>102816</span>   <span class=m>1634528</span>    <span class=m>784940</span>     20.23    <span class=m>793328</span>   <span class=m>1164704</span>         <span class=m>0</span>
+</code></pre></td></tr></table></div></div></div><ul><li><code>-A</code> - 显示所有设备（CPU、内存、磁盘）的运行状况。</li><li><code>-u</code> - 显示所有CPU的负载情况。</li><li><code>-d</code> - 显示所有磁盘的使用情况。</li><li><code>-r</code> - 显示内存的使用情况。</li><li><code>-n</code> - 显示网络运行状态。</li></ul></li><li><p>查看内存使用情况 - <strong>free</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># free</span>
+              total        used        free      shared  buff/cache   available
+Mem:        <span class=m>1016168</span>      <span class=m>323924</span>      <span class=m>190452</span>         <span class=m>356</span>      <span class=m>501792</span>      <span class=m>531800</span>
+Swap:             <span class=m>0</span>           <span class=m>0</span>           <span class=m>0</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>虚拟内存统计 - <strong>vmstat</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># vmstat</span>
+procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ <span class=m>2</span>  <span class=m>0</span>      <span class=m>0</span> <span class=m>204020</span>  <span class=m>79036</span> <span class=m>667532</span>    <span class=m>0</span>    <span class=m>0</span>     <span class=m>5</span>    <span class=m>18</span>  <span class=m>101</span>   <span class=m>58</span>  <span class=m>1</span>  <span class=m>0</span> <span class=m>99</span>  <span class=m>0</span>  <span class=m>0</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>CPU信息统计 - <strong>mpstat</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># mpstat</span>
+Linux 3.10.0-957.5.1.el7.x86_64 <span class=o>(</span>iZ8vba0s66jjlfmo601w4xZ<span class=o>)</span>       05/30/2019      _x86_64_        <span class=o>(</span><span class=m>1</span> CPU<span class=o>)</span>
+
+01:51:54 AM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle
+01:51:54 AM  all    0.71    0.00    0.17    0.04    0.00    0.00    0.00    0.00    0.00   99.07
+</code></pre></td></tr></table></div></div></div></li><li><p>查看进程使用内存状况 - <strong>pmap</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># ps</span>
+  PID TTY          TIME CMD
+ <span class=m>4581</span> pts/0    00:00:00 bash
+ <span class=m>5664</span> pts/0    00:00:00 ps
+<span class=o>[</span>root ~<span class=o>]</span><span class=c1># pmap 4581</span>
+4581:   -bash
+<span class=m>0000000000400000</span>    884K r-x-- bash
+00000000006dc000      4K r---- bash
+00000000006dd000     36K rw--- bash
+00000000006e6000     24K rw---   <span class=o>[</span> anon <span class=o>]</span>
+0000000001de0000    400K rw---   <span class=o>[</span> anon <span class=o>]</span>
+00007f82fe805000     48K r-x-- libnss_files-2.17.so
+00007f82fe811000   2044K ----- libnss_files-2.17.so
+...
+</code></pre></td></tr></table></div></div></div></li><li><p>报告设备CPU和I/O统计信息 - <strong>iostat</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># iostat</span>
+Linux 3.10.0-693.11.1.el7.x86_64 <span class=o>(</span>iZwz97tbgo9lkabnat2lo8Z<span class=o>)</span>      06/26/2018      _x86_64_       <span class=o>(</span><span class=m>1</span> CPU<span class=o>)</span>
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.79    0.00    0.20    0.04    0.00   98.97
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+vda               0.85         6.78        21.32    <span class=m>2106565</span>    <span class=m>6623024</span>
+vdb               0.00         0.01         0.00       <span class=m>2088</span>          <span class=m>0</span>
+</code></pre></td></tr></table></div></div></div></li><li><p>显示所有PCI设备 - <strong>lspci</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># lspci</span>
+00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC <span class=o>[</span>Natoma<span class=o>]</span> <span class=o>(</span>rev 02<span class=o>)</span>
+00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA <span class=o>[</span>Natoma/Triton II<span class=o>]</span>
+00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE <span class=o>[</span>Natoma/Triton II<span class=o>]</span>
+00:01.2 USB controller: Intel Corporation 82371SB PIIX3 USB <span class=o>[</span>Natoma/Triton II<span class=o>]</span> <span class=o>(</span>rev 01<span class=o>)</span>
+00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI <span class=o>(</span>rev 03<span class=o>)</span>
+00:02.0 VGA compatible controller: Cirrus Logic GD <span class=m>5446</span>
+00:03.0 Ethernet controller: Red Hat, Inc. Virtio network device
+00:04.0 Communication controller: Red Hat, Inc. Virtio console
+00:05.0 SCSI storage controller: Red Hat, Inc. Virtio block device
+00:06.0 SCSI storage controller: Red Hat, Inc. Virtio block device
+00:07.0 Unclassified device <span class=o>[</span>00ff<span class=o>]</span>: Red Hat, Inc. Virtio memory balloon
+</code></pre></td></tr></table></div></div></div></li><li><p>显示进程间通信设施的状态 - <strong>ipcs</strong>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=o>[</span>root ~<span class=o>]</span><span class=c1># ipcs</span>
+
+------ Message Queues --------
+key        msqid      owner      perms      used-bytes   messages    
+
+------ Shared Memory Segments --------
+key        shmid      owner      perms      bytes      nattch     status      
+
+------ Semaphore Arrays --------
+key        semid      owner      perms      nsems
+</code></pre></td></tr></table></div></div></div></li></ol><h3 id=shell编程><a href=#shell编程 class=anchor-link>#</a>Shell编程</h3><p>之前我们提到过，Shell是一个连接用户和操作系统的应用程序，它提供了人机交互的界面（接口），用户通过这个界面访问操作系统内核的服务。Shell脚本是一种为Shell编写的脚本程序，我们可以通过Shell脚本来进行系统管理，同时也可以通过它进行文件操作。总之，编写Shell脚本对于使用Linux系统的人来说，应该是一项标配技能。</p><p>互联网上有大量关于Shell脚本的相关知识，我不打算再此对Shell脚本做一个全面系统的讲解，我们通过下面的代码来感性的认识下Shell脚本就行了。</p><p>例子1：输入两个整数m和n，计算从m到n的整数求和的结果。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=cp>#!/usr/bin/bash
+</span><span class=cp></span><span class=nb>printf</span> <span class=s1>&#39;m = &#39;</span>
+<span class=nb>read</span> m
+<span class=nb>printf</span> <span class=s1>&#39;n = &#39;</span>
+<span class=nb>read</span> n
+<span class=nv>a</span><span class=o>=</span><span class=nv>$m</span>
+<span class=nv>sum</span><span class=o>=</span><span class=m>0</span>
+<span class=k>while</span> <span class=o>[</span> <span class=nv>$a</span> -le <span class=nv>$n</span> <span class=o>]</span>
+<span class=k>do</span>
+    <span class=nv>sum</span><span class=o>=</span>$<span class=o>[</span> sum + a <span class=o>]</span>
+    <span class=nv>a</span><span class=o>=</span>$<span class=o>[</span> a + <span class=m>1</span> <span class=o>]</span>
+<span class=k>done</span>
+<span class=nb>echo</span> <span class=s1>&#39;结果: &#39;</span><span class=nv>$sum</span>
+</code></pre></td></tr></table></div></div></div><p>例子2：自动创建文件夹和指定数量的文件。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=cp>#!/usr/bin/bash
+</span><span class=cp></span><span class=nb>printf</span> <span class=s1>&#39;输入文件夹名: &#39;</span>
+<span class=nb>read</span> dir
+<span class=nb>printf</span> <span class=s1>&#39;输入文件名: &#39;</span>
+<span class=nb>read</span> file
+<span class=nb>printf</span> <span class=s1>&#39;输入文件数量(&lt;1000): &#39;</span>
+<span class=nb>read</span> num
+<span class=k>if</span> <span class=o>[</span> <span class=nv>$num</span> -ge <span class=m>1000</span> <span class=o>]</span>
+<span class=k>then</span>
+    <span class=nb>echo</span> <span class=s1>&#39;文件数量不能超过1000&#39;</span>
+<span class=k>else</span>
+    <span class=k>if</span> <span class=o>[</span> -e <span class=nv>$dir</span> -a -d <span class=nv>$dir</span> <span class=o>]</span>
+    <span class=k>then</span>
+        rm -rf <span class=nv>$dir</span>
+    <span class=k>else</span>
+        <span class=k>if</span> <span class=o>[</span> -e <span class=nv>$dir</span> -a -f <span class=nv>$dir</span> <span class=o>]</span>
+        <span class=k>then</span>
+            rm -f <span class=nv>$dir</span>
+        <span class=k>fi</span>
+    <span class=k>fi</span>
+    mkdir -p <span class=nv>$dir</span>
+    <span class=nv>index</span><span class=o>=</span><span class=m>1</span>
+    <span class=k>while</span> <span class=o>[</span> <span class=nv>$index</span> -le <span class=nv>$num</span> <span class=o>]</span>
+    <span class=k>do</span>
+        <span class=k>if</span> <span class=o>[</span> <span class=nv>$index</span> -lt <span class=m>10</span> <span class=o>]</span>
+        <span class=k>then</span>
+            <span class=nv>pre</span><span class=o>=</span><span class=s1>&#39;00&#39;</span>
+        <span class=k>elif</span> <span class=o>[</span> <span class=nv>$index</span> -lt <span class=m>100</span> <span class=o>]</span>
+        <span class=k>then</span>
+            <span class=nv>pre</span><span class=o>=</span><span class=s1>&#39;0&#39;</span>
+        <span class=k>else</span>
+            <span class=nv>pre</span><span class=o>=</span><span class=s1>&#39;&#39;</span>
+        <span class=k>fi</span>
+        touch <span class=nv>$dir</span><span class=s1>&#39;/&#39;</span><span class=nv>$file</span><span class=s1>&#39;_&#39;</span><span class=nv>$pre$index</span>
+        <span class=nv>index</span><span class=o>=</span>$<span class=o>[</span> index + <span class=m>1</span> <span class=o>]</span>
+    <span class=k>done</span>
+<span class=k>fi</span>
+</code></pre></td></tr></table></div></div></div><p>例子3：自动安装指定版本的Redis。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=cp>#!/usr/bin/bash
+</span><span class=cp></span>install_redis<span class=o>()</span> <span class=o>{</span>
+    <span class=k>if</span> ! which redis-server &gt; /dev/null
+    <span class=k>then</span>
+        <span class=nb>cd</span> /root
+        wget <span class=nv>$1$2</span><span class=s1>&#39;.tar.gz&#39;</span> &gt;&gt; install.log
+        gunzip /root/<span class=nv>$2</span><span class=s1>&#39;.tar.gz&#39;</span>
+        tar -xf /root/<span class=nv>$2</span><span class=s1>&#39;.tar&#39;</span>
+        <span class=nb>cd</span> /root/<span class=nv>$2</span>
+        make &gt;&gt; install.log
+        make install &gt;&gt; install.log
+        <span class=nb>echo</span> <span class=s1>&#39;安装完成&#39;</span>
+    <span class=k>else</span>
+        <span class=nb>echo</span> <span class=s1>&#39;已经安装过Redis&#39;</span>
+    <span class=k>fi</span>
+<span class=o>}</span>
+
+install_redis <span class=s1>&#39;http://download.redis.io/releases/&#39;</span> <span class=nv>$1</span>
+</code></pre></td></tr></table></div></div></div><h3 id=相关资源><a href=#相关资源 class=anchor-link>#</a>相关资源</h3><ol><li><p>Linux命令行常用快捷键</p><div class=table-container><table><thead><tr><th>快捷键</th><th>功能说明</th></tr></thead><tbody><tr><td>tab</td><td>自动补全命令或路径</td></tr><tr><td>Ctrl+a</td><td>将光标移动到命令行行首</td></tr><tr><td>Ctrl+e</td><td>将光标移动到命令行行尾</td></tr><tr><td>Ctrl+f</td><td>将光标向右移动一个字符</td></tr><tr><td>Ctrl+b</td><td>将光标向左移动一个字符</td></tr><tr><td>Ctrl+k</td><td>剪切从光标到行尾的字符</td></tr><tr><td>Ctrl+u</td><td>剪切从光标到行首的字符</td></tr><tr><td>Ctrl+w</td><td>剪切光标前面的一个单词</td></tr><tr><td>Ctrl+y</td><td>复制剪切命名剪切的内容</td></tr><tr><td>Ctrl+c</td><td>中断正在执行的任务</td></tr><tr><td>Ctrl+h</td><td>删除光标前面的一个字符</td></tr><tr><td>Ctrl+d</td><td>退出当前命令行</td></tr><tr><td>Ctrl+r</td><td>搜索历史命令</td></tr><tr><td>Ctrl+g</td><td>退出历史命令搜索</td></tr><tr><td>Ctrl+l</td><td>清除屏幕上所有内容在屏幕的最上方开启一个新行</td></tr><tr><td>Ctrl+s</td><td>锁定终端使之暂时无法输入内容</td></tr><tr><td>Ctrl+q</td><td>退出终端锁定</td></tr><tr><td>Ctrl+z</td><td>将正在终端执行的任务停下来放到后台</td></tr><tr><td>!!</td><td>执行上一条命令</td></tr><tr><td>!数字</td><td>执行数字对应的历史命令</td></tr><tr><td>!字母</td><td>执行最近的以字母打头的命令</td></tr><tr><td>!$ / Esc+.</td><td>获得上一条命令最后一个参数</td></tr><tr><td>Esc+b</td><td>移动到当前单词的开头</td></tr><tr><td>Esc+f</td><td>移动到当前单词的结尾</td></tr></tbody></table></div></li><li><p>man查阅命令手册的内容说明</p><div class=table-container><table><thead><tr><th>手册中的标题</th><th>功能说明</th></tr></thead><tbody><tr><td>NAME</td><td>命令的说明和介绍</td></tr><tr><td>SYNOPSIS</td><td>使用该命令的基本语法</td></tr><tr><td>DESCRIPTION</td><td>使用该命令的详细描述，各个参数的作用，有时候这些信息会出现在OPTIONS中</td></tr><tr><td>OPTIONS</td><td>命令相关参数选项的说明</td></tr><tr><td>EXAMPLES</td><td>使用该命令的参考例子</td></tr><tr><td>EXIT STATUS</td><td>命令结束的退出状态码，通常0表示成功执行</td></tr><tr><td>SEE ALSO</td><td>和命令相关的其他命令或信息</td></tr><tr><td>BUGS</td><td>和命令相关的缺陷的描述</td></tr><tr><td>AUTHOR</td><td>该命令的作者介绍</td></tr></tbody></table></div></li></ol></div><ul class=post-copyright><li class="copyright-item author"><span class=copyright-item-text>作者</span>：<span class="p-author h-card">骆昊</span></li><li class="copyright-item link"><span class=copyright-item-text>链接</span>：<a href=https://github.com/jackfrued/Python-100-Days target=_blank rel=noopener>https://github.com/jackfrued/Python-100-Days</a></li><li class="copyright-item license"><span class=copyright-item-text>许可</span>：本文采用<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>「CC BY-NC-SA 4.0」</a>协议，转载请注明出处。</li></ul></article><div class=related-posts><h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2><ul class=related-list><li class=related-item><a href=/python/01.%E5%88%9D%E8%AF%86python/ class=related-link>01.初识Python</a></li><li class=related-item><a href=/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/ class=related-link>02.语言元素</a></li><li class=related-item><a href=/python/03.%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84/ class=related-link>03.分支结构</a></li><li class=related-item><a href=/python/04.%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84/ class=related-link>04.循环结构</a></li><li class=related-item><a href=/python/05.%E6%9E%84%E9%80%A0%E7%A8%8B%E5%BA%8F%E9%80%BB%E8%BE%91/ class=related-link>05.构造程序逻辑</a></li></ul></div><div class=post-tags><a href=/tags/python/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>python</a></div></div></main><div id=back-to-top class=back-to-top><a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a></div><footer id=footer class=footer><div class=footer-inner><div class=site-info>©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;hanxin</div><script src=https://sdk.jinrishici.com/v2/browser/jinrishici.js></script>
+<text class=poem_sentence></text>
+<text class=poem_info></text>
+<script type=text/javascript>jinrishici.load(function(a){var b=document.querySelector(".poem_sentence"),c=document.querySelector(".poem_info");b.innerHTML=a.data.content,c.innerHTML='——'+a.data.origin.author})</script></div></footer></div><script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script><script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script></body></html>

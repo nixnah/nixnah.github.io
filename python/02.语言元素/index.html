@@ -1,0 +1,223 @@
+<!doctype html><html lang=zh-cn><head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#"><meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=theme-color content="#16171d"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=format-detection content="telephone=no, date=no, address=no, email=no"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><title>02.语言元素 | Hanxin</title><link rel=stylesheet href=/css/meme.min.88c90dc75021618344ec926f4ed6ac307f30ba48911294816b16370a41e5f137.css><script src=/js/meme.min.f460a174bb100a60a7e275913695161f1e09aab1378fe99cfd30cde14da70888.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap" media=print onload="this.media='all'"><noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Satisfy&family=Klee+One:wght@400;600&family=Great+Vibes&display=swap"></noscript><meta name=author content="骆昊"><meta name=description content="语言元素 指令和程序 计算机的硬件系统通常由五大部件构成，包括：运算器、控制器、存储器、……"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=mask-icon href=/icons/safari-pinned-tab.svg color=#2a6df4><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-title content="Hanxin"><meta name=apple-mobile-web-app-status-bar-style content="black"><meta name=mobile-web-app-capable content="yes"><meta name=application-name content="Hanxin"><meta name=msapplication-starturl content="../../"><meta name=msapplication-TileColor content="#fff"><meta name=msapplication-TileImage content="../../icons/mstile-150x150.png"><link rel=manifest href=/manifest.json><link rel=canonical href=/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/><script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2021-08-23T17:35:03+08:00","dateModified":"2022-01-16T09:24:35+00:00","url":"/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/","name":"02.语言元素","description":"语言元素 指令和程序 计算机的硬件系统通常由五大部件构成，包括：运算器、控制器、存储器、……","image":"/icons/apple-touch-icon.png","license":"本文采用[「CC BY-NC-SA 4.0」](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)协议，转载请注明出处。","publisher":{"@type":"Organization","name":"Hanxin","logo":{"@type":"ImageObject","url":"/icons/apple-touch-icon.png"},"url":"/"},"mainEntityOfPage":{"@type":"WebSite","@id":"/"}}</script><meta name=twitter:card content="summary"><meta property="og:title" content="02.语言元素"><meta property="og:description" content="语言元素 指令和程序 计算机的硬件系统通常由五大部件构成，包括：运算器、控制器、存储器、……"><meta property="og:url" content="/python/02.%E8%AF%AD%E8%A8%80%E5%85%83%E7%B4%A0/"><meta property="og:site_name" content="Hanxin"><meta property="og:locale" content="zh"><meta property="og:image" content="/icons/apple-touch-icon.png"><meta property="og:type" content="website"></head><body><div class=container><header class=header><div class=header-wrapper><div class="header-inner single"><div class=site-brand><a href=/ class=brand>Hanxin</a></div><nav class=nav><ul class=menu id=menu><li class=menu-item><a href=/life/><span class=menu-item-name>生活</span></a></li><li class=menu-item><a href=/tech/><span class=menu-item-name>技术</span></a></li><li class=menu-item><a href=/tags/><span class=menu-item-name>标签</span></a></li><li class=menu-item><a href=/about/><span class=menu-item-name>关于</span></a></li><li class=menu-item><a href=/blogroll/><span class=menu-item-name>友链</span></a></li><li class=menu-item><a href=/python/><span class=menu-item-name>Python-100天</span></a></li><li class=menu-item><a id=theme-switcher href=#><span class="icon theme-icon-light">🌞</span><span class="icon theme-icon-dark">🌙</span></a></li></ul></nav></div></div><input type=checkbox id=nav-toggle aria-hidden=true>
+<label for=nav-toggle class=nav-toggle></label>
+<label for=nav-toggle class=nav-curtain></label></header><main class="main single" id=main><div class=main-inner><article class="content post h-entry" data-align=justify data-type=python data-toc-num=true><h1 class="post-title p-name">02.语言元素</h1><div class=post-meta><time datetime=2021-08-23T17:35:03+08:00 class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;2021.8.23</time>
+<time datetime=2022-01-16T09:24:35+00:00 class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M4e2 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627.0-12 5.373-12 12v52H48C21.49 64 0 85.49.0 112v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 4e2H54a6 6 0 01-6-6V160h352v298a6 6 0 01-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022.1.16</time>
+<span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;4854</span>
+<span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;10&nbsp;分钟</span></div><div class="post-body e-content"><h2 id=语言元素><a href=#语言元素 class=anchor-link>#</a>语言元素</h2><h4 id=指令和程序><a href=#指令和程序 class=anchor-link>#</a>指令和程序</h4><p>计算机的硬件系统通常由五大部件构成，包括：运算器、控制器、存储器、输入设备和输出设备。其中，运算器和控制器放在一起就是我们通常所说的中央处理器，它的功能是执行各种运算和控制指令以及处理计算机软件中的数据。我们通常所说的程序实际上就是指令的集合，我们程序就是将一系列的指令按照某种方式组织到一起，然后通过这些指令去控制计算机做我们想让它做的事情。今天我们大多数时候使用的计算机，虽然它们的元器件做工越来越精密，处理能力越来越强大，但究其本质来说仍然属于<a href=https://zh.wikipedia.org/wiki/%E5%86%AF%C2%B7%E8%AF%BA%E4%BC%8A%E6%9B%BC%E7%BB%93%E6%9E%84 target=_blank rel=noopener>“冯·诺依曼结构”</a>的计算机。“冯·诺依曼结构”有两个关键点，一是指出要将存储设备与中央处理器分开，二是提出了将数据以二进制方式编码。二进制是一种“逢二进一”的计数法，跟我们人类使用的“逢十进一”的计数法没有实质性的区别，人类因为有十根手指所以使用了十进制（因为在数数时十根手指用完之后就只能进位了，当然凡事都有例外，玛雅人可能是因为长年光着脚的原因把脚趾头也算上了，于是他们使用了二十进制的计数法，在这种计数法的指导下玛雅人的历法就与我们平常使用的历法不一样，而按照玛雅人的历法，2012年是上一个所谓的“太阳纪”的最后一年，而2013年则是新的“太阳纪”的开始，后来这件事情被以讹传讹的方式误传为”2012年是玛雅人预言的世界末日“这种荒诞的说法，今天我们可以大胆的猜测，玛雅文明之所以发展缓慢估计也与使用了二十进制有关）。对于计算机来说，二进制在物理器件上来说是最容易实现的（高电压表示1，低电压表示0），于是在“冯·诺依曼结构”的计算机都使用了二进制。虽然我们并不需要每个程序员都能够使用二进制的思维方式来工作，但是了解二进制以及它与我们生活中的十进制之间的转换关系，以及二进制与八进制和十六进制的转换关系还是有必要的。如果你对这一点不熟悉，可以自行使用<a href=https://zh.wikipedia.org/wiki/%E4%BA%8C%E8%BF%9B%E5%88%B6 target=_blank rel=noopener>维基百科</a>或者<a href=https://baike.baidu.com target=_blank rel=noopener>百度百科</a>科普一下。</p><blockquote><p><strong>说明</strong>：近期关于<strong>量子计算机</strong>的研究已经被推倒了风口浪尖，量子计算机基于量子力学进行运算，使用量子瞬移的方式来传递信息。2018年6月，Intel宣布开发出新款量子芯片并通过了在接近绝对零度环境下的测试；2019年，IBM和Google都推出了自己的量子计算机。</p></blockquote><h3 id=变量和类型><a href=#变量和类型 class=anchor-link>#</a>变量和类型</h3><p>在程序设计中，变量是一种存储数据的载体。计算机中的变量是实际存在的数据或者说是存储器中存储数据的一块内存空间，变量的值可以被读取和修改，这是所有计算和控制的基础。计算机能处理的数据有很多种类型，除了数值之外还可以处理文本、图形、音频、视频等各种各样的数据，那么不同的数据就需要定义不同的存储类型。Python中的数据类型很多，而且也允许我们自定义新的数据类型（这一点在后面会讲到），我们先介绍几种常用的数据类型。</p><ul><li>整型：Python中可以处理任意大小的整数（Python 2.x中有<code>int</code>和<code>long</code>两种类型的整数，但这种区分对Python来说意义不大，因此在Python 3.x中整数只有int这一种了），而且支持二进制（如<code>0b100</code>，换算成十进制是4）、八进制（如<code>0o100</code>，换算成十进制是64）、十进制（<code>100</code>）和十六进制（<code>0x100</code>，换算成十进制是256）的表示法。</li><li>浮点型：浮点数也就是小数，之所以称为浮点数，是因为按照科学记数法表示时，一个浮点数的小数点位置是可变的，浮点数除了数学写法（如<code>123.456</code>）之外还支持科学计数法（如<code>1.23456e2</code>）。</li><li>字符串型：字符串是以单引号或双引号括起来的任意文本，比如<code>'hello'</code>和<code>"hello"</code>,字符串还有原始字符串表示法、字节字符串表示法、Unicode字符串表示法，而且可以书写成多行的形式（用三个单引号或三个双引号开头，三个单引号或三个双引号结尾）。</li><li>布尔型：布尔值只有<code>True</code>、<code>False</code>两种值，要么是<code>True</code>，要么是<code>False</code>，在Python中，可以直接用<code>True</code>、<code>False</code>表示布尔值（请注意大小写），也可以通过布尔运算计算出来（例如<code>3 &lt; 5</code>会产生布尔值<code>True</code>，而<code>2 == 1</code>会产生布尔值<code>False</code>）。</li><li>复数型：形如<code>3+5j</code>，跟数学上的复数表示一样，唯一不同的是虚部的<code>i</code>换成了<code>j</code>。实际上，这个类型并不常用，大家了解一下就可以了。</li></ul><h4 id=变量命名><a href=#变量命名 class=anchor-link>#</a>变量命名</h4><p>对于每个变量我们需要给它取一个名字，就如同我们每个人都有属于自己的响亮的名字一样。在Python中，变量命名需要遵循以下这些必须遵守硬性规则和强烈建议遵守的非硬性规则。</p><ul><li>硬性规则：<ul><li>变量名由字母（广义的Unicode字符，不包括特殊字符）、数字和下划线构成，数字不能开头。</li><li>大小写敏感（大写的<code>a</code>和小写的<code>A</code>是两个不同的变量）。</li><li>不要跟关键字（有特殊含义的单词，后面会讲到）和系统保留字（如函数、模块等的名字）冲突。</li></ul></li><li>PEP 8要求：<ul><li>用小写字母拼写，多个单词用下划线连接。</li><li>受保护的实例属性用单个下划线开头（后面会讲到）。</li><li>私有的实例属性用两个下划线开头（后面会讲到）。</li></ul></li></ul><p>当然，作为一个专业的程序员，给变量（事实上应该是所有的标识符）命名时做到见名知意也是非常重要的。</p><h4 id=变量的使用><a href=#变量的使用 class=anchor-link>#</a>变量的使用</h4><p>下面通过几个例子来说明变量的类型和变量使用。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=s2>&#34;&#34;&#34;
+</span><span class=s2>使用变量保存数据并进行加减乘除运算
+</span><span class=s2>
+</span><span class=s2>Version: 0.1
+</span><span class=s2>Author: 骆昊
+</span><span class=s2>&#34;&#34;&#34;</span>
+<span class=n>a</span> <span class=o>=</span> <span class=mi>321</span>
+<span class=n>b</span> <span class=o>=</span> <span class=mi>12</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>a</span> <span class=o>+</span> <span class=n>b</span><span class=p>)</span>    <span class=c1># 333</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>a</span> <span class=o>-</span> <span class=n>b</span><span class=p>)</span>    <span class=c1># 309</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>a</span> <span class=o>*</span> <span class=n>b</span><span class=p>)</span>    <span class=c1># 3852</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>a</span> <span class=o>/</span> <span class=n>b</span><span class=p>)</span>    <span class=c1># 26.75</span>
+</code></pre></td></tr></table></div></div></div><p>在Python中可以使用<code>type</code>函数对变量的类型进行检查。程序设计中函数的概念跟数学上函数的概念是一致的，数学上的函数相信大家并不陌生，它包括了函数名、自变量和因变量。如果暂时不理解这个概念也不要紧，我们会在后续的章节中专门讲解函数的定义和使用。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=s2>&#34;&#34;&#34;
+</span><span class=s2>使用type()检查变量的类型
+</span><span class=s2>
+</span><span class=s2>Version: 0.1
+</span><span class=s2>Author: 骆昊
+</span><span class=s2>&#34;&#34;&#34;</span>
+<span class=n>a</span> <span class=o>=</span> <span class=mi>100</span>
+<span class=n>b</span> <span class=o>=</span> <span class=mf>12.345</span>
+<span class=n>c</span> <span class=o>=</span> <span class=mi>1</span> <span class=o>+</span> <span class=mi>5</span><span class=n>j</span>
+<span class=n>d</span> <span class=o>=</span> <span class=s1>&#39;hello, world&#39;</span>
+<span class=n>e</span> <span class=o>=</span> <span class=kc>True</span>
+<span class=nb>print</span><span class=p>(</span><span class=nb>type</span><span class=p>(</span><span class=n>a</span><span class=p>))</span>    <span class=c1># &lt;class &#39;int&#39;&gt;</span>
+<span class=nb>print</span><span class=p>(</span><span class=nb>type</span><span class=p>(</span><span class=n>b</span><span class=p>))</span>    <span class=c1># &lt;class &#39;float&#39;&gt;</span>
+<span class=nb>print</span><span class=p>(</span><span class=nb>type</span><span class=p>(</span><span class=n>c</span><span class=p>))</span>    <span class=c1># &lt;class &#39;complex&#39;&gt;</span>
+<span class=nb>print</span><span class=p>(</span><span class=nb>type</span><span class=p>(</span><span class=n>d</span><span class=p>))</span>    <span class=c1># &lt;class &#39;str&#39;&gt;</span>
+<span class=nb>print</span><span class=p>(</span><span class=nb>type</span><span class=p>(</span><span class=n>e</span><span class=p>))</span>    <span class=c1># &lt;class &#39;bool&#39;&gt;</span>
+</code></pre></td></tr></table></div></div></div><p>可以使用Python中内置的函数对变量类型进行转换。</p><ul><li><code>int()</code>：将一个数值或字符串转换成整数，可以指定进制。</li><li><code>float()</code>：将一个字符串转换成浮点数。</li><li><code>str()</code>：将指定的对象转换成字符串形式，可以指定编码。</li><li><code>chr()</code>：将整数转换成该编码对应的字符串（一个字符）。</li><li><code>ord()</code>：将字符串（一个字符）转换成对应的编码（整数）。</li></ul><p>下面的代码通过键盘输入两个整数来实现对两个整数的算术运算。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=s2>&#34;&#34;&#34;
+</span><span class=s2>使用input()函数获取键盘输入(字符串)
+</span><span class=s2>使用int()函数将输入的字符串转换成整数
+</span><span class=s2>使用print()函数输出带占位符的字符串
+</span><span class=s2>
+</span><span class=s2>Version: 0.1
+</span><span class=s2>Author: 骆昊
+</span><span class=s2>&#34;&#34;&#34;</span>
+<span class=n>a</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=nb>input</span><span class=p>(</span><span class=s1>&#39;a = &#39;</span><span class=p>))</span>
+<span class=n>b</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=nb>input</span><span class=p>(</span><span class=s1>&#39;b = &#39;</span><span class=p>))</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%d</span><span class=s1> + </span><span class=si>%d</span><span class=s1> = </span><span class=si>%d</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>a</span> <span class=o>+</span> <span class=n>b</span><span class=p>))</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%d</span><span class=s1> - </span><span class=si>%d</span><span class=s1> = </span><span class=si>%d</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>a</span> <span class=o>-</span> <span class=n>b</span><span class=p>))</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%d</span><span class=s1> * </span><span class=si>%d</span><span class=s1> = </span><span class=si>%d</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>a</span> <span class=o>*</span> <span class=n>b</span><span class=p>))</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%d</span><span class=s1> / </span><span class=si>%d</span><span class=s1> = </span><span class=si>%f</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>a</span> <span class=o>/</span> <span class=n>b</span><span class=p>))</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%d</span><span class=s1> // </span><span class=si>%d</span><span class=s1> = </span><span class=si>%d</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>a</span> <span class=o>//</span> <span class=n>b</span><span class=p>))</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%d</span><span class=s1> </span><span class=si>%%</span><span class=s1> </span><span class=si>%d</span><span class=s1> = </span><span class=si>%d</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>a</span> <span class=o>%</span> <span class=n>b</span><span class=p>))</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%d</span><span class=s1> ** </span><span class=si>%d</span><span class=s1> = </span><span class=si>%d</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>a</span> <span class=o>**</span> <span class=n>b</span><span class=p>))</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：上面的print函数中输出的字符串使用了占位符语法，其中<code>%d</code>是整数的占位符，<code>%f</code>是小数的占位符，<code>%%</code>表示百分号（因为百分号代表了占位符，所以带占位符的字符串中要表示百分号必须写成<code>%%</code>），字符串之后的<code>%</code>后面跟的变量值会替换掉占位符然后输出到终端中，运行上面的程序，看看程序执行结果就明白啦。</p></blockquote><h3 id=运算符><a href=#运算符 class=anchor-link>#</a>运算符</h3><p>Python支持多种运算符，下表大致按照优先级从高到低的顺序列出了所有的运算符，运算符的优先级指的是多个运算符同时出现时，先做什么运算然后再做什么运算。除了我们之前已经用过的赋值运算符和算术运算符，我们稍后会陆续讲到其他运算符的使用。</p><div class=table-container><table><thead><tr><th>运算符</th><th>描述</th></tr></thead><tbody><tr><td><code>[]</code> <code>[:]</code></td><td>下标，切片</td></tr><tr><td><code>**</code></td><td>指数</td></tr><tr><td><code>~</code> <code>+</code> <code>-</code></td><td>按位取反, 正负号</td></tr><tr><td><code>*</code> <code>/</code> <code>%</code> <code>//</code></td><td>乘，除，模，整除</td></tr><tr><td><code>+</code> <code>-</code></td><td>加，减</td></tr><tr><td><code>>></code> <code>&lt;&lt;</code></td><td>右移，左移</td></tr><tr><td><code>&</code></td><td>按位与</td></tr><tr><td><code>^</code> <code>|</code></td><td>按位异或，按位或</td></tr><tr><td><code>&lt;=</code> <code>&lt;</code> <code>></code> <code>>=</code></td><td>小于等于，小于，大于，大于等于</td></tr><tr><td><code>==</code> <code>!=</code></td><td>等于，不等于</td></tr><tr><td><code>is</code> <code>is not</code></td><td>身份运算符</td></tr><tr><td><code>in</code> <code>not in</code></td><td>成员运算符</td></tr><tr><td><code>not</code> <code>or</code> <code>and</code></td><td>逻辑运算符</td></tr><tr><td><code>=</code> <code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code> <code>%=</code> <code>//=</code> <code>**=</code> <code>&=</code> `</td><td>=<code> </code>^=<code> </code>>>=<code> </code>&lt;&lt;=`</td></tr></tbody></table></div><blockquote><p><strong>说明：</strong> 在实际开发中，如果搞不清楚运算符的优先级，可以使用括号来确保运算的执行顺序。</p></blockquote><h4 id=赋值运算符><a href=#赋值运算符 class=anchor-link>#</a>赋值运算符</h4><p>赋值运算符应该是最为常见的运算符，它的作用是将右边的值赋给左边的变量。下面的例子演示了赋值运算符和复合赋值运算符的使用。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=s2>&#34;&#34;&#34;
+</span><span class=s2>赋值运算符和复合赋值运算符
+</span><span class=s2>
+</span><span class=s2>Version: 0.1
+</span><span class=s2>Author: 骆昊
+</span><span class=s2>&#34;&#34;&#34;</span>
+<span class=n>a</span> <span class=o>=</span> <span class=mi>10</span>
+<span class=n>b</span> <span class=o>=</span> <span class=mi>3</span>
+<span class=n>a</span> <span class=o>+=</span> <span class=n>b</span>        <span class=c1># 相当于：a = a + b</span>
+<span class=n>a</span> <span class=o>*=</span> <span class=n>a</span> <span class=o>+</span> <span class=mi>2</span>    <span class=c1># 相当于：a = a * (a + 2)</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>a</span><span class=p>)</span>      <span class=c1># 算一下这里会输出什么</span>
+</code></pre></td></tr></table></div></div></div><h3 id=比较运算符和逻辑运算符><a href=#比较运算符和逻辑运算符 class=anchor-link>#</a>比较运算符和逻辑运算符</h3><p>比较运算符有的地方也称为关系运算符，包括<code>==</code>、<code>!=</code>、<code>&lt;</code>、<code>></code>、<code>&lt;=</code>、<code>>=</code>，我相信没有什么好解释的，大家一看就能懂，唯一需要提醒的是比较相等用的是<code>==</code>，请注意这个地方是两个等号，因为<code>=</code>是赋值运算符，我们在上面刚刚讲到过，<code>==</code>才是比较相等的比较运算符。比较运算符会产生布尔值，要么是<code>True</code>要么是<code>False</code>。</p><p>逻辑运算符有三个，分别是<code>and</code>、<code>or</code>和<code>not</code>。<code>and</code>字面意思是“而且”，所以<code>and</code>运算符会连接两个布尔值，如果两个布尔值都是<code>True</code>，那么运算的结果就是<code>True</code>；左右两边的布尔值有一个是<code>False</code>，最终的运算结果就是<code>False</code>。相信大家已经想到了，如果<code>and</code>左边的布尔值是<code>False</code>，不管右边的布尔值是什么，最终的结果都是<code>False</code>，所以在做运算的时候右边的值会被跳过（短路处理），这也就意味着在<code>and</code>运算符左边为<code>False</code>的情况下，右边的表达式根本不会执行。<code>or</code>字面意思是“或者”，所以<code>or</code>运算符也会连接两个布尔值，如果两个布尔值有任意一个是<code>True</code>，那么最终的结果就是<code>True</code>。当然，<code>or</code>运算符也是有短路功能的，在它左边的布尔值为<code>True</code>的情况下，右边的表达式根本不会执行。<code>not</code>运算符的后面会跟上一个布尔值，它的作用是得到与该布尔值相反的值，也就是说，后面的布尔值如果是<code>True</code>运算结果就是<code>False</code>，而后面的布尔值如果是<code>False</code>则运算结果就是<code>True</code>。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=s2>&#34;&#34;&#34;
+</span><span class=s2>比较运算符和逻辑运算符的使用
+</span><span class=s2>
+</span><span class=s2>Version: 0.1
+</span><span class=s2>Author: 骆昊
+</span><span class=s2>&#34;&#34;&#34;</span>
+<span class=n>flag0</span> <span class=o>=</span> <span class=mi>1</span> <span class=o>==</span> <span class=mi>1</span>
+<span class=n>flag1</span> <span class=o>=</span> <span class=mi>3</span> <span class=o>&gt;</span> <span class=mi>2</span>
+<span class=n>flag2</span> <span class=o>=</span> <span class=mi>2</span> <span class=o>&lt;</span> <span class=mi>1</span>
+<span class=n>flag3</span> <span class=o>=</span> <span class=n>flag1</span> <span class=ow>and</span> <span class=n>flag2</span>
+<span class=n>flag4</span> <span class=o>=</span> <span class=n>flag1</span> <span class=ow>or</span> <span class=n>flag2</span>
+<span class=n>flag5</span> <span class=o>=</span> <span class=ow>not</span> <span class=p>(</span><span class=mi>1</span> <span class=o>!=</span> <span class=mi>2</span><span class=p>)</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;flag0 =&#39;</span><span class=p>,</span> <span class=n>flag0</span><span class=p>)</span>    <span class=c1># flag0 = True</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;flag1 =&#39;</span><span class=p>,</span> <span class=n>flag1</span><span class=p>)</span>    <span class=c1># flag1 = True</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;flag2 =&#39;</span><span class=p>,</span> <span class=n>flag2</span><span class=p>)</span>    <span class=c1># flag2 = False</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;flag3 =&#39;</span><span class=p>,</span> <span class=n>flag3</span><span class=p>)</span>    <span class=c1># flag3 = False</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;flag4 =&#39;</span><span class=p>,</span> <span class=n>flag4</span><span class=p>)</span>    <span class=c1># flag4 = True</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;flag5 =&#39;</span><span class=p>,</span> <span class=n>flag5</span><span class=p>)</span>    <span class=c1># flag5 = False</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：比较运算符的优先级高于赋值运算符，所以<code>flag0 = 1 == 1</code>先做<code>1 == 1</code>产生布尔值<code>True</code>，再将这个值赋值给变量<code>flag0</code>。<code>print</code>函数可以输出多个值，多个值之间可以用<code>,</code>进行分隔，输出的内容之间默认以空格分开。</p></blockquote><h3 id=练习><a href=#练习 class=anchor-link>#</a>练习</h3><h4 id=练习1华氏温度转换为摄氏温度><a href=#练习1华氏温度转换为摄氏温度 class=anchor-link>#</a>练习1：华氏温度转换为摄氏温度。</h4><blockquote><p>提示：华氏温度到摄氏温度的转换公式为：$C=(F - 32) \div 1.8$。</p></blockquote><p>参考答案：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=s2>&#34;&#34;&#34;
+</span><span class=s2>将华氏温度转换为摄氏温度
+</span><span class=s2>
+</span><span class=s2>Version: 0.1
+</span><span class=s2>Author: 骆昊
+</span><span class=s2>&#34;&#34;&#34;</span>
+<span class=n>f</span> <span class=o>=</span> <span class=nb>float</span><span class=p>(</span><span class=nb>input</span><span class=p>(</span><span class=s1>&#39;请输入华氏温度: &#39;</span><span class=p>))</span>
+<span class=n>c</span> <span class=o>=</span> <span class=p>(</span><span class=n>f</span> <span class=o>-</span> <span class=mi>32</span><span class=p>)</span> <span class=o>/</span> <span class=mf>1.8</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;</span><span class=si>%.1f</span><span class=s1>华氏度 = </span><span class=si>%.1f</span><span class=s1>摄氏度&#39;</span> <span class=o>%</span> <span class=p>(</span><span class=n>f</span><span class=p>,</span> <span class=n>c</span><span class=p>))</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：在使用<code>print</code>函数输出时，也可以对字符串内容进行格式化处理，上面<code>print</code>函数中的字符串<code>%1.f</code>是一个占位符，稍后会由一个<code>float</code>类型的变量值替换掉它。同理，如果字符串中有<code>%d</code>，后面可以用一个<code>int</code>类型的变量值替换掉它，而<code>%s</code>会被字符串的值替换掉。除了这种格式化字符串的方式外，还可以用下面的方式来格式化字符串，其中<code>{f:.1f}</code>和<code>{c:.1f}</code>可以先看成是<code>{f}</code>和<code>{c}</code>，表示输出时会用变量<code>f</code>和变量<code>c</code>的值替换掉这两个占位符，后面的<code>:.1f</code>表示这是一个浮点数，小数点后保留1位有效数字。</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s1>&#39;</span><span class=si>{</span><span class=n>f</span><span class=si>:</span><span class=s1>.1f</span><span class=si>}</span><span class=s1>华氏度 = </span><span class=si>{</span><span class=n>c</span><span class=si>:</span><span class=s1>.1f</span><span class=si>}</span><span class=s1>摄氏度&#39;</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div></blockquote><h4 id=练习2输入圆的半径计算计算周长和面积><a href=#练习2输入圆的半径计算计算周长和面积 class=anchor-link>#</a>练习2：输入圆的半径计算计算周长和面积。</h4><p>参考答案：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=s2>&#34;&#34;&#34;
+</span><span class=s2>输入半径计算圆的周长和面积
+</span><span class=s2>
+</span><span class=s2>Version: 0.1
+</span><span class=s2>Author: 骆昊
+</span><span class=s2>&#34;&#34;&#34;</span>
+<span class=n>radius</span> <span class=o>=</span> <span class=nb>float</span><span class=p>(</span><span class=nb>input</span><span class=p>(</span><span class=s1>&#39;请输入圆的半径: &#39;</span><span class=p>))</span>
+<span class=n>perimeter</span> <span class=o>=</span> <span class=mi>2</span> <span class=o>*</span> <span class=mf>3.1416</span> <span class=o>*</span> <span class=n>radius</span>
+<span class=n>area</span> <span class=o>=</span> <span class=mf>3.1416</span> <span class=o>*</span> <span class=n>radius</span> <span class=o>*</span> <span class=n>radius</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;周长: </span><span class=si>%.2f</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=n>perimeter</span><span class=p>)</span>
+<span class=nb>print</span><span class=p>(</span><span class=s1>&#39;面积: </span><span class=si>%.2f</span><span class=s1>&#39;</span> <span class=o>%</span> <span class=n>area</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><h4 id=练习3输入年份判断是不是闰年><a href=#练习3输入年份判断是不是闰年 class=anchor-link>#</a>练习3：输入年份判断是不是闰年。</h4><p>参考答案：</p><div class=highlight><div class=chroma><div class=table-container><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Python data-lang=Python><span class=s2>&#34;&#34;&#34;
+</span><span class=s2>输入年份 如果是闰年输出True 否则输出False
+</span><span class=s2>
+</span><span class=s2>Version: 0.1
+</span><span class=s2>Author: 骆昊
+</span><span class=s2>&#34;&#34;&#34;</span>
+<span class=n>year</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=nb>input</span><span class=p>(</span><span class=s1>&#39;请输入年份: &#39;</span><span class=p>))</span>
+<span class=c1># 如果代码太长写成一行不便于阅读 可以使用\对代码进行折行</span>
+<span class=n>is_leap</span> <span class=o>=</span> <span class=n>year</span> <span class=o>%</span> <span class=mi>4</span> <span class=o>==</span> <span class=mi>0</span> <span class=ow>and</span> <span class=n>year</span> <span class=o>%</span> <span class=mi>100</span> <span class=o>!=</span> <span class=mi>0</span> <span class=ow>or</span> \
+          <span class=n>year</span> <span class=o>%</span> <span class=mi>400</span> <span class=o>==</span> <span class=mi>0</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>is_leap</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div></div><blockquote><p><strong>说明</strong>：比较运算符会产生布尔值，而逻辑运算符<code>and</code>和<code>or</code>会对这些布尔值进行组合，最终也是得到一个布尔值，闰年输出<code>True</code>，平年输出<code>False</code>。</p></blockquote></div><ul class=post-copyright><li class="copyright-item author"><span class=copyright-item-text>作者</span>：<span class="p-author h-card">骆昊</span></li><li class="copyright-item link"><span class=copyright-item-text>链接</span>：<a href=https://github.com/jackfrued/Python-100-Days target=_blank rel=noopener>https://github.com/jackfrued/Python-100-Days</a></li><li class="copyright-item license"><span class=copyright-item-text>许可</span>：本文采用<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>「CC BY-NC-SA 4.0」</a>协议，转载请注明出处。</li></ul></article><div class=related-posts><h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2><ul class=related-list><li class=related-item><a href=/python/01.%E5%88%9D%E8%AF%86python/ class=related-link>01.初识Python</a></li><li class=related-item><a href=/python/03.%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84/ class=related-link>03.分支结构</a></li><li class=related-item><a href=/python/04.%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84/ class=related-link>04.循环结构</a></li><li class=related-item><a href=/python/05.%E6%9E%84%E9%80%A0%E7%A8%8B%E5%BA%8F%E9%80%BB%E8%BE%91/ class=related-link>05.构造程序逻辑</a></li><li class=related-item><a href=/python/06.%E5%87%BD%E6%95%B0%E5%92%8C%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BD%BF%E7%94%A8/ class=related-link>06.函数和模块的使用</a></li></ul></div><div class=post-tags><a href=/tags/python/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>python</a></div></div></main><div id=back-to-top class=back-to-top><a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a></div><footer id=footer class=footer><div class=footer-inner><div class=site-info>©&nbsp;2021–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;hanxin</div><script src=https://sdk.jinrishici.com/v2/browser/jinrishici.js></script>
+<text class=poem_sentence></text>
+<text class=poem_info></text>
+<script type=text/javascript>jinrishici.load(function(a){var b=document.querySelector(".poem_sentence"),c=document.querySelector(".poem_info");b.innerHTML=a.data.content,c.innerHTML='——'+a.data.origin.author})</script></div></footer></div><script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script><script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script></body></html>
