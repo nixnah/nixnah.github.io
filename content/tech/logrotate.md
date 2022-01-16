@@ -163,7 +163,7 @@ logrotate -s /var/lib/logrotate/logrotate.status  /etc/logrotate.d/mysqld -vf
 
 ### 四、使用systemd管理logrotate
 
-首先把/etc/cron.daily/logrotate备份到其他目录，取消cron任务。
+首先把/etc/cron.daily/logrotate删掉或者备份到其他目录。
 
 编写servie 文件
 ```bash
